@@ -83,6 +83,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -92,6 +93,8 @@ body {
   color: var(--text-color);
   background-color: var(--background-color);
   transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
 }
 
 .container {
@@ -480,8 +483,10 @@ p {
 
 .features__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--space-8);
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .feature {
@@ -886,6 +891,7 @@ select.form__input {
   /* Features */
   .features__grid {
     grid-template-columns: 1fr;
+    gap: var(--space-6);
   }
 
   /* Process */
@@ -2075,7 +2081,7 @@ select.form__input {
   content: '';
   width: 18px;
   height: 18px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M13 1v4.586L19.414 11 13 17.414V22l8-8-8-8V1z'/%3E%3C/svg%3E") no-repeat center;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M12 2l-5 9h3.5L8 18l5-9h-3l2-7z'/%3E%3C/svg%3E") no-repeat center;
   background-size: contain;
 }
 
@@ -2089,7 +2095,7 @@ select.form__input {
   content: '';
   width: 18px;
   height: 18px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M20 16v4c0 1.1-.9 2-2 2a16 16 0 01-16-16c0-1.1.9-2 2-2h4a1 1 0 011 1 10.16 10.16 0 001.92 5.92 1 1 0 01-.21 1.09l-1.85 1.85a14.15 14.15 0 008.29 8.29l1.85-1.85a1 1 0 011.09-.21A10.16 10.16 0 0119 19a1 1 0 011 1z'/%3E%3C/svg%3E") no-repeat center;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z'/%3E%3C/svg%3E") no-repeat center;
   background-size: contain;
 }
 
@@ -2341,7 +2347,7 @@ select.form__input {
   content: '';
   width: 18px;
   height: 18px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M20 16v4c0 1.1-.9 2-2 2a16 16 0 01-16-16c0-1.1.9-2 2-2h4a1 1 0 011 1 10.16 10.16 0 001.92 5.92 1 1 0 01-.21 1.09l-1.85 1.85a14.15 14.15 0 008.29 8.29l1.85-1.85a1 1 0 011.09-.21A10.16 10.16 0 0119 19a1 1 0 011 1z'/%3E%3C/svg%3E") no-repeat center;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z'/%3E%3C/svg%3E") no-repeat center;
   background-size: contain;
   display: block;
 }
@@ -2522,3 +2528,174 @@ select.form__input {
 .process-step:nth-child(2) { animation-delay: 0.2s; }
 .process-step:nth-child(3) { animation-delay: 0.4s; }
 .process-step:nth-child(4) { animation-delay: 0.6s; }
+
+/* ========================
+   Enhanced Mobile Optimizations
+   ======================== */
+
+@media (max-width: 480px) {
+  /* Extra small mobile devices */
+  .container {
+    padding: 0 var(--space-4);
+  }
+
+  .hero__title,
+  .containers-hero__title,
+  .junk-hero__title {
+    font-size: var(--font-size-2xl);
+    line-height: 1.3;
+  }
+
+  .section__title {
+    font-size: var(--font-size-xl);
+  }
+
+  .btn {
+    width: 100%;
+    padding: var(--space-4);
+    font-size: var(--font-size-base);
+    min-height: 48px;
+  }
+
+  /* Touch-optimized icons */
+  .service-icon,
+  .feature__icon > div,
+  .contact__icon > div,
+  .guideline-card__icon > div {
+    width: 52px;
+    height: 52px;
+  }
+
+  /* Better spacing for small screens */
+  .hero__stats {
+    gap: var(--space-3);
+  }
+
+  .stat {
+    min-width: 100px;
+  }
+
+  /* Improve form usability */
+  .form__input,
+  .form__label {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  .form__input {
+    min-height: 48px; /* Touch-friendly inputs */
+    padding: var(--space-3);
+  }
+
+  /* Card improvements */
+  .service-card,
+  .container-card,
+  .pricing-card,
+  .testimonial {
+    padding: var(--space-5);
+    margin-bottom: var(--space-4);
+  }
+
+  /* Navigation improvements */
+  .nav__menu {
+    padding: var(--space-4);
+  }
+
+  .nav__item {
+    margin: var(--space-3) 0;
+  }
+
+  .nav__link {
+    padding: var(--space-3);
+    font-size: var(--font-size-base);
+    min-height: 44px; /* Touch-friendly links */
+    display: flex;
+    align-items: center;
+  }
+
+  .nav__toggle {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .theme-toggle {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Better CTA positioning */
+  .hero__actions {
+    width: 100%;
+    margin-top: var(--space-6);
+  }
+
+  /* Improve readability */
+  .hero__description,
+  .section__subtitle {
+    font-size: var(--font-size-base);
+    line-height: 1.7;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .features__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+  }
+
+  .containers__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-8);
+  }
+
+  .pricing-options {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+  }
+
+  .services__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-8);
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Remove hover effects on touch devices */
+  .service-card:hover,
+  .container-card:hover,
+  .pricing-card:hover,
+  .feature:hover,
+  .testimonial:hover {
+    transform: none;
+    box-shadow: var(--box-shadow);
+  }
+
+  .btn:hover {
+    transform: none;
+    box-shadow: var(--box-shadow);
+  }
+
+  /* Add touch feedback instead */
+  .btn:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+
+  .service-card:active,
+  .container-card:active,
+  .pricing-card:active {
+    transform: scale(0.99);
+    transition: transform 0.1s ease;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Ensure icons look crisp on retina displays */
+  .service-icon,
+  .feature__icon > div,
+  .contact__icon > div {
+    border-radius: 14px;
+  }
+}
