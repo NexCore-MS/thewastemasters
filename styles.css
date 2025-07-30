@@ -1936,10 +1936,14 @@ select.form__input {
   background-color: var(--gray-50);
 }
 
+/* Modern Gallery Grid */
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--space-6);
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: var(--space-8);
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-4);
 }
 
 .gallery-item {
@@ -3095,50 +3099,115 @@ select.form__input {
   background-color: var(--gray-50);
 }
 
+/* Ultra-Modern Gallery Redesign */
 .gallery-item--large {
-  background-color: var(--surface-color);
-  border-radius: var(--border-radius-lg);
+  position: relative;
+  border-radius: var(--border-radius-xl);
   overflow: hidden;
-  box-shadow: var(--box-shadow);
-  border: 1px solid var(--border-color);
-  transition: var(--transition);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+  background: linear-gradient(145deg, var(--surface-color), var(--gray-100));
+  border: 1px solid rgba(34, 197, 94, 0.1);
 }
 
 .gallery-item--large:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--box-shadow-xl);
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(34, 197, 94, 0.3);
 }
 
 .gallery-image {
   position: relative;
   overflow: hidden;
+  height: 320px;
+}
+
+.gallery-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  opacity: 0;
+  transition: all 0.4s ease;
+  z-index: 1;
+}
+
+.gallery-item--large:hover .gallery-image::before {
+  opacity: 1;
 }
 
 .gallery-image img {
   width: 100%;
-  height: 250px;
+  height: 100%;
   object-fit: cover;
-  transition: var(--transition);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .gallery-item--large:hover .gallery-image img {
-  transform: scale(1.05);
+  transform: scale(1.08);
+  filter: brightness(1.1) contrast(1.1);
 }
 
 .gallery-caption {
-  padding: var(--space-6);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-8);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.6) 30%,
+    rgba(0, 0, 0, 0.9) 100%
+  );
+  backdrop-filter: blur(8px);
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 2;
+}
+
+.gallery-item--large:hover .gallery-caption {
+  transform: translateY(0);
+  opacity: 1;
 }
 
 .gallery-caption h3 {
-  color: var(--text-color);
-  margin-bottom: var(--space-2);
-  font-size: var(--font-size-lg);
-  font-weight: 600;
+  color: var(--white);
+  margin-bottom: var(--space-3);
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  letter-spacing: -0.02em;
 }
 
 .gallery-caption p {
-  color: var(--text-light);
-  font-size: var(--font-size-sm);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: var(--space-4);
+}
+
+/* Professional badge overlay */
+.gallery-caption::after {
+  content: '';
+  position: absolute;
+  top: -var(--space-8);
+  right: var(--space-6);
+  width: 4px;
+  height: 60px;
+  background: linear-gradient(180deg, var(--primary-color) 0%, var(--primary-light) 100%);
+  border-radius: 2px;
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.4);
 }
 
 .toter-service-areas {
@@ -3214,6 +3283,50 @@ select.form__input {
     flex-direction: column;
     gap: var(--space-4);
     align-items: center;
+  }
+
+  /* Mobile Gallery Optimizations */
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    padding: var(--space-2);
+  }
+
+  .gallery-item--large {
+    transform: none !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  .gallery-image {
+    height: 280px;
+  }
+
+  .gallery-caption {
+    position: static;
+    opacity: 1;
+    transform: translateY(0);
+    background: linear-gradient(145deg, var(--surface-color), var(--gray-100));
+    backdrop-filter: none;
+    padding: var(--space-6);
+  }
+
+  .gallery-caption h3 {
+    color: var(--text-color);
+    text-shadow: none;
+    font-size: var(--font-size-lg);
+  }
+
+  .gallery-caption p {
+    color: var(--text-light);
+    text-shadow: none;
+  }
+
+  .gallery-caption::after {
+    display: none;
+  }
+
+  .gallery-image::before {
+    display: none;
   }
 }
 
