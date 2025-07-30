@@ -293,15 +293,7 @@ function createScrollToTopButton() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
     document.body.appendChild(scrollBtn);
-    
-    // Show/hide based on scroll position
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            scrollBtn.classList.add('visible');
-        } else {
-            scrollBtn.classList.remove('visible');
-        }
-    });
+    return scrollBtn; // Return button reference for main scroll handler
 }
 
 // Event listeners
@@ -341,18 +333,29 @@ document.addEventListener('DOMContentLoaded', () => {
     createIntersectionObserver();
     initClickToCall();
     initLazyLoading();
-    createScrollToTopButton();
+    
+    // Create scroll-to-top button and get reference
+    window.scrollToTopBtn = createScrollToTopButton();
 });
 
-// Scroll event listeners
+// Consolidated scroll event listener
 window.addEventListener('scroll', () => {
     updateActiveNavLink();
     updateHeaderBackground();
+    
+    // Handle scroll-to-top button visibility
+    if (window.scrollToTopBtn) {
+        if (window.scrollY > 300) {
+            window.scrollToTopBtn.classList.add('visible');
+        } else {
+            window.scrollToTopBtn.classList.remove('visible');
+        }
+    }
 });
 
 // Close mobile menu when clicking outside
 document.addEventListener('click', (e) => {
-    if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+    if (navMenu && navToggle && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
         closeMobileMenu();
     }
 });

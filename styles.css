@@ -741,23 +741,20 @@ p {
   box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
 }
 
-.form__input:focus + .form__label,
-.form__input:not(:placeholder-shown) + .form__label {
-  transform: translateY(-12px) scale(0.8);
-  color: var(--primary-color);
-  background-color: var(--surface-color);
-  padding: 0 var(--space-2);
+.form__label {
+  display: block;
+  margin-bottom: var(--space-2);
+  color: var(--text-light);
+  font-weight: 500;
+  font-size: var(--font-size-sm);
 }
 
-.form__label {
-  position: absolute;
-  top: var(--space-4);
-  left: var(--space-4);
-  color: var(--text-light);
-  pointer-events: none;
-  transition: var(--transition);
-  transform-origin: left top;
+.form__input:focus ~ .form__label,
+.form__group:focus-within .form__label {
+  color: var(--primary-color);
 }
+
+/* Removed duplicate .form__label declaration */
 
 textarea.form__input {
   resize: vertical;
@@ -1420,8 +1417,10 @@ select.form__input {
 
 .guidelines__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--space-8);
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .guideline-card {
@@ -2699,17 +2698,7 @@ select.form__input {
   width: 100%;
 }
 
-/* Smooth Animations */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* Smooth Animations - using the first fadeInUp animation defined earlier */
 
 .service-card,
 .feature,
@@ -2822,14 +2811,14 @@ select.form__input {
   }
 
   /* Improve form usability */
-  .form__input,
-  .form__label {
-    font-size: 16px; /* Prevents zoom on iOS */
-  }
-
   .form__input {
+    font-size: 16px; /* Prevents zoom on iOS */
     min-height: 48px; /* Touch-friendly inputs */
     padding: var(--space-3);
+  }
+
+  .form__label {
+    font-size: 16px; /* Prevents zoom on iOS */
   }
 
   /* Card improvements */
