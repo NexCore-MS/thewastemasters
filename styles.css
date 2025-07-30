@@ -1,22 +1,22 @@
 /* CSS Custom Properties */
 :root {
-  /* Light Mode Colors - Clean & Professional */
-  --primary-color: #059669;
-  --primary-dark: #047857;
-  --secondary-color: #10b981;
-  --accent-color: #34d399;
-  --text-color: #111827;
-  --text-light: #6b7280;
+  /* Dark Mode Colors - Professional Black Theme */
+  --primary-color: #10b981;
+  --primary-dark: #059669;
+  --secondary-color: #34d399;
+  --accent-color: #6ee7b7;
+  --text-color: #f9fafb;
+  --text-light: #d1d5db;
   --white: #ffffff;
-  --gray-50: #f9fafb;
-  --gray-100: #f3f4f6;
-  --gray-200: #e5e7eb;
-  --gray-300: #d1d5db;
+  --gray-50: #1f2937;
+  --gray-100: #374151;
+  --gray-200: #4b5563;
+  --gray-300: #6b7280;
   --gray-800: #1f2937;
   --gray-900: #111827;
-  --background-color: #ffffff;
-  --surface-color: #ffffff;
-  --border-color: #e5e7eb;
+  --background-color: #000000;
+  --surface-color: #111827;
+  --border-color: #374151;
 
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
@@ -54,25 +54,6 @@
   --header-height: 4rem;
 }
 
-/* Dark Mode Colors */
-[data-theme="dark"] {
-  --primary-color: #10b981;
-  --primary-dark: #059669;
-  --secondary-color: #34d399;
-  --accent-color: #6ee7b7;
-  --text-color: #f9fafb;
-  --text-light: #d1d5db;
-  --white: #111827;
-  --gray-50: #111827;
-  --gray-100: #1f2937;
-  --gray-200: #374151;
-  --gray-300: #4b5563;
-  --gray-800: #e5e7eb;
-  --gray-900: #f9fafb;
-  --background-color: #111827;
-  --surface-color: #1f2937;
-  --border-color: #374151;
-}
 
 /* Base Styles */
 * {
@@ -300,32 +281,6 @@ p {
   transition: var(--transition);
 }
 
-/* Theme Toggle */
-.theme-toggle {
-  background: none;
-  border: 2px solid var(--border-color);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--transition);
-  color: var(--text-color);
-}
-
-.theme-toggle:hover {
-  border-color: var(--primary-color);
-  background-color: var(--primary-color);
-  color: var(--background-color);
-  transform: rotate(180deg);
-}
-
-.theme-toggle__icon {
-  font-size: 1.2rem;
-  transition: var(--transition);
-}
 
 /* Main Content */
 .main {
@@ -840,7 +795,7 @@ select.form__input {
     left: -100%;
     width: 100%;
     height: calc(100vh - var(--header-height));
-    background-color: var(--white);
+    background-color: var(--background-color);
     flex-direction: column;
     justify-content: flex-start;
     padding: var(--space-8);
@@ -1171,10 +1126,6 @@ select.form__input {
   font-weight: 500;
 }
 
-[data-theme="dark"] .material-tag {
-  background-color: var(--gray-200);
-  color: var(--text-light);
-}
 
 .container-card__pricing {
   margin-bottom: var(--space-6);
@@ -1528,9 +1479,6 @@ select.form__input {
   border-left: 4px solid var(--accent-color);
 }
 
-[data-theme="dark"] .junk-restrictions {
-  background-color: var(--gray-200);
-}
 
 .restriction-notice h4 {
   color: var(--text-color);
@@ -1769,9 +1717,6 @@ select.form__input {
   background-color: var(--gray-100);
 }
 
-[data-theme="dark"] .gallery-placeholder:hover {
-  background-color: var(--gray-200);
-}
 
 .gallery-placeholder__content {
   text-align: center;
@@ -2320,20 +2265,7 @@ select.form__input {
   100% { opacity: 1; transform: scale(1.1); }
 }
 
-/* Theme Toggle Modern Design */
-.theme-toggle__icon::before {
-  content: '';
-  width: 20px;
-  height: 20px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23059669' viewBox='0 0 24 24'%3E%3Cpath d='M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z'/%3E%3C/svg%3E") no-repeat center;
-  background-size: contain;
-  display: block;
-  transition: all 0.3s ease;
-}
 
-[data-theme="dark"] .theme-toggle__icon::before {
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23059669' viewBox='0 0 24 24'%3E%3Cpath d='M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z'/%3E%3C/svg%3E") no-repeat center;
-}
 
 /* Button Icons */
 .btn-icon {
@@ -2617,10 +2549,6 @@ select.form__input {
     min-width: 44px;
   }
 
-  .theme-toggle {
-    min-height: 44px;
-    min-width: 44px;
-  }
 
   /* Better CTA positioning */
   .hero__actions {
