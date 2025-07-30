@@ -1592,9 +1592,12 @@ select.form__input {
 
 .junk-categories {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--space-8);
   margin-bottom: var(--space-16);
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .junk-category {
@@ -1665,9 +1668,12 @@ select.form__input {
 
 .pricing-options {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--space-6);
   margin-bottom: var(--space-16);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .pricing-card {
@@ -1803,8 +1809,10 @@ select.form__input {
 
 .process-steps {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--space-8);
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .process-step {
