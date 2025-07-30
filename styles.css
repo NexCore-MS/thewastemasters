@@ -313,7 +313,7 @@ p {
 .theme-toggle:hover {
   border-color: var(--primary-color);
   background-color: var(--primary-color);
-  color: var(--white);
+  color: var(--background-color);
   transform: rotate(180deg);
 }
 
@@ -455,7 +455,7 @@ p {
 }
 
 .service-card__cta:hover {
-  background-color: #059669;
+  background-color: var(--primary-color);
   transform: translateY(-2px);
 }
 
@@ -709,14 +709,14 @@ p {
 .form__input:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
 }
 
 .form__input:focus + .form__label,
 .form__input:not(:placeholder-shown) + .form__label {
   transform: translateY(-12px) scale(0.8);
   color: var(--primary-color);
-  background-color: var(--white);
+  background-color: var(--surface-color);
   padding: 0 var(--space-2);
 }
 

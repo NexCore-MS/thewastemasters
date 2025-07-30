@@ -284,7 +284,7 @@ function initFormAutoSave() {
                 if (label && label.classList.contains('form__label')) {
                     label.style.transform = 'translateY(-12px) scale(0.8)';
                     label.style.color = 'var(--primary-color)';
-                    label.style.backgroundColor = 'var(--white)';
+                    label.style.backgroundColor = 'var(--surface-color)';
                     label.style.padding = '0 var(--space-2)';
                 }
             }
@@ -317,8 +317,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Navigation links
     navLinks.forEach(link => {
-        if (link.getAttribute('href').startsWith('#')) {
-            link.addEventListener('click', smoothScroll);
+        const href = link.getAttribute('href');
+        if (href && (href.startsWith('#') || href.includes('#'))) {
+            // Only add smooth scroll for same-page links
+            if (href.startsWith('#') || href.startsWith(window.location.pathname + '#')) {
+                link.addEventListener('click', smoothScroll);
+            }
         }
     });
     
