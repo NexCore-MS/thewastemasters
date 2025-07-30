@@ -62,10 +62,10 @@ function updateHeaderBackground() {
     const scrolled = window.scrollY > 50;
     
     if (scrolled) {
-        header.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
-        header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+        header.style.backgroundColor = 'rgba(0, 0, 0, 0.98)';
+        header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.3)';
     } else {
-        header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+        header.style.backgroundColor = 'rgba(0, 0, 0, 0.95)';
         header.style.boxShadow = 'none';
     }
 }
