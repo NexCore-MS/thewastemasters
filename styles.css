@@ -357,6 +357,7 @@ p {
 
 .hero__stats {
   display: flex;
+  justify-content: center;
   gap: var(--space-8);
   margin-bottom: var(--space-8);
 }
