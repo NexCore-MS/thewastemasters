@@ -1,10 +1,10 @@
 /* CSS Custom Properties */
 :root {
   /* Light Mode Colors - Clean & Professional */
-  --primary-color: #0d9488;
-  --primary-dark: #0f766e;
-  --secondary-color: #14b8a6;
-  --accent-color: #2dd4bf;
+  --primary-color: #059669;
+  --primary-dark: #047857;
+  --secondary-color: #10b981;
+  --accent-color: #34d399;
   --text-color: #111827;
   --text-light: #6b7280;
   --white: #ffffff;
@@ -181,6 +181,7 @@ p {
 
 .section__title {
   margin-bottom: var(--space-4);
+  text-align: center;
 }
 
 .section__subtitle {
@@ -188,6 +189,7 @@ p {
   color: var(--text-light);
   max-width: 600px;
   margin: 0 auto;
+  text-align: center;
 }
 
 /* Header */
@@ -347,12 +349,14 @@ p {
   font-weight: 700;
   margin-bottom: var(--space-6);
   line-height: 1.1;
+  text-align: center;
 }
 
 .hero__description {
   font-size: var(--font-size-lg);
   margin-bottom: var(--space-8);
   color: var(--text-light);
+  text-align: center;
 }
 
 .hero__stats {
@@ -419,6 +423,7 @@ p {
 .service-card__title {
   color: var(--text-color);
   margin-bottom: var(--space-4);
+  text-align: center;
 }
 
 .service-card__description {
@@ -498,6 +503,7 @@ p {
   font-size: var(--font-size-lg);
   margin-bottom: var(--space-2);
   color: var(--text-color);
+  text-align: center;
 }
 
 .feature__description {
@@ -990,6 +996,7 @@ select.form__input {
   font-weight: 700;
   margin-bottom: var(--space-6);
   line-height: 1.1;
+  text-align: center;
 }
 
 .containers-hero__description {
@@ -1111,6 +1118,7 @@ select.form__input {
   color: var(--text-color);
   margin-bottom: var(--space-4);
   font-size: var(--font-size-lg);
+  text-align: center;
 }
 
 .container-card__uses {
@@ -1137,6 +1145,7 @@ select.form__input {
   color: var(--text-color);
   margin-bottom: var(--space-4);
   font-size: var(--font-size-base);
+  text-align: center;
 }
 
 .container-card__materials {
@@ -1369,6 +1378,7 @@ select.form__input {
   font-weight: 700;
   margin-bottom: var(--space-6);
   line-height: 1.1;
+  text-align: center;
 }
 
 .junk-hero__description {
@@ -1482,6 +1492,7 @@ select.form__input {
   color: var(--text-color);
   margin-bottom: var(--space-6);
   font-size: var(--font-size-xl);
+  text-align: center;
 }
 
 .junk-category__list {
@@ -1584,6 +1595,7 @@ select.form__input {
   color: var(--text-color);
   margin-bottom: var(--space-4);
   font-size: var(--font-size-xl);
+  text-align: center;
 }
 
 .pricing-card__visual {
@@ -1989,8 +2001,8 @@ select.form__input {
 }
 
 .service-icon--dumpster {
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-  box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, #059669, #047857);
+  box-shadow: 0 8px 16px rgba(5, 150, 105, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .service-icon--dumpster::before {
@@ -2055,8 +2067,8 @@ select.form__input {
 }
 
 .speed-icon, .lightning-icon {
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-  box-shadow: 0 6px 12px rgba(139, 92, 246, 0.3);
+  background: linear-gradient(135deg, #10b981, #059669);
+  box-shadow: 0 6px 12px rgba(16, 185, 129, 0.3);
 }
 
 .speed-icon::before, .lightning-icon::before {
@@ -2069,8 +2081,8 @@ select.form__input {
 
 /* Contact Icons */
 .phone-icon {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
+  background: linear-gradient(135deg, #059669, #047857);
+  box-shadow: 0 6px 12px rgba(5, 150, 105, 0.3);
 }
 
 .phone-icon::before {
@@ -2134,8 +2146,8 @@ select.form__input {
 }
 
 .truck-icon {
-  background: linear-gradient(135deg, #6366f1, #4f46e5);
-  box-shadow: 0 6px 12px rgba(99, 102, 241, 0.3);
+  background: linear-gradient(135deg, #059669, #047857);
+  box-shadow: 0 6px 12px rgba(5, 150, 105, 0.3);
 }
 
 .truck-icon::before {
@@ -2161,8 +2173,8 @@ select.form__input {
 
 /* Category Icons */
 .home-icon, .house-icon {
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-  box-shadow: 0 6px 12px rgba(139, 92, 246, 0.3);
+  background: linear-gradient(135deg, #10b981, #059669);
+  box-shadow: 0 6px 12px rgba(16, 185, 129, 0.3);
 }
 
 .home-icon::before, .house-icon::before {
@@ -2227,8 +2239,8 @@ select.form__input {
 
 /* Additional icons */
 .calendar-icon {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
+  background: linear-gradient(135deg, #059669, #047857);
+  box-shadow: 0 6px 12px rgba(5, 150, 105, 0.3);
 }
 
 .calendar-icon::before {
@@ -2253,8 +2265,8 @@ select.form__input {
 }
 
 .sofa-icon {
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-  box-shadow: 0 6px 12px rgba(139, 92, 246, 0.3);
+  background: linear-gradient(135deg, #10b981, #059669);
+  box-shadow: 0 6px 12px rgba(16, 185, 129, 0.3);
 }
 
 .sofa-icon::before {
