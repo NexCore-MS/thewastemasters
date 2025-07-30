@@ -948,10 +948,45 @@ select.form__input {
   :root {
     --font-size-4xl: 2rem;
     --font-size-5xl: 2.5rem;
+    --space-24: 4rem; /* Reduce large spacing on mobile */
+    --space-20: 3rem;
+    --space-16: 2.5rem;
   }
 
   .container {
     padding: 0 var(--space-4);
+    max-width: 100%;
+  }
+
+  /* Grid layouts - make all 2x2 grids single column on mobile */
+  .features__grid,
+  .services__grid,
+  .areas__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  /* Hero section mobile optimization */
+  .hero {
+    min-height: 70vh;
+    padding: var(--space-16) 0;
+  }
+
+  .hero__stats {
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: center;
+  }
+
+  .stat {
+    min-width: auto;
+    text-align: center;
+  }
+
+  .hero__actions {
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: center;
   }
 
   /* Navigation */
@@ -988,6 +1023,40 @@ select.form__input {
 
   .nav__toggle.active span:nth-child(3) {
     transform: rotate(-45deg) translate(7px, -6px);
+  }
+
+  /* Contact section mobile optimization */
+  .contact__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  .contact__form {
+    order: -1; /* Form appears first on mobile */
+  }
+
+  /* Button improvements for mobile */
+  .btn {
+    min-height: 44px; /* Touch-friendly size */
+    padding: var(--space-4) var(--space-6);
+    font-size: var(--font-size-base);
+    width: 100%;
+    justify-content: center;
+  }
+
+  .btn--large {
+    min-height: 50px;
+    padding: var(--space-5) var(--space-8);
+  }
+
+  /* Service cards mobile optimization */
+  .service-card {
+    padding: var(--space-6);
+    margin-bottom: var(--space-4);
+  }
+
+  .service-card__icon {
+    margin-bottom: var(--space-4);
   }
 
   /* Hero */
@@ -2001,27 +2070,55 @@ select.form__input {
 
   .junk-categories {
     grid-template-columns: 1fr;
+    gap: var(--space-6);
   }
 
   .pricing-options {
     grid-template-columns: 1fr;
+    gap: var(--space-6);
   }
 
   .process-steps {
     grid-template-columns: 1fr;
+    gap: var(--space-6);
   }
 
   .process-step {
     flex-direction: column;
     text-align: center;
+    padding: var(--space-6);
+  }
+
+  .process-step__number {
+    margin-bottom: var(--space-4);
   }
 
   .gallery-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
   }
 
   .service-areas-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  /* Junk removal specific mobile optimizations */
+  .junk-hero__actions {
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: center;
+  }
+
+  .junk-hero__features {
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: center;
+  }
+
+  .feature-badge {
+    width: 100%;
+    justify-content: center;
   }
 
   .junk-cta__actions {
@@ -2663,7 +2760,47 @@ select.form__input {
     width: 100%;
     padding: var(--space-4);
     font-size: var(--font-size-base);
+    min-height: 48px; /* Touch-friendly minimum size */
+  }
+
+  /* Form optimizations for mobile */
+  .form__input {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: var(--space-4);
     min-height: 48px;
+  }
+
+  .form__label {
+    font-size: var(--font-size-sm);
+  }
+
+  /* Areas grid - keep 2 columns for location names */
+  .areas__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2);
+  }
+
+  .area {
+    padding: var(--space-3);
+    font-size: var(--font-size-sm);
+  }
+
+  /* Navigation improvements */
+  .nav__link {
+    font-size: var(--font-size-lg);
+    padding: var(--space-4) 0;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Scroll to top button adjustment */
+  .scroll-to-top {
+    width: 3rem;
+    height: 3rem;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 1.25rem;
   }
 
   /* Touch-optimized icons */
@@ -2792,6 +2929,64 @@ select.form__input {
   .pricing-card:active {
     transform: scale(0.99);
     transition: transform 0.1s ease;
+  }
+}
+
+/* Mobile landscape optimization */
+@media (max-width: 768px) and (orientation: landscape) {
+  .hero {
+    min-height: 100vh;
+    padding: var(--space-12) 0;
+  }
+
+  .junk-hero,
+  .containers-hero {
+    padding: var(--space-12) 0;
+  }
+
+  .nav__menu {
+    height: calc(100vh - var(--header-height));
+    padding: var(--space-6);
+  }
+}
+
+/* Enhanced touch targets for mobile */
+@media (max-width: 768px) {
+  /* Ensure all interactive elements are touch-friendly */
+  a, button, input, select, textarea {
+    -webkit-tap-highlight-color: rgba(34, 197, 94, 0.3);
+  }
+
+  /* Improved mobile form styling */
+  .contact__form {
+    width: 100%;
+    padding: var(--space-6);
+    background: var(--surface-color);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--box-shadow-lg);
+  }
+
+  /* Mobile-optimized section spacing */
+  .services,
+  .about,
+  .process,
+  .testimonials,
+  .contact,
+  .junk-types,
+  .junk-pricing,
+  .junk-process,
+  .container-sizes {
+    padding: var(--space-16) 0;
+  }
+
+  /* Better mobile typography */
+  .hero__description,
+  .junk-hero__description,
+  .containers-hero__description {
+    font-size: var(--font-size-lg);
+    line-height: 1.6;
+    margin-bottom: var(--space-6);
   }
 }
 
