@@ -279,6 +279,26 @@ function initFormAutoSave() {
     });
 }
 
+// Create and add scroll-to-top button
+function createScrollToTopButton() {
+    const scrollBtn = document.createElement('button');
+    scrollBtn.className = 'scroll-to-top';
+    scrollBtn.setAttribute('aria-label', 'Scroll to top');
+    scrollBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    document.body.appendChild(scrollBtn);
+    
+    // Show/hide based on scroll position
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            scrollBtn.classList.add('visible');
+        } else {
+            scrollBtn.classList.remove('visible');
+        }
+    });
+}
+
 // Event listeners
 document.addEventListener('DOMContentLoaded', () => {
     // Mobile menu toggle
@@ -316,6 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
     createIntersectionObserver();
     initClickToCall();
     initLazyLoading();
+    createScrollToTopButton();
 });
 
 // Scroll event listeners
