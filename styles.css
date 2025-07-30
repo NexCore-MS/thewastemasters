@@ -2979,6 +2979,240 @@ select.form__input {
   }
 }
 
+/* Trash a la Cart Page Styles */
+.toter-hero {
+  padding: var(--space-24) 0 var(--space-16);
+  background: linear-gradient(135deg, #0a0a0a 0%, #000000 50%, #0a0a0a 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.toter-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 30%, rgba(34, 197, 94, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 70% 70%, rgba(34, 197, 94, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.toter-hero__container {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.toter-hero__title {
+  font-size: var(--font-size-5xl);
+  font-weight: 700;
+  margin-bottom: var(--space-6);
+  line-height: 1.2;
+  text-align: center;
+}
+
+.toter-hero__description {
+  font-size: var(--font-size-lg);
+  color: var(--text-light);
+  margin-bottom: var(--space-8);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.toter-hero__features {
+  display: flex;
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.toter-hero__actions {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.toter-about {
+  padding: var(--space-24) 0;
+}
+
+.toter-info__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-8);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.toter-info-card {
+  background: linear-gradient(145deg, var(--surface-color) 0%, var(--gray-100) 100%);
+  padding: var(--space-8);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--box-shadow);
+  text-align: center;
+  border: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.toter-info-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color) 0%, var(--primary-light) 100%);
+}
+
+.toter-info-card__icon {
+  font-size: var(--font-size-4xl);
+  margin-bottom: var(--space-4);
+}
+
+.toter-info-card__title {
+  color: var(--text-color);
+  margin-bottom: var(--space-4);
+  font-size: var(--font-size-xl);
+}
+
+.toter-info-card__description {
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+.toter-gallery {
+  padding: var(--space-24) 0;
+  background-color: var(--gray-50);
+}
+
+.gallery-item--large {
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.gallery-item--large:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--box-shadow-xl);
+}
+
+.gallery-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery-image img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  transition: var(--transition);
+}
+
+.gallery-item--large:hover .gallery-image img {
+  transform: scale(1.05);
+}
+
+.gallery-caption {
+  padding: var(--space-6);
+}
+
+.gallery-caption h3 {
+  color: var(--text-color);
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+}
+
+.gallery-caption p {
+  color: var(--text-light);
+  font-size: var(--font-size-sm);
+}
+
+.toter-service-areas {
+  padding: var(--space-24) 0;
+}
+
+.toter-cta {
+  padding: var(--space-24) 0;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: var(--white);
+}
+
+.toter-cta__content {
+  text-align: center;
+}
+
+.toter-cta .section__title {
+  color: var(--white);
+  margin-bottom: var(--space-6);
+}
+
+.toter-cta__subtitle {
+  font-size: var(--font-size-lg);
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: var(--space-8);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.toter-cta__actions {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  margin-bottom: var(--space-12);
+  flex-wrap: wrap;
+}
+
+.toter-cta__features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-6);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Mobile optimizations for Trash a la Cart page */
+@media (max-width: 768px) {
+  .toter-info__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .toter-hero__features {
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: center;
+  }
+
+  .toter-hero__actions {
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: center;
+  }
+
+  .toter-cta__actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .toter-cta__features {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+}
+
 /* High DPI displays */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   /* Ensure icons look crisp on retina displays */
