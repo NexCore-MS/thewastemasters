@@ -62,11 +62,11 @@ function updateHeaderBackground() {
     const scrolled = window.scrollY > 50;
     
     if (scrolled) {
-        header.style.backgroundColor = 'rgba(0, 0, 0, 0.98)';
-        header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.3)';
+        header.style.setProperty('background-color', 'rgba(0, 0, 0, 0.98)', 'important');
+        header.style.setProperty('box-shadow', '0 2px 20px rgba(0, 0, 0, 0.3)', 'important');
     } else {
-        header.style.backgroundColor = 'rgba(0, 0, 0, 0.95)';
-        header.style.boxShadow = 'none';
+        header.style.setProperty('background-color', 'rgba(0, 0, 0, 0.95)', 'important');
+        header.style.setProperty('box-shadow', 'none', 'important');
     }
 }
 
