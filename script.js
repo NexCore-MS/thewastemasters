@@ -3,6 +3,8 @@ const navToggle = document.getElementById('nav-toggle');
 const navMenu = document.getElementById('nav-menu');
 const navLinks = document.querySelectorAll('.nav__link');
 const quoteForm = document.getElementById('quote-form');
+const themeToggle = document.getElementById('theme-toggle');
+const themeIcon = document.querySelector('.theme-toggle__icon');
 
 // Mobile menu functionality
 function toggleMobileMenu() {
@@ -33,6 +35,34 @@ function smoothScroll(e) {
     }
     
     closeMobileMenu();
+}
+
+// Dark mode functionality
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+}
+
+function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    
+    if (themeIcon) {
+        themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+    
+    // Update theme toggle aria-label
+    if (themeToggle) {
+        themeToggle.setAttribute('aria-label', 
+            theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
+        );
+    }
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
 }
 
 // Update active navigation link based on scroll position
@@ -291,6 +321,14 @@ document.addEventListener('DOMContentLoaded', () => {
             link.addEventListener('click', smoothScroll);
         }
     });
+    
+    // Theme toggle
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+    
+    // Initialize theme
+    initTheme();
     
     // Form submission
     if (quoteForm) {
