@@ -176,7 +176,12 @@ function createIntersectionObserver() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('fade-in-up');
+                if (entry.target.classList.contains('process-step')) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateX(0)';
+                } else {
+                    entry.target.classList.add('fade-in-up');
+                }
                 observer.unobserve(entry.target);
             }
         });
@@ -184,7 +189,7 @@ function createIntersectionObserver() {
     
     // Observe elements for animation
     const elementsToAnimate = document.querySelectorAll(
-        '.service-card, .feature, .step, .testimonial, .contact__item'
+        '.service-card, .feature, .step, .process-step, .testimonial, .contact__item'
     );
     
     elementsToAnimate.forEach(element => {

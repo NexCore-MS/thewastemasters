@@ -590,7 +590,7 @@ p {
 }
 
 .area {
-  background-color: var(--white);
+  background: linear-gradient(145deg, var(--surface-color) 0%, var(--gray-100) 100%);
   padding: var(--space-4);
   border-radius: var(--border-radius);
   text-align: center;
@@ -598,11 +598,14 @@ p {
   color: var(--text-color);
   box-shadow: var(--box-shadow);
   transition: var(--transition);
+  border: 1px solid var(--border-color);
 }
 
 .area:hover {
   transform: translateY(-2px);
   color: var(--primary-color);
+  border-color: var(--primary-color);
+  box-shadow: var(--box-shadow-green);
 }
 
 /* Testimonials Section */
@@ -885,6 +888,17 @@ select.form__input {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
@@ -1682,18 +1696,21 @@ select.form__input {
 
 .pricing-card__badge {
   position: absolute;
-  top: var(--space-4);
+  top: -8px;
   right: var(--space-4);
-  background-color: var(--primary-color);
-  color: var(--background-color);
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  color: var(--white);
   padding: var(--space-2) var(--space-4);
   border-radius: var(--border-radius);
   font-size: var(--font-size-sm);
   font-weight: 600;
   z-index: 10;
+  box-shadow: var(--box-shadow-green);
+  transform: translateY(0);
 }
 
 .pricing-card__header {
+  margin-top: var(--space-2);
   margin-bottom: var(--space-6);
 }
 
@@ -2091,8 +2108,8 @@ select.form__input {
 
 /* Service Icons */
 .service-icon--junk {
-  background: linear-gradient(135deg, #10b981, #059669);
-  box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  box-shadow: var(--box-shadow-green), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .service-icon--junk::before {
@@ -2104,8 +2121,8 @@ select.form__input {
 }
 
 .service-icon--dumpster {
-  background: linear-gradient(135deg, #059669, #047857);
-  box-shadow: 0 8px 16px rgba(5, 150, 105, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  box-shadow: var(--box-shadow-green), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .service-icon--dumpster::before {
@@ -2117,8 +2134,8 @@ select.form__input {
 }
 
 .service-icon--yard {
-  background: linear-gradient(135deg, #22c55e, #16a34a);
-  box-shadow: 0 8px 16px rgba(34, 197, 94, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  box-shadow: var(--box-shadow-green), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .service-icon--yard::before {
@@ -2131,8 +2148,8 @@ select.form__input {
 
 /* Feature Icons */
 .check-icon {
-  background: linear-gradient(135deg, #10b981, #059669);
-  box-shadow: 0 6px 12px rgba(16, 185, 129, 0.3);
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  box-shadow: var(--box-shadow-green);
 }
 
 .check-icon::before {
@@ -2144,8 +2161,8 @@ select.form__input {
 }
 
 .eco-icon {
-  background: linear-gradient(135deg, #22c55e, #15803d);
-  box-shadow: 0 6px 12px rgba(34, 197, 94, 0.3);
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  box-shadow: var(--box-shadow-green);
 }
 
 .eco-icon::before {
@@ -2157,8 +2174,8 @@ select.form__input {
 }
 
 .value-icon {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  box-shadow: 0 6px 12px rgba(245, 158, 11, 0.3);
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  box-shadow: var(--box-shadow-green);
 }
 
 .value-icon::before {
@@ -2170,8 +2187,8 @@ select.form__input {
 }
 
 .speed-icon, .lightning-icon {
-  background: linear-gradient(135deg, #10b981, #059669);
-  box-shadow: 0 6px 12px rgba(16, 185, 129, 0.3);
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  box-shadow: var(--box-shadow-green);
 }
 
 .speed-icon::before, .lightning-icon::before {
@@ -2184,8 +2201,8 @@ select.form__input {
 
 /* Contact Icons */
 .phone-icon {
-  background: linear-gradient(135deg, #059669, #047857);
-  box-shadow: 0 6px 12px rgba(5, 150, 105, 0.3);
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  box-shadow: var(--box-shadow-green);
 }
 
 .phone-icon::before {
@@ -2197,8 +2214,8 @@ select.form__input {
 }
 
 .email-icon {
-  background: linear-gradient(135deg, #dc2626, #b91c1c);
-  box-shadow: 0 6px 12px rgba(220, 38, 38, 0.3);
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  box-shadow: var(--box-shadow-green);
 }
 
 .email-icon::before {
@@ -2210,8 +2227,8 @@ select.form__input {
 }
 
 .clock-icon {
-  background: linear-gradient(135deg, #6b7280, #4b5563);
-  box-shadow: 0 6px 12px rgba(107, 114, 128, 0.3);
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  box-shadow: var(--box-shadow-green);
 }
 
 .clock-icon::before {
