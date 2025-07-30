@@ -1511,6 +1511,7 @@ select.form__input {
   justify-content: center;
   gap: var(--space-2);
   color: rgba(255, 255, 255, 0.9);
+  min-width: 180px;
 }
 
 .cta-feature__icon {
@@ -3177,10 +3178,11 @@ select.form__input {
 }
 
 .toter-cta__features {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-6);
-  max-width: 600px;
+  display: flex;
+  justify-content: center;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+  max-width: 800px;
   margin: 0 auto;
 }
 
@@ -3209,8 +3211,9 @@ select.form__input {
   }
 
   .toter-cta__features {
-    grid-template-columns: 1fr;
+    flex-direction: column;
     gap: var(--space-4);
+    align-items: center;
   }
 }
 
