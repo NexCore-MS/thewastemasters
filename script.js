@@ -256,7 +256,7 @@ function initFormAutoSave() {
             input.value = savedValue;
             // Trigger label animation for filled inputs
             if (input.value) {
-                const label = input.nextElementSibling;
+                const label = input.previousElementSibling;
                 if (label && label.classList.contains('form__label')) {
                     label.style.transform = 'translateY(-12px) scale(0.8)';
                     label.style.color = 'var(--primary-color)';
