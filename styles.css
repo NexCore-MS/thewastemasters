@@ -254,6 +254,12 @@ p {
   color: var(--text-light);
 }
 
+.nav__tagline--red {
+  color: #ef4444;
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+}
+
 .nav__menu {
   display: flex;
   align-items: center;
