@@ -346,20 +346,46 @@ function showToast(message, type = 'info', duration = 3000) {
 function showPageLoader() {
     const loader = document.getElementById('pageLoader');
     if (loader) {
-        // Reset any previous state
-        loader.style.display = 'none';
+        // Reset all properties to completely hidden state
         loader.classList.remove('loading');
+        loader.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            background: transparent;
+            transform: translateX(-100%);
+            z-index: -1;
+            display: none !important;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        `;
         
-        // Start the loading animation
-        requestAnimationFrame(() => {
+        // Start the loading animation after a small delay
+        setTimeout(() => {
             loader.classList.add('loading');
             
-            // Remove after animation completes
+            // Completely reset after animation
             setTimeout(() => {
                 loader.classList.remove('loading');
-                loader.style.display = 'none';
-            }, 1000);
-        });
+                loader.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 0;
+                    height: 0;
+                    background: transparent;
+                    transform: translateX(-100%);
+                    z-index: -1;
+                    display: none !important;
+                    opacity: 0;
+                    visibility: hidden;
+                    pointer-events: none;
+                `;
+            }, 1200);
+        }, 100);
     }
 }
 
