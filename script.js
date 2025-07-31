@@ -571,39 +571,34 @@ function initKeyboardShortcuts() {
 
 // Enhanced accessibility features
 function initAccessibilityFeatures() {
-    // Skip to main content link
-    const skipLink = document.createElement('a');
-    skipLink.href = '#main';
-    skipLink.textContent = 'Skip to main content';
-    skipLink.className = 'skip-link';
-    skipLink.style.cssText = `
-        position: absolute;
-        top: -40px;
-        left: 6px;
-        background: var(--primary-color);
-        color: white;
-        padding: 8px;
-        text-decoration: none;
-        border-radius: 4px;
-        z-index: 10000;
-        transition: top 0.3s;
-    `;
+    // Skip to main content link - only create if it doesn't exist
+    let skipLink = document.querySelector('.skip-link');
     
-    skipLink.addEventListener('focus', () => {
-        skipLink.style.top = '6px';
-    });
-    
-    skipLink.addEventListener('blur', () => {
-        skipLink.style.top = '-40px';
-    });
-    
-    document.body.insertBefore(skipLink, document.body.firstChild);
+    if (!skipLink) {
+        skipLink = document.createElement('a');
+        skipLink.href = '#main';
+        skipLink.textContent = 'Skip to main content';
+        skipLink.className = 'skip-link';
+        
+        // Insert at the very beginning of the document
+        document.body.insertBefore(skipLink, document.body.firstChild);
+    }
     
     // Add main landmark if not present
     const main = document.querySelector('main');
     if (main && !main.id) {
         main.id = 'main';
     }
+    
+    // Ensure the skip link works properly
+    skipLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        const mainElement = document.getElementById('main') || document.querySelector('main');
+        if (mainElement) {
+            mainElement.focus();
+            mainElement.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
 }
 
 // Performance monitoring

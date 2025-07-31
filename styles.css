@@ -3621,22 +3621,30 @@ html {
   margin-top: 0.25rem;
 }
 
-/* Skip link for accessibility */
+/* Skip link for accessibility - completely hidden until focused */
 .skip-link {
-  position: absolute;
-  top: -40px;
-  left: 6px;
+  position: fixed;
+  top: -100px;
+  left: 8px;
   background: var(--primary-color);
   color: white;
-  padding: 8px;
+  padding: 8px 12px;
   text-decoration: none;
   border-radius: 4px;
   z-index: 10000;
-  transition: top 0.3s;
+  transition: top 0.3s ease;
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
 }
 
 .skip-link:focus {
-  top: 6px;
+  top: 8px;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 /* Visual feedback for interactive elements */
