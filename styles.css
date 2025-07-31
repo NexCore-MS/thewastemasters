@@ -85,11 +85,51 @@ body {
   font-size: var(--font-size-base);
   line-height: 1.6;
   color: var(--text-color);
-  background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
+  background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%) !important;
+  background-color: #000000 !important;
   transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
   position: relative;
+}
+
+/* Force dark backgrounds on all sections */
+section,
+.hero,
+.services,
+.about,
+.process,
+.service-area,
+.testimonials,
+.contact,
+.junk-hero,
+.junk-process,
+.junk-types,
+.junk-pricing,
+.junk-gallery,
+.junk-service-areas,
+.junk-cta,
+.containers-hero,
+.container-sizes,
+.container-guidelines,
+.containers-cta,
+.toter-hero,
+.toter-about,
+.toter-gallery,
+.toter-service-areas,
+.toter-cta {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Ensure all containers have proper backgrounds */
+.container,
+.hero__container,
+.services__container,
+.about__container,
+.process__container,
+.contact__container {
+  background: transparent !important;
 }
 
 .container {
@@ -1017,40 +1057,109 @@ select.form__input {
     align-items: center;
   }
 
-  /* Navigation */
+  /* Navigation - FIXED FOR MOBILE */
   .nav__menu {
-    position: fixed;
-    top: var(--header-height);
-    left: -100%;
-    width: 100%;
-    height: calc(100vh - var(--header-height));
-    background-color: var(--background-color);
-    flex-direction: column;
-    justify-content: flex-start;
-    padding: var(--space-8);
-    gap: var(--space-6);
-    transition: var(--transition);
-    box-shadow: var(--box-shadow-lg);
+    position: fixed !important;
+    top: var(--header-height) !important;
+    left: -100% !important;
+    width: 100% !important;
+    height: calc(100vh - var(--header-height)) !important;
+    background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%) !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    padding: var(--space-8) !important;
+    gap: var(--space-6) !important;
+    transition: left 0.3s ease !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.9) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    z-index: 1000 !important;
+    list-style: none !important;
+    overflow-y: auto !important;
   }
 
   .nav__menu.show-menu {
-    left: 0;
+    left: 0 !important;
+    transform: translateX(0) !important;
   }
 
   .nav__toggle {
-    display: flex;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 48px !important;
+    height: 48px !important;
+    gap: 4px !important;
+    cursor: pointer !important;
+    z-index: 1001 !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  .nav__toggle span {
+    display: block !important;
+    width: 22px !important;
+    height: 3px !important;
+    background: var(--text-color) !important;
+    transition: all 0.3s ease !important;
+    border-radius: 2px !important;
   }
 
   .nav__toggle.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
+    transform: rotate(45deg) translate(6px, 6px) !important;
+    background: var(--primary-color) !important;
   }
 
   .nav__toggle.active span:nth-child(2) {
-    opacity: 0;
+    opacity: 0 !important;
   }
 
   .nav__toggle.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -6px);
+    transform: rotate(-45deg) translate(8px, -8px) !important;
+    background: var(--primary-color) !important;
+  }
+  
+  .nav__item {
+    width: 90% !important;
+    text-align: center !important;
+    margin: var(--space-2) 0 !important;
+  }
+  
+  .nav__link {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: var(--space-4) var(--space-6) !important;
+    color: var(--text-color) !important;
+    background: rgba(15, 15, 15, 0.8) !important;
+    border: 1px solid rgba(34, 197, 94, 0.2) !important;
+    border-radius: var(--border-radius) !important;
+    font-size: var(--font-size-lg) !important;
+    font-weight: 600 !important;
+    min-height: 56px !important;
+    width: 100% !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .nav__link:hover,
+  .nav__link.active-link {
+    background: var(--primary-color) !important;
+    color: white !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4) !important;
+    border: 1px solid var(--primary-color) !important;
+  }
+  
+  .nav__cta {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)) !important;
+    color: white !important;
+    border: none !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3) !important;
   }
 
   /* Logo mobile optimization */
@@ -3724,13 +3833,36 @@ textarea:focus {
   
   /* Fix mobile viewport issues */
   body {
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
-    overflow-x: hidden;
+    min-height: 100vh !important;
+    min-height: -webkit-fill-available !important;
+    overflow-x: hidden !important;
+    background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%) !important;
+    background-color: #000000 !important;
   }
   
   html {
-    height: -webkit-fill-available;
+    height: -webkit-fill-available !important;
+    background: #000000 !important;
+    background-color: #000000 !important;
+  }
+  
+  /* Force all mobile elements to have dark backgrounds */
+  * {
+    box-sizing: border-box !important;
+  }
+  
+  .header {
+    background: rgba(0, 0, 0, 0.95) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+  }
+  
+  .main {
+    background: transparent !important;
+  }
+  
+  .footer {
+    background: linear-gradient(135deg, #0a0a0a 0%, #000000 100%) !important;
   }
   
   /* Better touch targets */

@@ -4,19 +4,28 @@ const navMenu = document.getElementById('nav-menu');
 const navLinks = document.querySelectorAll('.nav__link');
 const estimateForm = document.getElementById('estimate-form');
 
-// Mobile menu functionality
+// Mobile menu functionality - FIXED
 function toggleMobileMenu() {
+    console.log('Toggle menu clicked'); // Debug log
+    
     if (navMenu && navToggle) {
         const isOpen = navMenu.classList.contains('show-menu');
+        console.log('Menu is currently open:', isOpen); // Debug log
         
         navMenu.classList.toggle('show-menu');
         navToggle.classList.toggle('active');
         
-        // Prevent body scroll when menu is open
+        // Force styles to ensure menu shows
         if (!isOpen) {
+            navMenu.style.left = '0';
+            navMenu.style.visibility = 'visible';
+            navMenu.style.opacity = '1';
             document.body.classList.add('menu-open');
             document.body.style.top = `-${window.scrollY}px`;
         } else {
+            navMenu.style.left = '-100%';
+            navMenu.style.visibility = 'hidden';
+            navMenu.style.opacity = '0';
             const scrollY = document.body.style.top;
             document.body.classList.remove('menu-open');
             document.body.style.top = '';
@@ -24,14 +33,21 @@ function toggleMobileMenu() {
                 window.scrollTo(0, parseInt(scrollY || '0') * -1);
             }
         }
+    } else {
+        console.error('Menu elements not found:', { navMenu, navToggle }); // Debug log
     }
 }
 
-// Close mobile menu when clicking on a link
+// Close mobile menu when clicking on a link - FIXED
 function closeMobileMenu() {
     if (navMenu && navToggle) {
         navMenu.classList.remove('show-menu');
         navToggle.classList.remove('active');
+        
+        // Force close styles
+        navMenu.style.left = '-100%';
+        navMenu.style.visibility = 'hidden';
+        navMenu.style.opacity = '0';
         
         // Restore body scroll
         const scrollY = document.body.style.top;
