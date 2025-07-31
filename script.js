@@ -2,7 +2,7 @@
 const navToggle = document.getElementById('nav-toggle');
 const navMenu = document.getElementById('nav-menu');
 const navLinks = document.querySelectorAll('.nav__link');
-const quoteForm = document.getElementById('quote-form');
+const estimateForm = document.getElementById('estimate-form');
 
 // Mobile menu functionality
 function toggleMobileMenu() {
@@ -116,7 +116,7 @@ function showFormMessage(message, isError = false) {
     messageElement.textContent = message;
     
     // Insert message at the top of the form
-    const form = document.getElementById('quote-form');
+    const form = document.getElementById('estimate-form');
     form.insertBefore(messageElement, form.firstChild);
     
     // Remove message after 5 seconds
@@ -131,7 +131,7 @@ function showFormMessage(message, isError = false) {
 function handleFormSubmission(e) {
     e.preventDefault();
     
-    const formData = new FormData(quoteForm);
+    const formData = new FormData(estimateForm);
     const errors = validateForm(formData);
     
     if (errors.length > 0) {
@@ -140,7 +140,7 @@ function handleFormSubmission(e) {
     }
     
     // Show loading state
-    const submitButton = quoteForm.querySelector('button[type="submit"]');
+    const submitButton = estimateForm.querySelector('button[type="submit"]');
     const originalButtonText = submitButton.textContent;
     submitButton.textContent = 'Sending...';
     submitButton.disabled = true;
@@ -152,13 +152,13 @@ function handleFormSubmission(e) {
         submitButton.disabled = false;
         
         // Show success message
-        showFormMessage('Thank you! We\'ll contact you within 30 minutes with your free quote.');
+        showFormMessage('Thank you! We\'ll contact you within 30 minutes with your free estimate.');
         
         // Reset form
-        quoteForm.reset();
+        estimateForm.reset();
         
         // Remove active states from form labels
-        const labels = quoteForm.querySelectorAll('.form__label');
+        const labels = estimateForm.querySelectorAll('.form__label');
         labels.forEach(label => {
             label.style.transform = '';
             label.style.color = '';
@@ -247,7 +247,7 @@ function initLazyLoading() {
 
 // Local storage for form data (auto-save)
 function initFormAutoSave() {
-    const formInputs = quoteForm.querySelectorAll('input, select, textarea');
+    const formInputs = estimateForm.querySelectorAll('input, select, textarea');
     
     // Load saved data
     formInputs.forEach(input => {
@@ -277,7 +277,7 @@ function initFormAutoSave() {
     });
     
     // Clear saved data on successful submission
-    quoteForm.addEventListener('submit', () => {
+    estimateForm.addEventListener('submit', () => {
         formInputs.forEach(input => {
             localStorage.removeItem(`form_${input.id}`);
         });
@@ -316,8 +316,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     
     // Form submission
-    if (quoteForm) {
-        quoteForm.addEventListener('submit', handleFormSubmission);
+    if (estimateForm) {
+        estimateForm.addEventListener('submit', handleFormSubmission);
         
         // Phone number formatting
         const phoneInput = document.getElementById('phone');
