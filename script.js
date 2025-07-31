@@ -315,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     
-    // Form submission
+    // Form submission with error handling
     if (estimateForm) {
         estimateForm.addEventListener('submit', handleFormSubmission);
         
@@ -323,6 +323,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const phoneInput = document.getElementById('phone');
         if (phoneInput) {
             phoneInput.addEventListener('input', () => formatPhoneNumber(phoneInput));
+            // Add mobile-specific input improvements
+            phoneInput.setAttribute('inputmode', 'tel');
+            phoneInput.setAttribute('autocomplete', 'tel');
+        }
+        
+        // Email input improvements
+        const emailInput = document.getElementById('email');
+        if (emailInput) {
+            emailInput.setAttribute('inputmode', 'email');
+            emailInput.setAttribute('autocomplete', 'email');
+        }
+        
+        // Name input improvements
+        const nameInput = document.getElementById('name');
+        if (nameInput) {
+            nameInput.setAttribute('autocomplete', 'name');
         }
         
         // Initialize form auto-save
@@ -367,13 +383,25 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Resize event listener
+// Resize event listener with mobile optimizations
 window.addEventListener('resize', () => {
     // Close mobile menu on resize to desktop
     if (window.innerWidth > 768) {
         closeMobileMenu();
     }
+    
+    // Handle mobile keyboard appearance
+    const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    document.documentElement.style.setProperty('--viewport-height', `${viewportHeight}px`);
 });
+
+// Handle mobile keyboard with visual viewport API
+if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => {
+        const viewportHeight = window.visualViewport.height;
+        document.documentElement.style.setProperty('--viewport-height', `${viewportHeight}px`);
+    });
+}
 
 // Page visibility API for analytics
 document.addEventListener('visibilitychange', () => {
