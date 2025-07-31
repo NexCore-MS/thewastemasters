@@ -4,38 +4,41 @@ const navMenu = document.getElementById('nav-menu');
 const navLinks = document.querySelectorAll('.nav__link');
 const estimateForm = document.getElementById('estimate-form');
 
-// Mobile menu functionality - FIXED
-function toggleMobileMenu() {
-    console.log('Toggle menu clicked'); // Debug log
+// SIMPLE MOBILE MENU - COMPLETELY REBUILT
+function toggleMobileMenu(e) {
+    e.preventDefault();
+    e.stopPropagation();
     
-    if (navMenu && navToggle) {
-        const isOpen = navMenu.classList.contains('show-menu');
-        console.log('Menu is currently open:', isOpen); // Debug log
-        
-        navMenu.classList.toggle('show-menu');
-        navToggle.classList.toggle('active');
-        
-        // Force styles to ensure menu shows
-        if (!isOpen) {
-            navMenu.style.left = '0';
-            navMenu.style.visibility = 'visible';
-            navMenu.style.opacity = '1';
-            document.body.classList.add('menu-open');
-            document.body.style.top = `-${window.scrollY}px`;
-        } else {
-            navMenu.style.left = '-100%';
-            navMenu.style.visibility = 'hidden';
-            navMenu.style.opacity = '0';
-            const scrollY = document.body.style.top;
-            document.body.classList.remove('menu-open');
-            document.body.style.top = '';
-            if (scrollY) {
-                window.scrollTo(0, parseInt(scrollY || '0') * -1);
-            }
-        }
-    } else {
-        console.error('Menu elements not found:', { navMenu, navToggle }); // Debug log
+    console.log('🍔 Menu toggle clicked!');
+    
+    // Get fresh references every time
+    const menu = document.getElementById('nav-menu');
+    const toggle = document.getElementById('nav-toggle');
+    
+    if (!menu || !toggle) {
+        console.error('❌ Menu elements missing:', { menu, toggle });
+        return;
     }
+    
+    const isCurrentlyOpen = menu.classList.contains('show-menu');
+    console.log('📱 Currently open:', isCurrentlyOpen);
+    
+    if (isCurrentlyOpen) {
+        // Close menu
+        menu.classList.remove('show-menu');
+        toggle.classList.remove('active');
+        document.body.style.overflow = '';
+        console.log('✅ Menu closed');
+    } else {
+        // Open menu  
+        menu.classList.add('show-menu');
+        toggle.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        console.log('✅ Menu opened');
+    }
+    
+    // Force a repaint
+    menu.offsetHeight;
 }
 
 // Close mobile menu when clicking on a link - FIXED
@@ -774,9 +777,38 @@ function fixMobileFormLabels() {
 
 // Event listeners
 document.addEventListener('DOMContentLoaded', () => {
-    // Mobile menu toggle
-    if (navToggle) {
-        navToggle.addEventListener('click', toggleMobileMenu);
+    console.log('DOM loaded, setting up mobile menu...');
+    
+    // MOBILE MENU SETUP - COMPLETELY REBUILT
+    const hamburger = document.getElementById('nav-toggle');
+    const menu = document.getElementById('nav-menu');
+    
+    console.log('Found elements:', { hamburger, menu });
+    
+    if (hamburger) {
+        // Remove any existing listeners
+        hamburger.removeEventListener('click', toggleMobileMenu);
+        
+        // Add fresh listener
+        hamburger.addEventListener('click', toggleMobileMenu);
+        hamburger.addEventListener('touchstart', toggleMobileMenu, { passive: false });
+        
+        console.log('Mobile menu listeners attached');
+    } else {
+        console.error('Hamburger button not found!');
+    }
+    
+    // Close menu when clicking menu links
+    if (menu) {
+        const menuLinks = menu.querySelectorAll('.nav__link');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                console.log('Menu link clicked, closing menu');
+                menu.classList.remove('show-menu');
+                hamburger.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
     }
     
     // Navigation links
