@@ -3520,30 +3520,24 @@ html {
   height: 3px;
   background: var(--primary-color);
   transform: translateX(-100%);
-  transition: transform 0.3s ease;
   z-index: 9999;
-  opacity: 0;
-  visibility: hidden;
+  display: none;
 }
 
 .page-loader.loading {
-  opacity: 1;
-  visibility: visible;
-  animation: loading 1s ease-in-out;
+  display: block;
+  animation: loading 1s ease-in-out forwards;
 }
 
 @keyframes loading {
   0% { 
     transform: translateX(-100%);
-    opacity: 1;
   }
   50% { 
     transform: translateX(0%);
-    opacity: 1;
   }
   100% { 
     transform: translateX(100%);
-    opacity: 0;
   }
 }
 
