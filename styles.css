@@ -140,6 +140,9 @@ p {
   cursor: pointer;
   transition: var(--transition);
   white-space: nowrap;
+  min-height: 44px;
+  min-width: 44px;
+  touch-action: manipulation;
 }
 
 .btn--primary {
@@ -2981,6 +2984,21 @@ select.form__input {
   /* Ensure all interactive elements are touch-friendly */
   a, button, input, select, textarea {
     -webkit-tap-highlight-color: rgba(34, 197, 94, 0.3);
+    min-height: 48px;
+  }
+
+  /* Enhanced mobile button styling */
+  .btn {
+    min-height: 52px;
+    padding: var(--space-4) var(--space-6);
+    font-size: 16px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .btn--large {
+    min-height: 56px;
+    font-size: 18px;
   }
 
   /* Improved mobile form styling */
@@ -2991,6 +3009,58 @@ select.form__input {
     border-radius: var(--border-radius-lg);
     border: 1px solid var(--border-color);
     box-shadow: var(--box-shadow-lg);
+  }
+
+  .form__input {
+    min-height: 52px;
+    font-size: 16px;
+    padding: var(--space-4);
+    border: 2px solid var(--border-color);
+  }
+
+  .form__input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+  }
+
+  /* Enhanced navigation */
+  .nav__link {
+    min-height: 52px;
+    padding: var(--space-4);
+    font-size: 16px;
+    justify-content: center;
+  }
+
+  .nav__cta {
+    min-height: 56px;
+    width: 90%;
+    margin: var(--space-4) auto;
+  }
+
+  /* Better service cards */
+  .service-card {
+    padding: var(--space-8);
+    margin-bottom: var(--space-6);
+  }
+
+  .service-card__cta {
+    min-height: 52px;
+    width: 100%;
+    font-size: 16px;
+  }
+
+  /* Container cards */
+  .container-card__cta {
+    min-height: 52px;
+    width: 100%;
+    font-size: 16px;
+  }
+
+  /* Pricing cards */
+  .pricing-card__cta {
+    min-height: 52px;
+    width: 100%;
+    font-size: 16px;
   }
 
   /* Mobile-optimized section spacing */
@@ -3321,11 +3391,13 @@ select.form__input {
     grid-template-columns: 1fr;
     gap: var(--space-6);
     padding: var(--space-2);
+    max-width: 100%;
   }
 
   .gallery-item--large {
     transform: none !important;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    margin-bottom: var(--space-4);
   }
 
   .gallery-image {
@@ -3333,31 +3405,31 @@ select.form__input {
   }
 
   .gallery-caption {
-    position: static;
-    opacity: 1;
-    transform: translateY(0);
-    background: linear-gradient(145deg, var(--surface-color), var(--gray-100));
-    backdrop-filter: none;
+    position: static !important;
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    background: linear-gradient(145deg, var(--surface-color), var(--gray-100)) !important;
+    backdrop-filter: none !important;
     padding: var(--space-6);
   }
 
   .gallery-caption h3 {
-    color: var(--text-color);
-    text-shadow: none;
+    color: var(--text-color) !important;
+    text-shadow: none !important;
     font-size: var(--font-size-lg);
   }
 
   .gallery-caption p {
-    color: var(--text-light);
-    text-shadow: none;
+    color: var(--text-light) !important;
+    text-shadow: none !important;
   }
 
   .gallery-caption::after {
-    display: none;
+    display: none !important;
   }
 
   .gallery-image::before {
-    display: none;
+    display: none !important;
   }
 }
 
