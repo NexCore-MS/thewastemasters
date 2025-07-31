@@ -7,8 +7,23 @@ const estimateForm = document.getElementById('estimate-form');
 // Mobile menu functionality
 function toggleMobileMenu() {
     if (navMenu && navToggle) {
+        const isOpen = navMenu.classList.contains('show-menu');
+        
         navMenu.classList.toggle('show-menu');
         navToggle.classList.toggle('active');
+        
+        // Prevent body scroll when menu is open
+        if (!isOpen) {
+            document.body.classList.add('menu-open');
+            document.body.style.top = `-${window.scrollY}px`;
+        } else {
+            const scrollY = document.body.style.top;
+            document.body.classList.remove('menu-open');
+            document.body.style.top = '';
+            if (scrollY) {
+                window.scrollTo(0, parseInt(scrollY || '0') * -1);
+            }
+        }
     }
 }
 
@@ -17,6 +32,14 @@ function closeMobileMenu() {
     if (navMenu && navToggle) {
         navMenu.classList.remove('show-menu');
         navToggle.classList.remove('active');
+        
+        // Restore body scroll
+        const scrollY = document.body.style.top;
+        document.body.classList.remove('menu-open');
+        document.body.style.top = '';
+        if (scrollY) {
+            window.scrollTo(0, parseInt(scrollY || '0') * -1);
+        }
     }
 }
 
@@ -46,22 +69,42 @@ function smoothScroll(e) {
 
 // Update active navigation link based on scroll position
 function updateActiveNavLink() {
-    const sections = document.querySelectorAll('section[id]');
-    const scrollPosition = window.scrollY + 100; // Offset for header
-    
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.offsetHeight;
-        const sectionId = section.getAttribute('id');
-        const correspondingNavLink = document.querySelector(`.nav__link[href="#${sectionId}"]`);
+    try {
+        const sections = document.querySelectorAll('section[id]');
+        if (!sections.length) return;
         
-        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-            navLinks.forEach(link => link.classList.remove('active-link'));
-            if (correspondingNavLink) {
-                correspondingNavLink.classList.add('active-link');
+        const scrollPosition = window.scrollY + 100; // Offset for header
+        
+        sections.forEach(section => {
+            if (!section) return;
+            
+            const sectionTop = section.offsetTop || 0;
+            const sectionHeight = section.offsetHeight || 0;
+            const sectionId = section.getAttribute('id');
+            
+            if (!sectionId) return;
+            
+            const correspondingNavLink = document.querySelector(`.nav__link[href="#${sectionId}"], .nav__link[href*="#${sectionId}"]`);
+            
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                // Safely remove active class from all links
+                if (navLinks && navLinks.length) {
+                    navLinks.forEach(link => {
+                        if (link && link.classList) {
+                            link.classList.remove('active-link');
+                        }
+                    });
+                }
+                
+                // Add active class to current link
+                if (correspondingNavLink && correspondingNavLink.classList) {
+                    correspondingNavLink.classList.add('active-link');
+                }
             }
-        }
-    });
+        });
+    } catch (error) {
+        console.warn('Navigation update error:', error);
+    }
 }
 
 // Header background on scroll
@@ -318,11 +361,26 @@ function initFormAutoSave() {
 function createScrollToTopButton() {
     const scrollBtn = document.getElementById('scrollToTop');
     if (scrollBtn) {
-        scrollBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Remove any existing listeners to prevent duplicates
+        scrollBtn.replaceWith(scrollBtn.cloneNode(true));
+        const newScrollBtn = document.getElementById('scrollToTop');
+        
+        newScrollBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            try {
+                window.scrollTo({ 
+                    top: 0, 
+                    behavior: 'smooth' 
+                });
+            } catch (error) {
+                // Fallback for older browsers
+                window.scrollTo(0, 0);
+            }
         });
-        return scrollBtn;
+        
+        return newScrollBtn;
     }
+    return null;
 }
 
 // Toast notification system
@@ -436,34 +494,57 @@ function initEnhancedForms() {
 
 // Field validation with visual feedback
 function validateField(field) {
-    const isValid = field.checkValidity();
-    const formGroup = field.closest('.form__group');
+    if (!field || !field.checkValidity) return false;
     
-    if (formGroup) {
-        formGroup.classList.toggle('error', !isValid);
-        formGroup.classList.toggle('valid', isValid);
+    try {
+        const isValid = field.checkValidity();
+        const formGroup = field.closest('.form__group');
+        
+        if (formGroup && formGroup.classList) {
+            formGroup.classList.toggle('error', !isValid);
+            formGroup.classList.toggle('valid', isValid);
+        }
+        
+        return isValid;
+    } catch (error) {
+        console.warn('Field validation error:', error);
+        return false;
     }
-    
-    return isValid;
 }
 
 // Character counter for textareas
 function addCharacterCounter(textarea) {
-    const maxLength = textarea.getAttribute('maxlength') || 500;
-    const counter = document.createElement('div');
-    counter.className = 'character-counter';
-    counter.style.cssText = 'font-size: 0.75rem; color: var(--text-light); text-align: right; margin-top: 0.25rem;';
+    if (!textarea || !textarea.parentNode) return;
     
-    const updateCounter = () => {
-        const remaining = maxLength - textarea.value.length;
-        counter.textContent = `${remaining} characters remaining`;
-        counter.style.color = remaining < 50 ? 'var(--warning)' : 'var(--text-light)';
-    };
-    
-    textarea.setAttribute('maxlength', maxLength);
-    textarea.addEventListener('input', updateCounter);
-    textarea.parentNode.insertBefore(counter, textarea.nextSibling);
-    updateCounter();
+    try {
+        const maxLength = textarea.getAttribute('maxlength') || 500;
+        const counter = document.createElement('div');
+        counter.className = 'character-counter';
+        counter.style.cssText = 'font-size: 0.75rem; color: var(--text-light); text-align: right; margin-top: 0.25rem;';
+        
+        const updateCounter = () => {
+            try {
+                const remaining = maxLength - (textarea.value ? textarea.value.length : 0);
+                counter.textContent = `${remaining} characters remaining`;
+                counter.style.color = remaining < 50 ? 'var(--warning)' : 'var(--text-light)';
+            } catch (error) {
+                console.warn('Counter update error:', error);
+            }
+        };
+        
+        textarea.setAttribute('maxlength', maxLength);
+        textarea.addEventListener('input', updateCounter);
+        
+        if (textarea.nextSibling) {
+            textarea.parentNode.insertBefore(counter, textarea.nextSibling);
+        } else {
+            textarea.parentNode.appendChild(counter);
+        }
+        
+        updateCounter();
+    } catch (error) {
+        console.warn('Character counter error:', error);
+    }
 }
 
 // Keyboard shortcuts
@@ -556,10 +637,24 @@ function initMobileOptimizations() {
     if (isMobile || isTouchDevice) {
         document.body.classList.add('mobile-device');
         
-        // Prevent iOS zoom on form focus
+        // Handle iOS zoom prevention more carefully
         const viewportMeta = document.querySelector('meta[name="viewport"]');
-        if (viewportMeta) {
-            viewportMeta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+        if (viewportMeta && /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+            // Only prevent zoom on actual iOS devices for form inputs
+            const originalContent = viewportMeta.content;
+            
+            // Prevent zoom only when focusing on form inputs
+            document.addEventListener('focusin', (e) => {
+                if (e.target.matches('input, textarea, select')) {
+                    viewportMeta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+                }
+            });
+            
+            document.addEventListener('focusout', (e) => {
+                if (e.target.matches('input, textarea, select')) {
+                    viewportMeta.content = originalContent;
+                }
+            });
         }
         
         // Handle iOS keyboard appearance
@@ -611,12 +706,40 @@ function initMobileOptimizations() {
             input.addEventListener('focus', () => {
                 // Scroll input into view on mobile
                 setTimeout(() => {
-                    input.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'center' 
-                    });
+                    if (input && input.scrollIntoView) {
+                        input.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center' 
+                        });
+                    }
                 }, 300);
             });
+            
+            // Add better mobile input handling
+            input.addEventListener('touchstart', () => {
+                input.style.transform = 'scale(0.98)';
+            }, { passive: true });
+            
+            input.addEventListener('touchend', () => {
+                input.style.transform = 'scale(1)';
+            }, { passive: true });
+        });
+        
+        // Better touch feedback for interactive elements
+        const interactiveElements = document.querySelectorAll('.btn, .service-card, .container-card, .nav__link');
+        interactiveElements.forEach(element => {
+            element.addEventListener('touchstart', () => {
+                element.style.transform = 'scale(0.97)';
+                element.style.transition = 'transform 0.1s ease';
+            }, { passive: true });
+            
+            element.addEventListener('touchend', () => {
+                element.style.transform = 'scale(1)';
+            }, { passive: true });
+            
+            element.addEventListener('touchcancel', () => {
+                element.style.transform = 'scale(1)';
+            }, { passive: true });
         });
     }
 }
