@@ -319,7 +319,14 @@ function showPageLoader() {
     const loader = document.getElementById('pageLoader');
     if (loader) {
         loader.classList.add('loading');
-        setTimeout(() => loader.classList.remove('loading'), 1000);
+        // Remove after animation completes and hide it completely
+        setTimeout(() => {
+            loader.classList.remove('loading');
+            // Hide completely after animation
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 300);
+        }, 1000);
     }
 }
 
