@@ -284,16 +284,201 @@ function initFormAutoSave() {
     });
 }
 
+// Quality of Life Features
+
 // Create and add scroll-to-top button
 function createScrollToTopButton() {
-    const scrollBtn = document.createElement('button');
-    scrollBtn.className = 'scroll-to-top';
-    scrollBtn.setAttribute('aria-label', 'Scroll to top');
-    scrollBtn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    const scrollBtn = document.getElementById('scrollToTop');
+    if (scrollBtn) {
+        scrollBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        return scrollBtn;
+    }
+}
+
+// Toast notification system
+function showToast(message, type = 'info', duration = 3000) {
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    
+    // Show toast
+    setTimeout(() => toast.classList.add('show'), 100);
+    
+    // Hide and remove toast
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => document.body.removeChild(toast), 300);
+    }, duration);
+}
+
+// Page loading indicator
+function showPageLoader() {
+    const loader = document.getElementById('pageLoader');
+    if (loader) {
+        loader.classList.add('loading');
+        setTimeout(() => loader.classList.remove('loading'), 1000);
+    }
+}
+
+// Enhanced form interactions
+function initEnhancedForms() {
+    const forms = document.querySelectorAll('form');
+    
+    forms.forEach(form => {
+        const inputs = form.querySelectorAll('.form__input');
+        
+        inputs.forEach(input => {
+            // Add placeholder for floating label effect
+            if (!input.placeholder) {
+                input.placeholder = ' ';
+            }
+            
+            // Enhanced validation feedback
+            input.addEventListener('blur', () => {
+                validateField(input);
+            });
+            
+            // Real-time character count for textareas
+            if (input.tagName === 'TEXTAREA') {
+                addCharacterCounter(input);
+            }
+        });
+        
+        // Form submission with loading state
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            
+            // Show loading state
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            // Simulate form submission (replace with actual logic)
+            setTimeout(() => {
+                showToast('Your estimate request has been sent successfully!', 'success');
+                form.reset();
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        });
     });
-    document.body.appendChild(scrollBtn);
-    return scrollBtn; // Return button reference for main scroll handler
+}
+
+// Field validation with visual feedback
+function validateField(field) {
+    const isValid = field.checkValidity();
+    const formGroup = field.closest('.form__group');
+    
+    if (formGroup) {
+        formGroup.classList.toggle('error', !isValid);
+        formGroup.classList.toggle('valid', isValid);
+    }
+    
+    return isValid;
+}
+
+// Character counter for textareas
+function addCharacterCounter(textarea) {
+    const maxLength = textarea.getAttribute('maxlength') || 500;
+    const counter = document.createElement('div');
+    counter.className = 'character-counter';
+    counter.style.cssText = 'font-size: 0.75rem; color: var(--text-light); text-align: right; margin-top: 0.25rem;';
+    
+    const updateCounter = () => {
+        const remaining = maxLength - textarea.value.length;
+        counter.textContent = `${remaining} characters remaining`;
+        counter.style.color = remaining < 50 ? 'var(--warning)' : 'var(--text-light)';
+    };
+    
+    textarea.setAttribute('maxlength', maxLength);
+    textarea.addEventListener('input', updateCounter);
+    textarea.parentNode.insertBefore(counter, textarea.nextSibling);
+    updateCounter();
+}
+
+// Keyboard shortcuts
+function initKeyboardShortcuts() {
+    document.addEventListener('keydown', (e) => {
+        // Ctrl/Cmd + / for search or help
+        if ((e.ctrlKey || e.metaKey) && e.key === '/') {
+            e.preventDefault();
+            const contactSection = document.getElementById('contact');
+            if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        // Escape to close any open modals or focus traps
+        if (e.key === 'Escape') {
+            const activeElement = document.activeElement;
+            if (activeElement && activeElement.blur) {
+                activeElement.blur();
+            }
+        }
+    });
+}
+
+// Enhanced accessibility features
+function initAccessibilityFeatures() {
+    // Skip to main content link
+    const skipLink = document.createElement('a');
+    skipLink.href = '#main';
+    skipLink.textContent = 'Skip to main content';
+    skipLink.className = 'skip-link';
+    skipLink.style.cssText = `
+        position: absolute;
+        top: -40px;
+        left: 6px;
+        background: var(--primary-color);
+        color: white;
+        padding: 8px;
+        text-decoration: none;
+        border-radius: 4px;
+        z-index: 10000;
+        transition: top 0.3s;
+    `;
+    
+    skipLink.addEventListener('focus', () => {
+        skipLink.style.top = '6px';
+    });
+    
+    skipLink.addEventListener('blur', () => {
+        skipLink.style.top = '-40px';
+    });
+    
+    document.body.insertBefore(skipLink, document.body.firstChild);
+    
+    // Add main landmark if not present
+    const main = document.querySelector('main');
+    if (main && !main.id) {
+        main.id = 'main';
+    }
+}
+
+// Performance monitoring
+function initPerformanceMonitoring() {
+    // Track page load time
+    window.addEventListener('load', () => {
+        const loadTime = performance.now();
+        console.log(`Page loaded in ${Math.round(loadTime)}ms`);
+        
+        // Show performance feedback for slow loads
+        if (loadTime > 3000) {
+            showToast('Page loaded slower than expected. Check your connection.', 'warning', 4000);
+        }
+    });
+    
+    // Track navigation timing
+    if ('performance' in window && 'navigation' in performance) {
+        const navigation = performance.navigation;
+        if (navigation.type === navigation.TYPE_RELOAD) {
+            console.log('Page was reloaded');
+        }
+    }
 }
 
 // Event listeners
@@ -350,8 +535,17 @@ document.addEventListener('DOMContentLoaded', () => {
     initClickToCall();
     initLazyLoading();
     
+    // Initialize quality of life features
+    initEnhancedForms();
+    initKeyboardShortcuts();
+    initAccessibilityFeatures();
+    initPerformanceMonitoring();
+    
     // Create scroll-to-top button and get reference
     window.scrollToTopBtn = createScrollToTopButton();
+    
+    // Show page loader on initial load
+    showPageLoader();
 });
 
 // Consolidated scroll event listener
