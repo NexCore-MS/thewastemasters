@@ -82,8 +82,8 @@ function smoothScroll(e) {
     
     if (targetElement) {
         const header = document.querySelector('.header');
-        const headerHeight = header ? header.offsetHeight : 0;
-        const targetPosition = targetElement.offsetTop - headerHeight;
+        const headerHeight = header ? header.offsetHeight : 80; // Default fallback
+        const targetPosition = Math.max(0, targetElement.offsetTop - headerHeight - 20); // Add 20px buffer and prevent negative values
         
         window.scrollTo({
             top: targetPosition,
@@ -818,6 +818,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 link.addEventListener('click', smoothScroll);
             }
         }
+    });
+    
+    // Apply smooth scrolling to ALL internal anchor links (not just nav links)
+    const allAnchorLinks = document.querySelectorAll('a[href^="#"]:not(.nav__link)');
+    allAnchorLinks.forEach(link => {
+        link.addEventListener('click', smoothScroll);
     });
     
     
