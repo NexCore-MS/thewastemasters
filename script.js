@@ -179,8 +179,16 @@ function validateForm(formData) {
         }
     }
     
+    if (!formData.get('address') || formData.get('address').trim().length < 5) {
+        errors.push('Please enter a valid property address');
+    }
+    
     if (!formData.get('service')) {
         errors.push('Please select a service');
+    }
+    
+    if (!formData.get('urgency')) {
+        errors.push('Please select when you need service');
     }
     
     if (!formData.get('details') || formData.get('details').trim().length < 10) {
@@ -227,30 +235,61 @@ function handleFormSubmission(e) {
     }
     
     // Show loading state
-    const submitButton = estimateForm.querySelector('button[type="submit"]');
-    const originalButtonText = submitButton.textContent;
-    submitButton.textContent = 'Sending...';
+    const submitButton = estimateForm.querySelector('#form-submit-btn');
+    const btnText = submitButton.querySelector('.btn-text');
+    const btnLoading = submitButton.querySelector('.btn-loading');
+    
+    btnText.style.display = 'none';
+    btnLoading.style.display = 'inline-flex';
     submitButton.disabled = true;
     
-    // Simulate form submission (replace with actual form handling)
-    setTimeout(() => {
-        // Reset button
-        submitButton.textContent = originalButtonText;
+    // Submit to Formspree
+    fetch(estimateForm.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            // Success
+            showFormMessage('Thank you! We\'ll contact you within 30 minutes with your free estimate.');
+            estimateForm.reset();
+            
+            // Clear saved form data
+            const formInputs = estimateForm.querySelectorAll('input, select, textarea');
+            formInputs.forEach(input => {
+                localStorage.removeItem(`form_${input.id}`);
+            });
+            
+            // Remove active states from form labels
+            const labels = estimateForm.querySelectorAll('.form__label');
+            labels.forEach(label => {
+                label.style.transform = '';
+                label.style.color = '';
+            });
+        } else {
+            response.json().then(data => {
+                if (data.errors) {
+                    const errorMessages = data.errors.map(error => error.message).join('. ');
+                    showFormMessage(`Error: ${errorMessages}`, true);
+                } else {
+                    showFormMessage('There was a problem submitting your form. Please try again or call us directly.', true);
+                }
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Form submission error:', error);
+        showFormMessage('There was a problem submitting your form. Please try again or call us directly at (305) 986-0692.', true);
+    })
+    .finally(() => {
+        // Reset button state
+        btnText.style.display = 'inline';
+        btnLoading.style.display = 'none';
         submitButton.disabled = false;
-        
-        // Show success message
-        showFormMessage('Thank you! We\'ll contact you within 30 minutes with your free estimate.');
-        
-        // Reset form
-        estimateForm.reset();
-        
-        // Remove active states from form labels
-        const labels = estimateForm.querySelectorAll('.form__label');
-        labels.forEach(label => {
-            label.style.transform = '';
-            label.style.color = '';
-        });
-    }, 2000);
+    });
 }
 
 // Intersection Observer for animations
@@ -478,6 +517,188 @@ function showPageLoader() {
                 `;
             }, 1200);
         }, 100);
+    }
+}
+
+// Interactive Pricing Estimator
+function initPricingEstimator() {
+    const estimator = document.querySelector('.pricing-estimator');
+    if (!estimator) return;
+
+    let currentStep = 1;
+    let selectedService = null;
+    let selectedAmount = null;
+    let selectedLocation = null;
+    let basePrice = 0;
+    let multiplier = 1;
+    let locationFee = 0;
+
+    const steps = estimator.querySelectorAll('.estimator__step');
+    const stepIndicators = estimator.querySelectorAll('.estimator__step-indicator');
+    const progressBar = estimator.querySelector('.estimator__progress-fill');
+    const resultSection = estimator.querySelector('.estimator__result');
+    const locationSelect = document.getElementById('location-select');
+
+    // Step 1: Service Selection
+    const serviceOptions = estimator.querySelectorAll('[data-step="1"] .estimator__option');
+    serviceOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            // Remove active state from other options
+            serviceOptions.forEach(opt => opt.classList.remove('selected'));
+            
+            // Add active state to selected option
+            option.classList.add('selected');
+            
+            // Get service data
+            selectedService = option.dataset.service;
+            basePrice = parseInt(option.dataset.basePrice);
+            
+            // Update breakdown
+            document.getElementById('breakdown-service').textContent = option.querySelector('h4').textContent;
+            
+            // Move to next step
+            setTimeout(() => goToStep(2), 500);
+        });
+    });
+
+    // Step 2: Amount Selection
+    const amountOptions = estimator.querySelectorAll('[data-step="2"] .estimator__option');
+    amountOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            // Remove active state from other options
+            amountOptions.forEach(opt => opt.classList.remove('selected'));
+            
+            // Add active state to selected option
+            option.classList.add('selected');
+            
+            // Get amount data
+            selectedAmount = option.dataset.amount;
+            multiplier = parseFloat(option.dataset.multiplier);
+            
+            // Update breakdown
+            document.getElementById('breakdown-amount').textContent = option.querySelector('h4').textContent;
+            
+            // Move to next step
+            setTimeout(() => goToStep(3), 500);
+        });
+    });
+
+    // Step 3: Location Selection
+    if (locationSelect) {
+        locationSelect.addEventListener('change', (e) => {
+            const selectedOption = e.target.options[e.target.selectedIndex];
+            if (selectedOption.value) {
+                selectedLocation = selectedOption.value;
+                locationFee = parseInt(selectedOption.dataset.fee);
+                
+                // Update breakdown
+                document.getElementById('breakdown-location').textContent = selectedOption.textContent;
+                
+                // Calculate and show result
+                setTimeout(() => showResult(), 500);
+            }
+        });
+    }
+
+    function goToStep(stepNumber) {
+        // Update current step
+        currentStep = stepNumber;
+        
+        // Hide all steps
+        steps.forEach(step => step.classList.remove('estimator__step--active'));
+        
+        // Show target step
+        const targetStep = estimator.querySelector(`[data-step="${stepNumber}"]`);
+        if (targetStep) {
+            targetStep.classList.add('estimator__step--active');
+        }
+        
+        // Update progress bar
+        const progress = (stepNumber - 1) / 2 * 100;
+        if (progressBar) {
+            progressBar.style.width = `${progress}%`;
+        }
+        
+        // Update step indicators
+        stepIndicators.forEach((indicator, index) => {
+            indicator.classList.toggle('estimator__step-indicator--active', index < stepNumber);
+            indicator.classList.toggle('estimator__step-indicator--completed', index < stepNumber - 1);
+        });
+    }
+
+    function showResult() {
+        // Calculate total price
+        const subtotal = basePrice * multiplier;
+        const total = subtotal + locationFee;
+        
+        // Update price display
+        const priceAmount = estimator.querySelector('.estimator__price-amount');
+        if (priceAmount) {
+            priceAmount.textContent = `$${total}`;
+        }
+        
+        // Hide all steps and show result
+        steps.forEach(step => step.classList.remove('estimator__step--active'));
+        if (resultSection) {
+            resultSection.classList.add('estimator__result--active');
+        }
+        
+        // Update progress to 100%
+        if (progressBar) {
+            progressBar.style.width = '100%';
+        }
+        
+        // Mark all indicators as completed
+        stepIndicators.forEach(indicator => {
+            indicator.classList.add('estimator__step-indicator--completed');
+            indicator.classList.remove('estimator__step-indicator--active');
+        });
+    }
+
+    // Reset functionality
+    const resetButton = estimator.querySelector('.estimator__reset');
+    if (resetButton) {
+        resetButton.addEventListener('click', () => {
+            // Reset all variables
+            currentStep = 1;
+            selectedService = null;
+            selectedAmount = null;
+            selectedLocation = null;
+            basePrice = 0;
+            multiplier = 1;
+            locationFee = 0;
+            
+            // Clear selections
+            estimator.querySelectorAll('.estimator__option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            if (locationSelect) {
+                locationSelect.value = '';
+            }
+            
+            // Clear breakdown
+            document.getElementById('breakdown-service').textContent = '-';
+            document.getElementById('breakdown-amount').textContent = '-';
+            document.getElementById('breakdown-location').textContent = '-';
+            
+            // Reset UI
+            steps.forEach(step => step.classList.remove('estimator__step--active'));
+            steps[0].classList.add('estimator__step--active');
+            
+            if (resultSection) {
+                resultSection.classList.remove('estimator__result--active');
+            }
+            
+            if (progressBar) {
+                progressBar.style.width = '0%';
+            }
+            
+            stepIndicators.forEach((indicator, index) => {
+                indicator.classList.toggle('estimator__step-indicator--active', index === 0);
+                indicator.classList.remove('estimator__step-indicator--completed');
+            });
+        });
     }
 }
 
@@ -861,9 +1082,18 @@ document.addEventListener('DOMContentLoaded', () => {
             nameInput.setAttribute('autocomplete', 'name');
         }
         
+        // Address input improvements
+        const addressInput = document.getElementById('address');
+        if (addressInput) {
+            addressInput.setAttribute('autocomplete', 'street-address');
+        }
+        
         // Initialize form auto-save
         initFormAutoSave();
     }
+    
+    // Initialize pricing estimator
+    initPricingEstimator();
     
     // TEMPORARILY DISABLED FOR DEBUGGING
     /*
@@ -962,7 +1192,7 @@ document.addEventListener('visibilitychange', () => {
     }
 });
 
-// Add CSS for form messages
+// Add CSS for form messages and pricing estimator
 const style = document.createElement('style');
 style.textContent = `
     .form__message {
@@ -1004,6 +1234,562 @@ style.textContent = `
     
     .lazy.loaded {
         opacity: 1;
+    }
+    
+    /* Pricing Estimator Interactive Styles */
+    .estimator__step {
+        display: none;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.3s ease;
+    }
+    
+    .estimator__step--active {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .estimator__option {
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: 2px solid transparent;
+    }
+    
+    .estimator__option:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        border-color: var(--primary-color-light);
+    }
+    
+    .estimator__option.selected {
+        border-color: var(--primary-color);
+        background: linear-gradient(135deg, var(--primary-color-light), var(--surface-color));
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(34, 197, 94, 0.2);
+    }
+    
+    .estimator__option.selected .estimator__option-content h4 {
+        color: var(--primary-color);
+    }
+    
+    .estimator__result {
+        display: none;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease;
+    }
+    
+    .estimator__result--active {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .estimator__progress-fill {
+        width: 0%;
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary-color), var(--primary-color-light));
+        border-radius: inherit;
+        transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .estimator__step-indicator {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--neutral-200);
+        color: var(--text-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .estimator__step-indicator--active {
+        background: var(--primary-color);
+        color: white;
+        transform: scale(1.1);
+    }
+    
+    .estimator__step-indicator--completed {
+        background: var(--success);
+        color: white;
+    }
+    
+    .estimator__step-indicator--completed::before {
+        content: "✓";
+        font-size: 18px;
+    }
+    
+    .estimator__price-amount {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        animation: pricePopIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    @keyframes pricePopIn {
+        0% {
+            opacity: 0;
+            transform: scale(0.3);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+    
+    .estimator__select {
+        width: 100%;
+        padding: 1rem;
+        border: 2px solid var(--neutral-200);
+        border-radius: var(--border-radius);
+        background: var(--surface-color);
+        color: var(--text-primary);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .estimator__select:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+    }
+    
+    /* Navigation Dropdown Styles */
+    .nav__item--dropdown {
+        position: relative;
+    }
+    
+    .nav__dropdown-arrow {
+        font-size: 0.8rem;
+        margin-left: 0.5rem;
+        transition: transform 0.3s ease;
+    }
+    
+    .nav__item--dropdown:hover .nav__dropdown-arrow {
+        transform: rotate(180deg);
+    }
+    
+    .nav__dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        min-width: 280px;
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1000;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .nav__item--dropdown:hover .nav__dropdown {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    
+    .nav__dropdown-item {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .nav__dropdown-link {
+        display: flex;
+        align-items: center;
+        padding: 1rem 1.25rem;
+        text-decoration: none;
+        color: var(--text-primary);
+        transition: all 0.2s ease;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .nav__dropdown-link:hover {
+        background: var(--primary-color-light);
+        color: var(--primary-color);
+    }
+    
+    .nav__dropdown-item:last-child .nav__dropdown-link {
+        border-bottom: none;
+    }
+    
+    .nav__service-icon {
+        font-size: 1.5rem;
+        margin-right: 1rem;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--primary-color-light);
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+    
+    .nav__dropdown-link:hover .nav__service-icon {
+        background: var(--primary-color);
+        transform: scale(1.1);
+    }
+    
+    .nav__service-info {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .nav__service-title {
+        font-weight: 600;
+        font-size: 0.95rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .nav__service-desc {
+        font-size: 0.8rem;
+        color: var(--text-light);
+    }
+    
+    .nav__dropdown-link:hover .nav__service-desc {
+        color: var(--primary-color-dark);
+    }
+    
+    /* Mobile dropdown adjustments */
+    @media (max-width: 768px) {
+        .nav__dropdown {
+            position: static;
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            box-shadow: none;
+            border: none;
+            background: transparent;
+            margin-left: 1rem;
+        }
+        
+        .nav__dropdown-arrow {
+            display: none;
+        }
+        
+        .nav__dropdown-link {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav__dropdown-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav__service-icon {
+            background: rgba(34, 197, 94, 0.2);
+        }
+        
+        .nav__service-title,
+        .nav__service-desc {
+            color: white;
+        }
+    }
+    
+    /* Enhanced About Section Styles */
+    .about__story {
+        margin-bottom: 4rem;
+    }
+    
+    .about__story-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+    }
+    
+    .story__timeline {
+        margin-top: 2rem;
+    }
+    
+    .timeline__item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+        position: relative;
+    }
+    
+    .timeline__item:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        left: 30px;
+        top: 60px;
+        width: 2px;
+        height: calc(100% + 1rem);
+        background: var(--primary-color-light);
+    }
+    
+    .timeline__year {
+        background: var(--primary-color);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-right: 1.5rem;
+        flex-shrink: 0;
+        min-width: 60px;
+        text-align: center;
+    }
+    
+    .timeline__content h3 {
+        color: var(--text-primary);
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    
+    .timeline__content p {
+        color: var(--text-light);
+        line-height: 1.6;
+    }
+    
+    .story__image-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        height: 400px;
+    }
+    
+    .story__image {
+        border-radius: 12px;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+    
+    .story__image:hover {
+        transform: scale(1.02);
+    }
+    
+    .story__image--main {
+        grid-row: 1 / 3;
+    }
+    
+    .story__image--family {
+        grid-column: 2;
+        grid-row: 1;
+    }
+    
+    .story__image--fleet {
+        grid-column: 2;
+        grid-row: 2;
+    }
+    
+    .about__team {
+        margin: 4rem 0;
+        padding: 3rem 0;
+        background: var(--surface-color);
+        border-radius: 16px;
+    }
+    
+    .team__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .team__member {
+        background: white;
+        border-radius: 16px;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+    
+    .team__member:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .team__member-image {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 1.5rem;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid var(--primary-color-light);
+    }
+    
+    .team__member-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .team__member-name {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+    }
+    
+    .team__member-role {
+        color: var(--primary-color);
+        font-weight: 500;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+    }
+    
+    .team__member-bio {
+        color: var(--text-light);
+        line-height: 1.6;
+        font-size: 0.95rem;
+    }
+    
+    .about__features {
+        margin-top: 4rem;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .about__story-content {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .story__image-grid {
+            height: 300px;
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+        }
+        
+        .story__image--main {
+            grid-row: 1;
+        }
+        
+        .story__image--family {
+            grid-column: 1;
+            grid-row: 2;
+        }
+        
+        .story__image--fleet {
+            grid-column: 1;
+            grid-row: 3;
+        }
+        
+        .timeline__item {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .timeline__year {
+            margin-bottom: 1rem;
+            margin-right: 0;
+        }
+        
+        .timeline__item:not(:last-child)::after {
+            display: none;
+        }
+        
+        .team__grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .about__team {
+            margin: 2rem 0;
+            padding: 2rem 1rem;
+        }
+    }
+    
+    /* Enhanced Form Styles */
+    .btn-loading {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .loading-spinner {
+        width: 18px;
+        height: 18px;
+        border: 2px solid transparent;
+        border-top: 2px solid currentColor;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+    
+    .form__privacy {
+        font-size: 0.8rem;
+        color: var(--text-light);
+        text-align: center;
+        margin-top: 1rem;
+        line-height: 1.4;
+        padding: 0 1rem;
+    }
+    
+    .form__group {
+        position: relative;
+        margin-bottom: 1.5rem;
+    }
+    
+    .form__input:focus + .form__label,
+    .form__input:not(:placeholder-shown) + .form__label {
+        transform: translateY(-12px) scale(0.8);
+        color: var(--primary-color);
+        background: white;
+        padding: 0 0.5rem;
+    }
+    
+    .form__input {
+        padding: 1rem;
+        border: 2px solid var(--neutral-200);
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+    
+    .form__input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+    }
+    
+    .form__input::placeholder {
+        color: var(--text-light);
+        opacity: 0.7;
+    }
+    
+    .form__label {
+        position: absolute;
+        left: 1rem;
+        top: 1rem;
+        color: var(--text-light);
+        font-size: 1rem;
+        pointer-events: none;
+        transition: all 0.3s ease;
+        background: transparent;
     }
 `;
 document.head.appendChild(style);
