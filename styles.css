@@ -925,7 +925,7 @@ select.form__input {
   font-size: 1.5rem;
   box-shadow: var(--box-shadow-green-lg);
   transition: all 0.3s ease;
-  z-index: 999;
+  z-index: 500;
   opacity: 0;
   visibility: hidden;
   transform: translateY(100px);
@@ -3604,7 +3604,7 @@ html {
   opacity: 0;
   visibility: hidden;
   transform: translateY(20px);
-  z-index: 999;
+  z-index: 500;
   font-size: 1.2rem;
 }
 
