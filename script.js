@@ -865,6 +865,8 @@ document.addEventListener('DOMContentLoaded', () => {
         initFormAutoSave();
     }
     
+    // TEMPORARILY DISABLED FOR DEBUGGING
+    /*
     // Initialize other features
     createIntersectionObserver();
     initClickToCall();
@@ -883,6 +885,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Show page loader on initial load
     showPageLoader();
+    */
 });
 
 // Consolidated scroll event listener with throttling
@@ -913,7 +916,8 @@ function handleScroll() {
     }
 }
 
-window.addEventListener('scroll', handleScroll, { passive: true });
+// TEMPORARILY DISABLED FOR DEBUGGING
+// window.addEventListener('scroll', handleScroll, { passive: true });
 
 // Close mobile menu when clicking outside
 document.addEventListener('click', (e) => {
