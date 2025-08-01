@@ -81,14 +81,20 @@ function smoothScroll(e) {
     const targetElement = document.getElementById(targetId);
     
     if (targetElement) {
-        const header = document.querySelector('.header');
-        const headerHeight = header ? header.offsetHeight : 80; // Default fallback
-        const targetPosition = Math.max(0, targetElement.offsetTop - headerHeight - 20); // Add 20px buffer and prevent negative values
-        
-        window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-        });
+        try {
+            const header = document.querySelector('.header');
+            const headerHeight = header ? header.offsetHeight : 80; // Default fallback
+            const targetPosition = Math.max(0, targetElement.offsetTop - headerHeight - 20); // Add 20px buffer and prevent negative values
+            
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        } catch (error) {
+            console.error('Smooth scroll error:', error);
+            // Fallback to default browser behavior
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+        }
     }
     
     closeMobileMenu();
@@ -809,7 +815,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Navigation links
+    // Navigation links - TEMPORARILY DISABLED FOR DEBUGGING
+    /*
     navLinks.forEach(link => {
         const href = link.getAttribute('href');
         if (href && (href.startsWith('#') || href.includes('#'))) {
@@ -825,6 +832,7 @@ document.addEventListener('DOMContentLoaded', () => {
     allAnchorLinks.forEach(link => {
         link.addEventListener('click', smoothScroll);
     });
+    */
     
     
     // Form submission with error handling
