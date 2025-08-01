@@ -3897,17 +3897,24 @@ textarea:focus {
     margin: 0 !important;
     opacity: 0 !important;
     transform: translateY(20px) !important;
-    animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
   }
   
-  .nav__menu.show-menu .nav__item:nth-child(1) { animation-delay: 0.1s !important; }
-  .nav__menu.show-menu .nav__item:nth-child(2) { animation-delay: 0.15s !important; }
-  .nav__menu.show-menu .nav__item:nth-child(3) { animation-delay: 0.2s !important; }
-  .nav__menu.show-menu .nav__item:nth-child(4) { animation-delay: 0.25s !important; }
-  .nav__menu.show-menu .nav__item:nth-child(5) { animation-delay: 0.3s !important; }
-  .nav__menu.show-menu .nav__item:nth-child(6) { animation-delay: 0.35s !important; }
-  .nav__menu.show-menu .nav__item:nth-child(7) { animation-delay: 0.4s !important; }
-  .nav__menu.show-menu .nav__item:nth-child(8) { animation-delay: 0.45s !important; }
+  /* Show items when menu is open */
+  .nav__menu.show-menu .nav__item {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+  
+  .nav__menu.show-menu .nav__item:nth-child(1) { transition-delay: 0.1s !important; }
+  .nav__menu.show-menu .nav__item:nth-child(2) { transition-delay: 0.15s !important; }
+  .nav__menu.show-menu .nav__item:nth-child(3) { transition-delay: 0.2s !important; }
+  .nav__menu.show-menu .nav__item:nth-child(4) { transition-delay: 0.25s !important; }
+  .nav__menu.show-menu .nav__item:nth-child(5) { transition-delay: 0.3s !important; }
+  .nav__menu.show-menu .nav__item:nth-child(6) { transition-delay: 0.35s !important; }
+  .nav__menu.show-menu .nav__item:nth-child(7) { transition-delay: 0.4s !important; }
+  .nav__menu.show-menu .nav__item:nth-child(8) { transition-delay: 0.45s !important; }
+  .nav__menu.show-menu .nav__item:nth-child(9) { transition-delay: 0.5s !important; }
   
   @keyframes slideInUp {
     to {
