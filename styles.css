@@ -3958,12 +3958,21 @@ textarea:focus {
     overflow-x: hidden !important;
     background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%) !important;
     background-color: #000000 !important;
+    background-attachment: fixed !important;
+    position: relative !important;
   }
   
   html {
     height: -webkit-fill-available !important;
     background: #000000 !important;
     background-color: #000000 !important;
+    scroll-behavior: smooth !important;
+  }
+  
+  /* Fix mobile content spacing */
+  .main {
+    padding-top: var(--header-height) !important;
+    background: transparent !important;
   }
   
   /* Force all mobile elements to have dark backgrounds */
@@ -3972,9 +3981,14 @@ textarea:focus {
   }
   
   .header {
-    background: rgba(0, 0, 0, 0.95) !important;
+    background: rgba(0, 0, 0, 0.98) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
   }
   
   .main {
@@ -3986,16 +4000,16 @@ textarea:focus {
   }
   
   /* Better touch targets */
-  .btn,
-  .nav__link,
+  .btn:not(.nav__link),
   .service-card__cta,
   .container-card__cta {
-    min-height: 48px;
-    min-width: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-3) var(--space-4);
+    min-height: 48px !important;
+    min-width: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: var(--space-3) var(--space-4) !important;
+    touch-action: manipulation !important;
   }
   
   /* Improved form inputs for mobile */
@@ -4221,13 +4235,7 @@ textarea:focus {
   user-select: text;
 }
 
-/* Performance optimizations */
-* {
-  /* Hardware acceleration for animations */
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-}
-
+/* Performance optimizations - REMOVE CONFLICTING TRANSFORMS */
 .service-card,
 .container-card,
 .btn {

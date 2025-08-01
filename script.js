@@ -9,19 +9,15 @@ function toggleMobileMenu(e) {
     e.preventDefault();
     e.stopPropagation();
     
-    console.log('🍔 Menu toggle clicked!');
-    
     // Get fresh references every time
     const menu = document.getElementById('nav-menu');
     const toggle = document.getElementById('nav-toggle');
     
     if (!menu || !toggle) {
-        console.error('❌ Menu elements missing:', { menu, toggle });
         return;
     }
     
     const isCurrentlyOpen = menu.classList.contains('show-menu');
-    console.log('📱 Currently open:', isCurrentlyOpen);
     
     if (isCurrentlyOpen) {
         // Close menu - FORCE STYLES
@@ -32,7 +28,6 @@ function toggleMobileMenu(e) {
         menu.style.visibility = 'hidden';
         menu.style.transform = 'translateX(-100%)';
         document.body.style.overflow = '';
-        console.log('✅ Menu closed');
     } else {
         // Open menu - FORCE STYLES
         menu.classList.add('show-menu');
@@ -49,7 +44,6 @@ function toggleMobileMenu(e) {
         menu.style.background = '#000000';
         menu.style.zIndex = '99999';
         document.body.style.overflow = 'hidden';
-        console.log('✅ Menu opened with forced styles');
     }
     
     // Force a repaint
@@ -792,60 +786,24 @@ function fixMobileFormLabels() {
 
 // Event listeners
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM loaded, setting up mobile menu...');
-    
-    // MOBILE MENU SETUP - COMPLETELY REBUILT
+    // MOBILE MENU SETUP
     const hamburger = document.getElementById('nav-toggle');
     const menu = document.getElementById('nav-menu');
     
-    console.log('Found elements:', { hamburger, menu });
-    console.log('Menu HTML:', menu ? menu.outerHTML.substring(0, 200) + '...' : 'NULL');
-    
-    // TEST: Force show menu for 2 seconds on page load to verify it works
-    if (menu) {
-        setTimeout(() => {
-            console.log('🧪 TESTING: Showing menu for 2 seconds...');
-            menu.style.left = '0';
-            menu.style.opacity = '1';
-            menu.style.visibility = 'visible';
-            menu.style.display = 'flex';
-            menu.style.position = 'fixed';
-            menu.style.top = '0';
-            menu.style.width = '100vw';
-            menu.style.height = '100vh';
-            menu.style.background = '#000000';
-            menu.style.zIndex = '99999';
-            
-            setTimeout(() => {
-                console.log('🧪 TESTING: Hiding menu again');
-                menu.style.left = '-100vw';
-                menu.style.opacity = '0';
-                menu.style.visibility = 'hidden';
-            }, 2000);
-        }, 1000);
-    }
-    
-    if (hamburger) {
-        // Remove any existing listeners
-        hamburger.removeEventListener('click', toggleMobileMenu);
-        
-        // Add fresh listener
+    if (hamburger && menu) {
+        // Add click listener
         hamburger.addEventListener('click', toggleMobileMenu);
         hamburger.addEventListener('touchstart', toggleMobileMenu, { passive: false });
         
-        console.log('Mobile menu listeners attached');
-    } else {
-        console.error('Hamburger button not found!');
-    }
-    
-    // Close menu when clicking menu links
-    if (menu) {
+        // Close menu when clicking menu links
         const menuLinks = menu.querySelectorAll('.nav__link');
         menuLinks.forEach(link => {
             link.addEventListener('click', () => {
-                console.log('Menu link clicked, closing menu');
                 menu.classList.remove('show-menu');
                 hamburger.classList.remove('active');
+                menu.style.left = '-100vw';
+                menu.style.opacity = '0';
+                menu.style.visibility = 'hidden';
                 document.body.style.overflow = '';
             });
         });
@@ -915,30 +873,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Consolidated scroll event listener with throttling
 let scrollTimeout;
-window.addEventListener('scroll', () => {
-    // Throttle scroll events for better performance
-    if (scrollTimeout) return;
-    
-    scrollTimeout = setTimeout(() => {
-        try {
-            updateActiveNavLink();
-            updateHeaderBackground();
-            
-            // Handle scroll-to-top button visibility
-            if (window.scrollToTopBtn) {
-                if (window.scrollY > 300) {
-                    window.scrollToTopBtn.classList.add('visible');
-                } else {
-                    window.scrollToTopBtn.classList.remove('visible');
+let ticking = false;
+
+function handleScroll() {
+    if (!ticking) {
+        requestAnimationFrame(() => {
+            try {
+                updateActiveNavLink();
+                updateHeaderBackground();
+                
+                // Handle scroll-to-top button visibility
+                if (window.scrollToTopBtn) {
+                    if (window.scrollY > 300) {
+                        window.scrollToTopBtn.classList.add('visible');
+                    } else {
+                        window.scrollToTopBtn.classList.remove('visible');
+                    }
                 }
+            } catch (error) {
+                // Silent error handling
             }
-        } catch (error) {
-            console.warn('Scroll handler error:', error);
-        } finally {
-            scrollTimeout = null;
-        }
-    }, 10);
-}, { passive: true });
+            ticking = false;
+        });
+        ticking = true;
+    }
+}
+
+window.addEventListener('scroll', handleScroll, { passive: true });
 
 // Close mobile menu when clicking outside
 document.addEventListener('click', (e) => {
