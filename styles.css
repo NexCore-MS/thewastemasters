@@ -3849,61 +3849,85 @@ textarea:focus {
     border-radius: 2px !important;
   }
   
-  /* STEP 2: Hide menu by default */
+  /* STEP 2: Hide menu by default - SUPER VISIBLE VERSION */
   .nav__menu {
     position: fixed !important;
     top: 0 !important;
-    left: -100% !important;
-    width: 100% !important;
+    left: -100vw !important;
+    width: 100vw !important;
     height: 100vh !important;
-    background: rgba(0, 0, 0, 0.98) !important;
+    background: #000000 !important;
+    background-color: #000000 !important;
     flex-direction: column !important;
     justify-content: center !important;
     align-items: center !important;
-    padding: 40px 20px !important;
-    gap: 20px !important;
-    transition: left 0.3s ease !important;
-    z-index: 9998 !important;
+    padding: 60px 20px !important;
+    gap: 30px !important;
+    transition: left 0.4s ease-in-out !important;
+    z-index: 99999 !important;
     list-style: none !important;
     margin: 0 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translateX(-100%) !important;
   }
   
-  /* STEP 3: Show menu when active */
+  /* STEP 3: Show menu when active - FORCE VISIBLE */
   .nav__menu.show-menu {
     left: 0 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateX(0%) !important;
+    display: flex !important;
   }
   
-  /* STEP 4: Style menu items */
+  /* STEP 4: Style menu items - SUPER VISIBLE */
   .nav__item {
-    width: 90% !important;
-    margin: 10px 0 !important;
+    width: 85% !important;
+    max-width: 300px !important;
+    margin: 15px 0 !important;
+    display: block !important;
   }
   
   .nav__link {
     display: block !important;
-    padding: 15px 20px !important;
+    padding: 20px 25px !important;
     color: #ffffff !important;
-    background: rgba(34, 197, 94, 0.1) !important;
-    border: 1px solid rgba(34, 197, 94, 0.3) !important;
-    border-radius: 8px !important;
+    background: #22c55e !important;
+    border: 2px solid #22c55e !important;
+    border-radius: 12px !important;
     text-align: center !important;
     text-decoration: none !important;
-    font-size: 18px !important;
-    font-weight: 600 !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
     transition: all 0.3s ease !important;
+    min-height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3) !important;
   }
   
   .nav__link:hover,
-  .nav__link:active {
-    background: #22c55e !important;
+  .nav__link:active,
+  .nav__link:focus {
+    background: #16a34a !important;
     color: white !important;
-    transform: translateY(-2px) !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.5) !important;
   }
   
   .nav__cta {
-    background: #22c55e !important;
-    color: white !important;
-    border: 1px solid #22c55e !important;
+    background: #ef4444 !important;
+    border: 2px solid #ef4444 !important;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3) !important;
+  }
+  
+  .nav__cta:hover,
+  .nav__cta:active {
+    background: #dc2626 !important;
+    border: 2px solid #dc2626 !important;
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5) !important;
   }
   
   /* STEP 5: Hamburger animation */

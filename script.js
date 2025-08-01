@@ -24,17 +24,32 @@ function toggleMobileMenu(e) {
     console.log('📱 Currently open:', isCurrentlyOpen);
     
     if (isCurrentlyOpen) {
-        // Close menu
+        // Close menu - FORCE STYLES
         menu.classList.remove('show-menu');
         toggle.classList.remove('active');
+        menu.style.left = '-100vw';
+        menu.style.opacity = '0';
+        menu.style.visibility = 'hidden';
+        menu.style.transform = 'translateX(-100%)';
         document.body.style.overflow = '';
         console.log('✅ Menu closed');
     } else {
-        // Open menu  
+        // Open menu - FORCE STYLES
         menu.classList.add('show-menu');
         toggle.classList.add('active');
+        menu.style.left = '0';
+        menu.style.opacity = '1';
+        menu.style.visibility = 'visible';
+        menu.style.transform = 'translateX(0%)';
+        menu.style.display = 'flex';
+        menu.style.position = 'fixed';
+        menu.style.top = '0';
+        menu.style.width = '100vw';
+        menu.style.height = '100vh';
+        menu.style.background = '#000000';
+        menu.style.zIndex = '99999';
         document.body.style.overflow = 'hidden';
-        console.log('✅ Menu opened');
+        console.log('✅ Menu opened with forced styles');
     }
     
     // Force a repaint
@@ -784,6 +799,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const menu = document.getElementById('nav-menu');
     
     console.log('Found elements:', { hamburger, menu });
+    console.log('Menu HTML:', menu ? menu.outerHTML.substring(0, 200) + '...' : 'NULL');
+    
+    // TEST: Force show menu for 2 seconds on page load to verify it works
+    if (menu) {
+        setTimeout(() => {
+            console.log('🧪 TESTING: Showing menu for 2 seconds...');
+            menu.style.left = '0';
+            menu.style.opacity = '1';
+            menu.style.visibility = 'visible';
+            menu.style.display = 'flex';
+            menu.style.position = 'fixed';
+            menu.style.top = '0';
+            menu.style.width = '100vw';
+            menu.style.height = '100vh';
+            menu.style.background = '#000000';
+            menu.style.zIndex = '99999';
+            
+            setTimeout(() => {
+                console.log('🧪 TESTING: Hiding menu again');
+                menu.style.left = '-100vw';
+                menu.style.opacity = '0';
+                menu.style.visibility = 'hidden';
+            }, 2000);
+        }, 1000);
+    }
     
     if (hamburger) {
         // Remove any existing listeners
