@@ -2,13 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <title>The Waste Masters - Professional Junk Removal & Dumpster Rental Miami</title>
     <meta name="description" content="Miami's trusted waste removal service for 30+ years. Junk removal, dumpster rental, and eco-friendly disposal. Licensed & insured. Call for instant pricing!">
     <link rel="stylesheet" href="styles.css">
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#22c55e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="The Waste Masters">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- Preload critical resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="newlogo.jpg" as="image">
+    
+    <!-- Touch Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="newlogo.jpg">
+    <link rel="icon" type="image/png" sizes="32x32" href="newlogo.jpg">
+    <link rel="icon" type="image/png" sizes="16x16" href="newlogo.jpg">
 </head>
 <body>
     <!-- Header -->
@@ -227,6 +241,9 @@
                 </div>
 
                 <div class="estimator__form">
+                    <div class="swipe-indicator" id="swipe-indicator">
+                        ← Swipe to navigate →
+                    </div>
                     <div class="estimator__step estimator__step--active" data-step="1">
                         <h3 class="estimator__step-title">What service do you need?</h3>
                         <div class="estimator__options">
@@ -398,51 +415,6 @@
                     </div>
                 </div>
                 
-                <!-- Team Section -->
-                <div class="about__team">
-                    <div class="section__header">
-                        <h2 class="section__title">Meet Our Team</h2>
-                        <p class="section__subtitle">
-                            The faces behind Miami's most trusted waste removal service.
-                        </p>
-                    </div>
-                    
-                    <div class="team__grid">
-                        <div class="team__member">
-                            <div class="team__member-image">
-                                <img src="team-member-owner.jpg" alt="Company owner and founder - 30 years of experience in waste management" loading="lazy">
-                            </div>
-                            <div class="team__member-info">
-                                <h3 class="team__member-name">Roberto Martinez</h3>
-                                <p class="team__member-role">Founder & Owner</p>
-                                <p class="team__member-bio">Started The Waste Masters in 1994 with a vision to provide honest, reliable service to Miami families. Still personally oversees every major project.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="team__member">
-                            <div class="team__member-image">
-                                <img src="team-member-operations.jpg" alt="Operations manager ensuring quality service and customer satisfaction" loading="lazy">
-                            </div>
-                            <div class="team__member-info">
-                                <h3 class="team__member-name">Maria Rodriguez</h3>
-                                <p class="team__member-role">Operations Manager</p>
-                                <p class="team__member-bio">Coordinates our daily operations and ensures every customer receives the exceptional service we're known for. 15 years with the company.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="team__member">
-                            <div class="team__member-image">
-                                <img src="team-member-crew-lead.jpg" alt="Crew leader and equipment specialist with professional junk removal experience" loading="lazy">
-                            </div>
-                            <div class="team__member-info">
-                                <h3 class="team__member-name">Carlos Fernandez</h3>
-                                <p class="team__member-role">Lead Crew Supervisor</p>
-                                <p class="team__member-bio">Leads our professional crew with expertise in safe removal techniques and customer service. Certified in hazardous material handling.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Why Choose Us -->
                 <div class="about__features">
                     <div class="section__header">
@@ -844,6 +816,12 @@
 
     <!-- Page Loader -->
     <div class="page-loader" id="pageLoader"></div>
+    
+    <!-- Mobile Loading Indicator -->
+    <div class="mobile-loading" id="mobileLoading">
+        <div class="loading-spinner"></div>
+        <span>Loading...</span>
+    </div>
 
     <script src="script.js"></script>
 </body>

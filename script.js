@@ -243,6 +243,11 @@ function handleFormSubmission(e) {
     btnLoading.style.display = 'inline-flex';
     submitButton.disabled = true;
     
+    // Show mobile loading if on mobile device
+    if (window.innerWidth <= 768) {
+        showMobileLoading('Sending your request...');
+    }
+    
     // Submit to Formspree
     fetch(estimateForm.action, {
         method: 'POST',
@@ -289,6 +294,9 @@ function handleFormSubmission(e) {
         btnText.style.display = 'inline';
         btnLoading.style.display = 'none';
         submitButton.disabled = false;
+        
+        // Hide mobile loading
+        hideMobileLoading();
     });
 }
 
@@ -625,6 +633,31 @@ function initPricingEstimator() {
             indicator.classList.toggle('estimator__step-indicator--completed', index < stepNumber - 1);
         });
     }
+    
+    // Hide swipe indicator after first interaction on mobile
+    const swipeIndicator = document.getElementById('swipe-indicator');
+    let hasInteracted = false;
+    
+    function hideSwipeIndicator() {
+        if (!hasInteracted && swipeIndicator) {
+            swipeIndicator.style.display = 'none';
+            hasInteracted = true;
+        }
+    }
+    
+    // Hide indicator on any estimator interaction
+    estimator.addEventListener('click', hideSwipeIndicator);
+    estimator.addEventListener('touchstart', hideSwipeIndicator);
+    
+    // Expose estimator instance for swipe functionality
+    window.pricingEstimatorInstance = {
+        goToStep: goToStep,
+        getCurrentStep: () => currentStep,
+        getSelectedService: () => selectedService,
+        getSelectedAmount: () => selectedAmount,
+        getSelectedLocation: () => selectedLocation,
+        hideSwipeIndicator: hideSwipeIndicator
+    };
 
     function showResult() {
         // Calculate total price
@@ -878,7 +911,7 @@ function initPerformanceMonitoring() {
     }
 }
 
-// Mobile-specific optimizations
+// Enhanced mobile optimizations
 function initMobileOptimizations() {
     // Detect if device is mobile
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -991,6 +1024,131 @@ function initMobileOptimizations() {
                 element.style.transform = 'scale(1)';
             }, { passive: true });
         });
+        
+        // Add swipe gestures for pricing estimator
+        initSwipeGestures();
+        
+        // Add pull-to-refresh prevention
+        document.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 1) return;
+            
+            const touch = e.touches[0];
+            const element = document.elementFromPoint(touch.clientX, touch.clientY);
+            
+            // Prevent pull-to-refresh when not at top of page
+            if (window.scrollY > 0 && e.cancelable) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+        
+        // Optimize scroll performance on mobile
+        let scrollTimer = null;
+        document.addEventListener('scroll', () => {
+            if (scrollTimer !== null) {
+                clearTimeout(scrollTimer);
+            }
+            scrollTimer = setTimeout(() => {
+                // Hide address bar on scroll down
+                if (window.scrollY > 100) {
+                    window.scrollTo(window.scrollX, window.scrollY + 1);
+                    window.scrollTo(window.scrollX, window.scrollY - 1);
+                }
+            }, 150);
+        }, { passive: true });
+    }
+}
+
+// Swipe gestures for pricing estimator
+function initSwipeGestures() {
+    const estimator = document.querySelector('.pricing-estimator');
+    if (!estimator) return;
+    
+    let startX = 0;
+    let startY = 0;
+    let isTracking = false;
+    const minSwipeDistance = 50;
+    
+    estimator.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            isTracking = true;
+        }
+    }, { passive: true });
+    
+    estimator.addEventListener('touchmove', (e) => {
+        if (!isTracking || e.touches.length !== 1) return;
+        
+        const currentX = e.touches[0].clientX;
+        const currentY = e.touches[0].clientY;
+        const deltaX = currentX - startX;
+        const deltaY = currentY - startY;
+        
+        // Prevent default if horizontal swipe is more significant than vertical
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+    
+    estimator.addEventListener('touchend', (e) => {
+        if (!isTracking) return;
+        
+        const endX = e.changedTouches[0].clientX;
+        const endY = e.changedTouches[0].clientY;
+        const deltaX = endX - startX;
+        const deltaY = endY - startY;
+        
+        // Only process if horizontal swipe is more significant than vertical
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
+            const activeStep = estimator.querySelector('.estimator__step--active');
+            if (activeStep) {
+                const currentStepNum = parseInt(activeStep.dataset.step);
+                
+                if (deltaX > 0 && currentStepNum > 1) {
+                    // Swipe right - go to previous step
+                    goToPreviousStep(currentStepNum);
+                } else if (deltaX < 0 && currentStepNum < 3) {
+                    // Swipe left - go to next step (if selection made)
+                    const hasSelection = activeStep.querySelector('.estimator__option.selected');
+                    if (hasSelection) {
+                        goToNextStep(currentStepNum);
+                    }
+                }
+            }
+        }
+        
+        isTracking = false;
+    }, { passive: true });
+    
+    function goToPreviousStep(currentStep) {
+        const estimatorInstance = window.pricingEstimatorInstance;
+        if (estimatorInstance && currentStep > 1) {
+            estimatorInstance.goToStep(currentStep - 1);
+        }
+    }
+    
+    function goToNextStep(currentStep) {
+        const estimatorInstance = window.pricingEstimatorInstance;
+        if (estimatorInstance && currentStep < 3) {
+            estimatorInstance.goToStep(currentStep + 1);
+        }
+    }
+}
+
+// Mobile loading indicator
+function showMobileLoading(message = 'Loading...') {
+    const loader = document.getElementById('mobileLoading');
+    if (loader) {
+        const span = loader.querySelector('span');
+        if (span) span.textContent = message;
+        loader.classList.add('show');
+    }
+}
+
+function hideMobileLoading() {
+    const loader = document.getElementById('mobileLoading');
+    if (loader) {
+        loader.classList.remove('show');
     }
 }
 
@@ -1036,8 +1194,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Navigation links - TEMPORARILY DISABLED FOR DEBUGGING
-    /*
+    // Navigation links smooth scrolling
     navLinks.forEach(link => {
         const href = link.getAttribute('href');
         if (href && (href.startsWith('#') || href.includes('#'))) {
@@ -1053,7 +1210,6 @@ document.addEventListener('DOMContentLoaded', () => {
     allAnchorLinks.forEach(link => {
         link.addEventListener('click', smoothScroll);
     });
-    */
     
     
     // Form submission with error handling
@@ -1095,8 +1251,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize pricing estimator
     initPricingEstimator();
     
-    // TEMPORARILY DISABLED FOR DEBUGGING
-    /*
     // Initialize other features
     createIntersectionObserver();
     initClickToCall();
@@ -1115,7 +1269,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Show page loader on initial load
     showPageLoader();
-    */
 });
 
 // Consolidated scroll event listener with throttling
@@ -1146,8 +1299,7 @@ function handleScroll() {
     }
 }
 
-// TEMPORARILY DISABLED FOR DEBUGGING
-// window.addEventListener('scroll', handleScroll, { passive: true });
+window.addEventListener('scroll', handleScroll, { passive: true });
 
 // Close mobile menu when clicking outside
 document.addEventListener('click', (e) => {
@@ -1597,77 +1749,109 @@ style.textContent = `
         grid-row: 2;
     }
     
-    .about__team {
-        margin: 4rem 0;
-        padding: 3rem 0;
-        background: var(--surface-color);
-        border-radius: 16px;
-    }
-    
-    .team__grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
-        margin-top: 2rem;
-    }
-    
-    .team__member {
-        background: white;
-        border-radius: 16px;
-        padding: 1.5rem;
-        text-align: center;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        transition: all 0.3s ease;
-    }
-    
-    .team__member:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-    }
-    
-    .team__member-image {
-        width: 120px;
-        height: 120px;
-        margin: 0 auto 1.5rem;
-        border-radius: 50%;
-        overflow: hidden;
-        border: 4px solid var(--primary-color-light);
-    }
-    
-    .team__member-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    
-    .team__member-name {
-        font-size: 1.3rem;
-        font-weight: 600;
-        color: var(--text-primary);
-        margin-bottom: 0.5rem;
-    }
-    
-    .team__member-role {
-        color: var(--primary-color);
-        font-weight: 500;
-        margin-bottom: 1rem;
-        text-transform: uppercase;
-        font-size: 0.9rem;
-        letter-spacing: 0.5px;
-    }
-    
-    .team__member-bio {
-        color: var(--text-light);
-        line-height: 1.6;
-        font-size: 0.95rem;
-    }
-    
     .about__features {
         margin-top: 4rem;
     }
     
-    /* Responsive Design */
+    /* Mobile Optimizations */
     @media (max-width: 768px) {
+        /* Hero Section Mobile */
+        .hero__container {
+            padding: 1rem;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            text-align: center;
+        }
+        
+        .hero__title {
+            font-size: 2rem;
+            line-height: 1.2;
+        }
+        
+        .hero__description {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero__features {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .hero__feature {
+            justify-content: center;
+        }
+        
+        .hero__stats {
+            justify-content: center;
+            gap: 1.5rem;
+        }
+        
+        .hero__actions {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .hero__actions .btn {
+            width: 100%;
+            padding: 1.25rem;
+            font-size: 1.1rem;
+        }
+        
+        .hero__image-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            height: auto;
+        }
+        
+        .hero__image {
+            height: 200px;
+        }
+        
+        /* Services Mobile */
+        .services__grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        .service-card {
+            padding: 1.5rem;
+        }
+        
+        /* Pricing Estimator Mobile */
+        .pricing-estimator__container {
+            padding: 1rem;
+        }
+        
+        .estimator__options {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        .estimator__option {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .estimator__option-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .estimator__price-amount {
+            font-size: 2.5rem;
+        }
+        
+        .estimator__actions {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .estimator__actions .btn {
+            width: 100%;
+        }
+        
+        /* About Section Mobile */
         .about__story-content {
             grid-template-columns: 1fr;
             gap: 2rem;
@@ -1707,13 +1891,160 @@ style.textContent = `
             display: none;
         }
         
-        .team__grid {
+        .features__grid {
             grid-template-columns: 1fr;
+            gap: 1.5rem;
         }
         
-        .about__team {
-            margin: 2rem 0;
-            padding: 2rem 1rem;
+        /* Process Mobile */
+        .process__steps {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .step {
+            text-align: center;
+        }
+        
+        /* Testimonials Mobile */
+        .testimonials__grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        /* Contact Mobile */
+        .contact__grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .contact__info {
+            order: 2;
+        }
+        
+        .contact__form {
+            order: 1;
+        }
+        
+        .form__group {
+            margin-bottom: 1.25rem;
+        }
+        
+        .form__input {
+            padding: 1.25rem;
+            font-size: 1rem;
+        }
+        
+        .form__label {
+            left: 1.25rem;
+            top: 1.25rem;
+        }
+        
+        /* Navigation Mobile Fixes */
+        .nav__menu {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.98));
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            transition: left 0.3s ease;
+            z-index: 9999;
+        }
+        
+        .nav__menu.show-menu {
+            left: 0;
+        }
+        
+        .nav__item {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideInUp 0.3s ease forwards;
+        }
+        
+        .nav__item:nth-child(1) { animation-delay: 0.1s; }
+        .nav__item:nth-child(2) { animation-delay: 0.2s; }
+        .nav__item:nth-child(3) { animation-delay: 0.3s; }
+        .nav__item:nth-child(4) { animation-delay: 0.4s; }
+        .nav__item:nth-child(5) { animation-delay: 0.5s; }
+        .nav__item:nth-child(6) { animation-delay: 0.6s; }
+        
+        @keyframes slideInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .nav__link {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav__link:hover,
+        .nav__link.active-link {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--primary-color);
+        }
+        
+        .nav__cta {
+            color: white !important;
+            background: var(--primary-color);
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .nav__cta:hover {
+            background: var(--primary-color-dark);
+            transform: scale(1.05);
+        }
+    }
+    
+    /* Extra Small Mobile (320px and below) */
+    @media (max-width: 480px) {
+        .hero__title {
+            font-size: 1.75rem;
+        }
+        
+        .hero__actions .btn {
+            padding: 1rem;
+            font-size: 1rem;
+        }
+        
+        .estimator__price-amount {
+            font-size: 2rem;
+        }
+        
+        .service-card {
+            padding: 1.25rem;
+        }
+        
+        .timeline__year {
+            font-size: 0.8rem;
+            padding: 0.4rem 0.8rem;
+            min-width: 50px;
+        }
+        
+        .form__input {
+            padding: 1rem;
+        }
+        
+        .form__label {
+            left: 1rem;
+            top: 1rem;
         }
     }
     
@@ -1790,6 +2121,227 @@ style.textContent = `
         pointer-events: none;
         transition: all 0.3s ease;
         background: transparent;
+    }
+    
+    /* Mobile-First Touch Improvements */
+    @media (max-width: 768px) {
+        /* Larger touch targets */
+        .btn, .estimator__option, .service-card, .nav__link {
+            min-height: 48px;
+            min-width: 48px;
+        }
+        
+        /* Better text sizes for mobile */
+        body {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        h1 { font-size: 1.75rem; }
+        h2 { font-size: 1.5rem; }
+        h3 { font-size: 1.25rem; }
+        
+        /* Mobile containers */
+        .container {
+            padding: 0 1rem;
+            max-width: 100%;
+        }
+        
+        /* Section spacing */
+        section {
+            padding: 2rem 0;
+        }
+        
+        .section__title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .section__subtitle {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Logo adjustments */
+        .nav__logo {
+            scale: 0.9;
+        }
+        
+        .nav__logo-img {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .nav__logo-text h2 {
+            font-size: 1.1rem;
+        }
+        
+        .nav__tagline {
+            font-size: 0.7rem;
+        }
+        
+        /* Hamburger menu improvements */
+        .nav__toggle {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .nav__toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: white;
+            margin: 4px auto;
+            transition: all 0.3s ease;
+            border-radius: 1px;
+        }
+        
+        .nav__toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .nav__toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .nav__toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+        
+        /* Footer mobile */
+        .footer__content {
+            flex-direction: column;
+            text-align: center;
+            gap: 2rem;
+        }
+        
+        .footer__links {
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        /* Scroll to top mobile */
+        .scroll-to-top {
+            width: 50px;
+            height: 50px;
+            bottom: 20px;
+            right: 20px;
+            font-size: 1.2rem;
+        }
+        
+        /* Service area cards mobile */
+        .areas__grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+        
+        .area {
+            padding: 0.75rem;
+            font-size: 0.9rem;
+        }
+    }
+    
+    /* Touch and gesture improvements */
+    .estimator__option,
+    .service-card,
+    .btn {
+        -webkit-tap-highlight-color: rgba(34, 197, 94, 0.2);
+        touch-action: manipulation;
+    }
+    
+    /* Prevent zoom on form inputs */
+    @media (max-width: 768px) {
+        .form__input,
+        .estimator__select,
+        input,
+        select,
+        textarea {
+            font-size: 16px !important;
+        }
+    }
+    
+    /* Mobile-specific animations and transitions */
+    @media (prefers-reduced-motion: reduce) {
+        * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+    
+    /* iOS Safari specific fixes */
+    @supports (-webkit-touch-callout: none) {
+        .hero__container,
+        .services__container,
+        .pricing-estimator__container,
+        .about__container,
+        .contact__container {
+            padding-left: max(1rem, env(safe-area-inset-left));
+            padding-right: max(1rem, env(safe-area-inset-right));
+        }
+        
+        .header {
+            padding-top: env(safe-area-inset-top);
+        }
+        
+        .footer {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+    }
+    
+    /* Loading states for mobile */
+    .mobile-loading {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10000;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        display: none;
+    }
+    
+    .mobile-loading.show {
+        display: block;
+    }
+    
+    /* Swipe indicators */
+    .swipe-indicator {
+        position: absolute;
+        bottom: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        color: var(--text-light);
+        font-size: 0.8rem;
+        opacity: 0.7;
+        animation: fadeInOut 2s infinite;
+    }
+    
+    @keyframes fadeInOut {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 0.8; }
+    }
+    
+    /* Improved button states for mobile */
+    @media (max-width: 768px) {
+        .btn:active {
+            transform: scale(0.98);
+            transition: transform 0.1s ease;
+        }
+        
+        .estimator__option:active {
+            transform: scale(0.98);
+            transition: transform 0.1s ease;
+        }
+        
+        .service-card:active {
+            transform: translateY(2px);
+            transition: transform 0.1s ease;
+        }
     }
 `;
 document.head.appendChild(style);
