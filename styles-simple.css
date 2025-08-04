@@ -414,17 +414,12 @@ body {
     opacity: 1;
 }
 
-.service-card__icon {
-    font-size: 3rem;
-    margin-bottom: var(--spacing-lg);
-    display: block;
-}
-
 .service-card__title {
     font-size: var(--font-size-xl);
     font-weight: 600;
     margin-bottom: var(--spacing-md);
     color: var(--text-primary);
+    margin-top: 0;
 }
 
 .service-card__description {
@@ -544,6 +539,97 @@ body {
     color: var(--text-secondary);
     font-size: var(--font-size-sm);
     line-height: 1.6;
+}
+
+/* Navigation Dropdown */
+.nav__item--dropdown {
+    position: relative;
+}
+
+.nav__dropdown-arrow {
+    font-size: 0.7rem;
+    margin-left: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.nav__item--dropdown:hover .nav__dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.nav__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #111111 !important;
+    min-width: 280px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    border: 1px solid #333333 !important;
+    overflow: hidden;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav__item--dropdown:hover .nav__dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.nav__dropdown-item {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav__dropdown-link {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    text-decoration: none;
+    color: #ffffff !important;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid #333333 !important;
+}
+
+.nav__dropdown-link:hover {
+    background: #1a1a1a !important;
+    color: #00ff88 !important;
+}
+
+.nav__dropdown-item:last-child .nav__dropdown-link {
+    border-bottom: none;
+}
+
+.nav__service-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav__service-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+    color: #ffffff !important;
+}
+
+.nav__service-desc {
+    font-size: 0.8rem;
+    color: #cccccc !important;
+}
+
+.nav__dropdown-link:hover .nav__service-title {
+    color: #00ff88 !important;
+}
+
+.nav__dropdown-link:hover .nav__service-desc {
+    color: #ffffff !important;
 }
 
 /* Contact Section */
