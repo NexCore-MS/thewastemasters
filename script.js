@@ -371,9 +371,9 @@ if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
 // ===================================
 
 console.log(`
-🗑️ The Waste Masters Website
-📱 Mobile-first, performance-optimized
-🚀 Ready to haul away your junk!
+The Waste Masters Website
+Mobile-first, performance-optimized
+Ready to haul away your junk!
 
 Need junk removal? Call (305) 986-0692
 `);

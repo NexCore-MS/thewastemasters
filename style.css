@@ -420,7 +420,7 @@ body {
 .feature {
     display: flex;
     align-items: center;
-    gap: var(--space-2);
+    justify-content: center;
     background: var(--white);
     padding: var(--space-3) var(--space-4);
     border-radius: var(--border-radius-lg);
@@ -434,11 +434,7 @@ body {
     box-shadow: var(--shadow-3d-hover);
 }
 
-.feature-icon {
-    font-size: var(--font-size-xl);
-}
-
-.feature span:last-child {
+.feature span {
     font-weight: 500;
     color: var(--gray-700);
     font-size: var(--font-size-sm);
@@ -721,27 +717,18 @@ section {
 }
 
 .about-feature {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--space-3);
+    display: block;
     padding: var(--space-4);
     background: var(--accent);
     border-radius: var(--border-radius);
     transition: all 0.3s ease;
-    border-left: 4px solid transparent;
+    border-left: 4px solid var(--primary);
 }
 
 .about-feature:hover {
     background: var(--gray-800);
-    border-left-color: var(--primary);
     transform: translateX(4px);
     box-shadow: var(--shadow);
-}
-
-.feature-check {
-    color: var(--primary);
-    font-size: var(--font-size-lg);
-    flex-shrink: 0;
 }
 
 /* ===================================
