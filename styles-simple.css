@@ -937,6 +937,54 @@ body {
         grid-template-columns: 1fr;
     }
     
+    /* MOBILE DROPDOWN FIXES */
+    /* Make dropdown work on mobile touch devices */
+    .nav__item--dropdown {
+        position: relative;
+    }
+    
+    .nav__dropdown {
+        position: static !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        background: rgba(0, 0, 0, 0.9) !important;
+        border: 1px solid var(--border);
+        border-radius: var(--border-radius);
+        margin-top: var(--spacing-sm);
+        min-width: auto !important;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+    
+    .nav__item--dropdown.active .nav__dropdown {
+        max-height: 300px;
+        overflow: visible;
+    }
+    
+    .nav__dropdown-arrow {
+        display: inline !important;
+        transition: transform 0.3s ease;
+    }
+    
+    .nav__item--dropdown.active .nav__dropdown-arrow {
+        transform: rotate(180deg);
+    }
+    
+    .nav__dropdown-link {
+        padding: var(--spacing-md) !important;
+        border-bottom: 1px solid var(--border);
+        color: var(--text-primary) !important;
+        background: transparent !important;
+    }
+    
+    .nav__dropdown-link:hover,
+    .nav__dropdown-link:active {
+        background: var(--surface-light) !important;
+        color: var(--primary-color) !important;
+    }
+    
     /* MOBILE SCROLLING FIXES */
     /* Fix iOS momentum scrolling */
     html {
@@ -952,11 +1000,8 @@ body {
         min-height: 100vh;
     }
     
-    /* Fix any elements that might block scrolling */
-    * {
-        -webkit-transform: translateZ(0);
-        transform: translateZ(0);
-    }
+    /* REMOVED: This was breaking mobile scrolling by forcing GPU acceleration on everything */
+    /* Only apply transforms where actually needed */
     
     /* Ensure sections don't have overflow hidden that breaks scrolling */
     section {

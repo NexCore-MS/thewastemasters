@@ -994,22 +994,8 @@ function initMobileOptimizations() {
         document.addEventListener('touchstart', () => {}, { passive: true });
         document.addEventListener('touchmove', () => {}, { passive: true });
         
-        // Prevent pull-to-refresh on mobile
-        document.addEventListener('touchstart', (e) => {
-            if (e.touches.length > 1) return;
-            
-            const touch = e.touches[0];
-            const startY = touch.clientY;
-            
-            document.addEventListener('touchmove', (moveEvent) => {
-                const touch = moveEvent.touches[0];
-                const currentY = touch.clientY;
-                
-                if (currentY > startY && window.scrollY <= 0) {
-                    moveEvent.preventDefault();
-                }
-            }, { passive: false, once: true });
-        });
+        // REMOVED: This was also breaking mobile scrolling
+        // Pull-to-refresh prevention was too aggressive
         
         // Enhanced form focus for mobile
         const formInputs = document.querySelectorAll('.form__input');
@@ -1056,18 +1042,8 @@ function initMobileOptimizations() {
         // Add swipe gestures for pricing estimator
         initSwipeGestures();
         
-        // Add pull-to-refresh prevention
-        document.addEventListener('touchmove', (e) => {
-            if (e.touches.length > 1) return;
-            
-            const touch = e.touches[0];
-            const element = document.elementFromPoint(touch.clientX, touch.clientY);
-            
-            // Prevent pull-to-refresh when not at top of page
-            if (window.scrollY > 0 && e.cancelable) {
-                e.preventDefault();
-            }
-        }, { passive: false });
+        // REMOVED: This was breaking mobile scrolling
+        // Pull-to-refresh prevention was interfering with normal scrolling
         
         // Optimize scroll performance on mobile
         let scrollTimer = null;
@@ -1112,8 +1088,8 @@ function initSwipeGestures() {
         const deltaX = currentX - startX;
         const deltaY = currentY - startY;
         
-        // Prevent default if horizontal swipe is more significant than vertical
-        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        // Only prevent default for STRONG horizontal swipes, allow vertical scrolling
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 30) {
             e.preventDefault();
         }
     }, { passive: false });
@@ -1230,7 +1206,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (hamburger && menu) {
         // Add click listener
         hamburger.addEventListener('click', toggleMobileMenu);
-        hamburger.addEventListener('touchstart', toggleMobileMenu, { passive: false });
+        hamburger.addEventListener('touchstart', toggleMobileMenu, { passive: true });
         
         // Close menu when clicking menu links
         const menuLinks = menu.querySelectorAll('.nav__link');
@@ -1243,6 +1219,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 menu.style.visibility = 'hidden';
                 document.body.style.overflow = '';
             });
+        });
+        
+        // MOBILE DROPDOWN FUNCTIONALITY
+        const mobileDropdowns = menu.querySelectorAll('.nav__item--dropdown');
+        mobileDropdowns.forEach(dropdown => {
+            const dropdownLink = dropdown.querySelector('.nav__link');
+            if (dropdownLink) {
+                dropdownLink.addEventListener('click', (e) => {
+                    // Only prevent default on mobile
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        // Close other dropdowns
+                        mobileDropdowns.forEach(otherDropdown => {
+                            if (otherDropdown !== dropdown) {
+                                otherDropdown.classList.remove('active');
+                            }
+                        });
+                        
+                        // Toggle current dropdown
+                        dropdown.classList.toggle('active');
+                    }
+                });
+            }
         });
     }
     
