@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <title>The Waste Masters - Professional Junk Removal & Dumpster Rental Miami</title>
     <meta name="description" content="Miami's trusted waste removal service for 30+ years. Junk removal, dumpster rental, and eco-friendly disposal. Licensed & insured. Call for instant pricing!">
-    <link rel="stylesheet" href="styles-simple.css">
+    <link rel="stylesheet" href="styles.css">
     
     <!-- Preload critical resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,46 +30,32 @@
                 </div>
             </a>
             <ul class="nav__menu" id="nav-menu">
-                <li class="nav__item nav__item--dropdown">
-                    <a href="#services" class="nav__link">Services <span class="nav__dropdown-arrow">▼</span></a>
-                    <ul class="nav__dropdown">
-                        <li class="nav__dropdown-item">
-                            <a href="junk-removal.html" class="nav__dropdown-link">
-                                <span class="nav__service-icon">🏠</span>
-                                <div class="nav__service-info">
-                                    <span class="nav__service-title">Junk Removal</span>
-                                    <span class="nav__service-desc">Residential & commercial cleanouts</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav__dropdown-item">
-                            <a href="containers.html" class="nav__dropdown-link">
-                                <span class="nav__service-icon">🗂️</span>
-                                <div class="nav__service-info">
-                                    <span class="nav__service-title">Dumpster Rental</span>
-                                    <span class="nav__service-desc">10, 20, 30 & 40 yard containers</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav__dropdown-item">
-                            <a href="trash-a-la-cart.html" class="nav__dropdown-link">
-                                <span class="nav__service-icon">🛒</span>
-                                <div class="nav__service-info">
-                                    <span class="nav__service-title">Trash a la Cart</span>
-                                    <span class="nav__service-desc">Professional toter delivery</span>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
+                <li class="nav__item">
+                    <a href="index.html" class="nav__link active-link">Home</a>
                 </li>
                 <li class="nav__item">
-                    <a href="#about" class="nav__link">About</a>
+                    <a href="index.html#services" class="nav__link">Services</a>
                 </li>
                 <li class="nav__item">
-                    <a href="#contact" class="nav__link">Contact</a>
+                    <a href="junk-removal.html" class="nav__link">Junk Removal</a>
                 </li>
                 <li class="nav__item">
-                    <a href="tel:+1-305-986-0692" class="nav__cta">Call Now</a>
+                    <a href="containers.html" class="nav__link">Containers</a>
+                </li>
+                <li class="nav__item">
+                    <a href="trash-a-la-cart.html" class="nav__link">Trash a la Cart</a>
+                </li>
+                <li class="nav__item">
+                    <a href="index.html#about" class="nav__link">About</a>
+                </li>
+                <li class="nav__item">
+                    <a href="index.html#process" class="nav__link">How It Works</a>
+                </li>
+                <li class="nav__item">
+                    <a href="index.html#contact" class="nav__link">Contact</a>
+                </li>
+                <li class="nav__item">
+                    <a href="tel:+1-305-986-0692" class="nav__cta">Get Quote</a>
                 </li>
             </ul>
 
@@ -85,145 +71,134 @@
     <main class="main">
         <!-- Hero Section -->
         <section class="hero" id="home">
+            <div class="hero__background">
+                <img src="hero-truck-cleanup.jpg" alt="The Waste Masters truck and crew performing professional junk removal in Miami" class="hero__bg-image" loading="lazy">
+                <div class="hero__overlay"></div>
+            </div>
             <div class="hero__container container">
                 <div class="hero__content">
+                    <div class="hero__badge">
+                        <span class="hero__badge-text">Family Owned Since 1994</span>
+                    </div>
                     <h1 class="hero__title">
-                        We make junk disappear.<br>
-                        <span class="hero__title--accent">All you have to do is point.</span>
+                        Miami's Most Trusted <span class="text-accent">Waste Removal</span> Experts
                     </h1>
-                    <p class="hero__subtitle">
-                        Same-day service • No hidden fees • Friendly, professional teams<br>
-                        <strong>Licensed & insured for 30+ years</strong>
+                    <p class="hero__description">
+                        From single items to full home cleanouts, we handle it all with care. 
+                        <strong>Licensed, insured, and eco-friendly</strong> - serving Miami-Dade families and businesses for over 30 years.
                     </p>
-                    <div class="hero__actions">
-                        <a href="tel:+1-305-986-0692" class="btn btn--primary">
-                            Get Free Estimate
-                        </a>
-                        <a href="#contact" class="btn btn--secondary">
-                            Book Online
-                        </a>
+                    <div class="hero__features">
+                        <div class="hero__feature">
+                            <div class="hero__feature-icon">♻️</div>
+                            <span>We recycle 65% of collected items</span>
+                        </div>
+                        <div class="hero__feature">
+                            <div class="hero__feature-icon">⚡</div>
+                            <span>Same-day service available</span>
+                        </div>
+                        <div class="hero__feature">
+                            <div class="hero__feature-icon">🛡️</div>
+                            <span>Fully licensed & insured</span>
+                        </div>
                     </div>
                     <div class="hero__stats">
                         <div class="stat">
-                            <div class="stat__number">30+</div>
-                            <div class="stat__label">Years Experience</div>
+                            <span class="stat__number">30+</span>
+                            <span class="stat__label">Years Experience</span>
                         </div>
                         <div class="stat">
-                            <div class="stat__number">1000s</div>
-                            <div class="stat__label">Happy Customers</div>
+                            <span class="stat__number">1000s</span>
+                            <span class="stat__label">Happy Customers</span>
                         </div>
                         <div class="stat">
-                            <div class="stat__number">65%</div>
-                            <div class="stat__label">Items Recycled</div>
+                            <span class="stat__number">65%</span>
+                            <span class="stat__label">Recycling Rate</span>
                         </div>
                     </div>
+                    <div class="hero__actions">
+                        <a href="tel:+1-305-986-0692" class="btn btn--primary btn--large">
+                            <span class="btn-icon phone-btn-icon"></span>
+                            Call (305) 986-0692 - Free Quote
+                        </a>
+                        <a href="#service-selector" class="btn btn--secondary btn--large">
+                            <span class="btn-icon">🔧</span>
+                            Choose Your Service
+                        </a>
+                    </div>
                     <div class="hero__trust">
-                        <p class="hero__trust-text">⭐⭐⭐⭐⭐ Family owned & operated • Fully licensed & insured</p>
+                        <p class="hero__trust-text">⭐⭐⭐⭐⭐ Trusted by thousands of Miami families</p>
+                    </div>
+                </div>
+                <div class="hero__images">
+                    <div class="hero__image-grid">
+                        <img src="team-photo-miami.jpg" alt="The Waste Masters professional team in Miami" class="hero__image hero__image--team" loading="lazy">
+                        <img src="before-after-cleanup.jpg" alt="Before and after junk removal transformation" class="hero__image hero__image--work" loading="lazy">
+                        <img src="eco-recycling-center.jpg" alt="Eco-friendly recycling and disposal facility" class="hero__image hero__image--eco" loading="lazy">
                     </div>
                 </div>
             </div>
         </section>
-
+        
         <!-- Services Section -->
         <section class="services" id="services">
             <div class="services__container container">
-                <h2 class="services__title">What Service Do You Need?</h2>
-                <p class="services__subtitle">Professional junk removal and waste management services</p>
-                
+                <div class="section__header">
+                    <h2 class="section__title">Our Services</h2>
+                    <p class="section__subtitle">
+                        Complete waste management solutions for residential and commercial clients
+                    </p>
+                </div>
+
                 <div class="services__grid">
-                    <a href="junk-removal.html" class="service-card">
-                        <div class="service-card__icon">🏠</div>
-                        <h3 class="service-card__title">Residential Junk</h3>
-                        <p class="service-card__description">Furniture, appliances, household items removal</p>
-                    </a>
-                    
-                    <a href="containers.html" class="service-card">
-                        <div class="service-card__icon">🏗️</div>
-                        <h3 class="service-card__title">Construction Debris</h3>
-                        <p class="service-card__description">Renovation mess, dumpster rental services</p>
-                    </a>
-                    
-                    <a href="junk-removal.html" class="service-card">
-                        <div class="service-card__icon">🏢</div>
-                        <h3 class="service-card__title">Commercial Cleanouts</h3>
-                        <p class="service-card__description">Office spaces, warehouses, retail cleanouts</p>
-                    </a>
-                    
-                    <a href="trash-a-la-cart.html" class="service-card">
-                        <div class="service-card__icon">♻️</div>
-                        <h3 class="service-card__title">Trash a la Cart</h3>
-                        <p class="service-card__description">Professional toter delivery and placement</p>
-                    </a>
-                </div>
-            </div>
-        </section>
+                    <div class="service-card">
+                        <div class="service-card__icon">
+                            <div class="service-icon service-icon--junk"></div>
+                        </div>
+                        <h3 class="service-card__title">Junk Removal</h3>
+                        <p class="service-card__description">
+                            Professional removal by truckload: ¼, ½, ¾, or full truck options. 
+                            Appliances, furniture, demo debris, and more.
+                        </p>
+                        <ul class="service-card__features">
+                            <li>Same-day service available</li>
+                            <li>All labor included</li>
+                            <li>Eco-friendly disposal</li>
+                        </ul>
+                        <a href="junk-removal.html" class="service-card__cta">Learn More</a>
+                    </div>
 
-        <!-- About Section -->
-        <section class="about-section" id="about">
-            <div class="about-section__container container">
-                <h2 class="section__title">About The Waste Masters</h2>
-                <p class="section__subtitle">Miami-Dade's trusted waste removal service for over 30 years</p>
-                
-                <div class="about__content">
-                    <p>Family owned and operated since 1993, The Waste Masters has been serving Miami-Dade County with professional junk removal, dumpster rental, and waste management services. We're licensed, insured, and committed to eco-friendly disposal practices.</p>
-                </div>
-            </div>
-        </section>
+                    <div class="service-card">
+                        <div class="service-card__icon">
+                            <div class="service-icon service-icon--dumpster"></div>
+                        </div>
+                        <h3 class="service-card__title">Dumpster Rental</h3>
+                        <p class="service-card__description">
+                            Various sized dumpsters including 20-yard containers for 
+                            short or long-term projects. Perfect for remodeling.
+                        </p>
+                        <ul class="service-card__features">
+                            <li>Multiple size options</li>
+                            <li>Flexible rental periods</li>
+                            <li>Delivery & pickup included</li>
+                        </ul>
+                        <a href="containers.html" class="service-card__cta">Learn More</a>
+                    </div>
 
-        <!-- Process Section -->
-        <section class="process-section" id="process">
-            <div class="process-section__container container">
-                <h2 class="section__title">How It Works</h2>
-                <p class="section__subtitle">Simple 3-step process to get your junk removed</p>
-                
-                <div class="process__steps">
-                    <div class="process-step">
-                        <div class="process-step__number">1</div>
-                        <h3>Call or Book Online</h3>
-                        <p>Contact us for a free estimate</p>
-                    </div>
-                    <div class="process-step">
-                        <div class="process-step__number">2</div>
-                        <h3>We Arrive & Quote</h3>
-                        <p>Our team provides upfront pricing</p>
-                    </div>
-                    <div class="process-step">
-                        <div class="process-step__number">3</div>
-                        <h3>We Haul It Away</h3>
-                        <p>Professional removal and cleanup</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Trust & Benefits Section -->
-        <section class="trust-section">
-            <div class="trust-section__container container">
-                <h2 class="trust-section__title">Why Choose The Waste Masters?</h2>
-                
-                <div class="benefits__grid">
-                    <div class="benefit-card">
-                        <div class="benefit-card__icon">⚡</div>
-                        <h3>Same-Day Service</h3>
-                        <p>Call in the morning, junk gone by afternoon. We work around your schedule.</p>
-                    </div>
-                    
-                    <div class="benefit-card">
-                        <div class="benefit-card__icon">💰</div>
-                        <h3>No Hidden Fees</h3>
-                        <p>Transparent pricing based on volume. No surprise charges or extra fees.</p>
-                    </div>
-                    
-                    <div class="benefit-card">
-                        <div class="benefit-card__icon">♻️</div>
-                        <h3>Eco-Friendly</h3>
-                        <p>We recycle 65% of items and donate what we can to local charities.</p>
-                    </div>
-                    
-                    <div class="benefit-card">
-                        <div class="benefit-card__icon">🛡️</div>
-                        <h3>Fully Insured</h3>
-                        <p>Licensed & insured with 30+ years experience. Your property is protected.</p>
+                    <div class="service-card">
+                        <div class="service-card__icon">
+                            <div class="service-icon service-icon--yard"></div>
+                        </div>
+                        <h3 class="service-card__title">Yard & Landscape Debris</h3>
+                        <p class="service-card__description">
+                            Farm cleanup, landscape debris removal, and yard waste disposal. 
+                            Keeping Miami green and clean.
+                        </p>
+                        <ul class="service-card__features">
+                            <li>Tree branch removal</li>
+                            <li>Leaf & grass disposal</li>
+                            <li>Farm site cleanup</li>
+                        </ul>
+                        <a href="junk-removal.html" class="service-card__cta">Learn More</a>
                     </div>
                 </div>
             </div>
