@@ -74,7 +74,10 @@ function toggleMobileMenu(e) {
         menu.style.height = '100vh';
         menu.style.background = '#000000';
         menu.style.zIndex = '99999';
-        document.body.style.overflow = 'hidden';
+        // Don't disable body scroll on mobile - this breaks scrolling
+        if (window.innerWidth > 768) {
+            document.body.style.overflow = 'hidden';
+        }
     }
     
     // Force a repaint
@@ -929,6 +932,21 @@ function initMobileOptimizations() {
     
     if (isMobile || isTouchDevice) {
         document.body.classList.add('mobile-device');
+        
+        // CRITICAL: Fix mobile scrolling issues
+        // Ensure body can scroll properly
+        document.body.style.overflowX = 'hidden';
+        document.body.style.overflowY = 'auto';
+        document.body.style.webkitOverflowScrolling = 'touch';
+        document.body.style.position = 'relative';
+        
+        // Fix any elements that might block scrolling
+        const problematicElements = document.querySelectorAll('.hero, .services, .contact, section');
+        problematicElements.forEach(element => {
+            element.style.overflow = 'visible';
+            element.style.minHeight = 'auto';
+            element.style.height = 'auto';
+        });
         
         // Handle iOS zoom prevention more carefully
         const viewportMeta = document.querySelector('meta[name="viewport"]');

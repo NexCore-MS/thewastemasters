@@ -65,6 +65,8 @@ body {
     background: var(--background);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    position: relative;
 }
 
 /* Container */
@@ -933,6 +935,95 @@ body {
     
     .footer__links {
         grid-template-columns: 1fr;
+    }
+    
+    /* MOBILE SCROLLING FIXES */
+    /* Fix iOS momentum scrolling */
+    html {
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Ensure body allows scrolling */
+    body {
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        position: relative;
+        min-height: 100vh;
+    }
+    
+    /* Fix any elements that might block scrolling */
+    * {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+    
+    /* Ensure sections don't have overflow hidden that breaks scrolling */
+    section {
+        overflow: visible;
+    }
+    
+    /* Fix touch events for interactive elements */
+    .btn, 
+    .service-card, 
+    .nav__link,
+    a {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(0, 255, 136, 0.2);
+    }
+    
+    /* Prevent zoom on form inputs */
+    input, 
+    select, 
+    textarea {
+        font-size: 16px !important;
+        -webkit-appearance: none;
+        border-radius: 0;
+    }
+    
+    /* Fix viewport height issues */
+    .hero,
+    .services,
+    .contact,
+    section {
+        min-height: auto;
+        height: auto;
+    }
+    
+    /* Remove any fixed heights that might cause issues */
+    .container {
+        min-height: auto;
+        height: auto;
+    }
+    
+    /* Override problematic overflow hidden on mobile */
+    .hero,
+    .hero__container,
+    .services,
+    .services__container,
+    .service-card,
+    .contact,
+    .contact__container,
+    .form,
+    .nav__dropdown {
+        overflow: visible !important;
+    }
+    
+    /* Ensure main content scrolls properly */
+    .main {
+        overflow: visible;
+        min-height: 100vh;
+    }
+    
+    /* Fix any transform issues that could break scrolling */
+    .service-card:hover,
+    .btn:hover {
+        transform: none;
+    }
+    
+    /* Make sure touch scrolling works everywhere */
+    * {
+        -webkit-overflow-scrolling: touch;
     }
 }
 
