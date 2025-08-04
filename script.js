@@ -1223,14 +1223,18 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // MOBILE DROPDOWN FUNCTIONALITY
         const mobileDropdowns = menu.querySelectorAll('.nav__item--dropdown');
-        mobileDropdowns.forEach(dropdown => {
+        console.log('Found mobile dropdowns:', mobileDropdowns.length);
+        
+        mobileDropdowns.forEach((dropdown, index) => {
             const dropdownLink = dropdown.querySelector('.nav__link');
             if (dropdownLink) {
+                console.log(`Setting up dropdown ${index}:`, dropdownLink.textContent);
                 dropdownLink.addEventListener('click', (e) => {
                     // Only prevent default on mobile
                     if (window.innerWidth <= 768) {
                         e.preventDefault();
                         e.stopPropagation();
+                        console.log('Mobile dropdown clicked:', dropdownLink.textContent);
                         
                         // Close other dropdowns
                         mobileDropdowns.forEach(otherDropdown => {
@@ -1240,7 +1244,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                         
                         // Toggle current dropdown
+                        const wasActive = dropdown.classList.contains('active');
                         dropdown.classList.toggle('active');
+                        console.log('Dropdown toggled. Now active:', !wasActive);
                     }
                 });
             }
