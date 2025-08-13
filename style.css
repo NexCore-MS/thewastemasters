@@ -2406,8 +2406,15 @@ body {
 }
 
 /* Prevent accidental horizontal scroll */
-img, .service-card, .pricing-card { 
-    max-width: 100%; 
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.service-card,
+.pricing-card {
+    max-width: 100%;
 }
 
 .container { 
@@ -2443,5 +2450,9 @@ img, .service-card, .pricing-card {
     .hero-feature {
         min-height: 100px;
         padding: var(--space-4);
+    }
+
+    .hero-actions .btn {
+        width: 100%;
     }
 }
