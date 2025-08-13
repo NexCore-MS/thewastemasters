@@ -763,25 +763,66 @@ body {
     padding: var(--space-16) 0;
 }
 
-.services-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
+/* Apple-style Services List */
+.services-list {
     max-width: 800px;
     margin: 0 auto;
 }
 
-.service-card {
-    background: var(--surface);
-    border: 1px solid var(--separator);
-    border-radius: 12px;
+.service-item {
+    padding: var(--space-8) 0;
+    border-bottom: 1px solid var(--separator);
     transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    min-height: 350px;
+}
+
+.service-item:last-child {
+    border-bottom: none;
+}
+
+.service-item:hover {
+    background: var(--accent);
+    margin: 0 calc(-1 * var(--space-6));
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+    border-radius: var(--border-radius);
+}
+
+.service-header {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-3);
+}
+
+.service-name {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    letter-spacing: -0.022em;
+}
+
+.service-cta {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: var(--font-size-base);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--border-radius);
+    transition: all 0.2s ease;
+}
+
+.service-cta:hover {
+    background: var(--primary);
+    color: var(--text-primary);
+}
+
+.service-details {
+    color: var(--text-secondary);
+    font-size: var(--font-size-base);
+    line-height: 1.5;
+    margin: 0;
+    max-width: 600px;
 }
 
 .service-image {
@@ -827,7 +868,7 @@ body {
 
 .service-content {
     text-align: left;
-    padding: var(--space-5);
+    padding: var(--space-6);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -902,6 +943,7 @@ body {
     background: var(--primary-dark);
     transform: translateY(-1px);
 }
+
 
 /* ===================================
    ABOUT SECTION
@@ -2143,11 +2185,6 @@ body {
         max-width: 500px;
     }
     
-    .services-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--space-4);
-        max-width: 900px;
-    }
     
     .about-content {
         grid-template-columns: 1fr 1fr;
@@ -2209,6 +2246,7 @@ body {
 
 /* Desktop (1024px and up) */
 @media (min-width: 1024px) {
+    
     .hero-features {
         grid-template-columns: repeat(3, 1fr);
         gap: var(--space-10);
@@ -2455,4 +2493,21 @@ img {
     .hero-actions .btn {
         width: 100%;
     }
+}
+
+/* Owner Story Styling */
+.owner-story {
+    background: var(--accent);
+    padding: var(--space-6);
+    border-radius: var(--border-radius-lg);
+    border-left: 4px solid var(--primary);
+    margin: var(--space-6) 0;
+}
+
+.owner-story p {
+    color: var(--text-primary);
+    font-style: italic;
+    margin: 0;
+    font-size: var(--font-size-lg);
+    line-height: 1.5;
 }
