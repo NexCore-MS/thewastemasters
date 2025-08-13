@@ -70,6 +70,7 @@ self.addEventListener('activate', event => {
 // Fetch event - serve from cache, fallback to network
 self.addEventListener('fetch', event => {
     const { request } = event;
+    const requestURL = new URL(request.url);
     
     // Skip cross-origin requests
     if (!request.url.startsWith(self.location.origin) && 
@@ -101,7 +102,9 @@ self.addEventListener('fetch', event => {
     }
     
     // Cache-first strategy for static assets
-    if (STATIC_ASSETS.some(asset => request.url.includes(asset))) {
+    // Use the request pathname for exact matching instead of substring search
+    // to avoid '/' matching every request
+    if (STATIC_ASSETS.includes(requestURL.pathname)) {
         event.respondWith(
             caches.match(request)
                 .then(cachedResponse => {
