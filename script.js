@@ -3,6 +3,33 @@
 // Mobile-First, Performance-Optimized
 // ===================================
 
+// Constants
+const BREAKPOINTS = {
+    MOBILE: 768,
+    TABLET: 1024,
+    DESKTOP: 1200
+};
+
+const ANIMATION_DELAYS = {
+    HERO_STAGGER: 200,
+    INITIAL_DELAY: 500,
+    SCROLL_THRESHOLD: 500
+};
+
+const FORM_VALIDATION = {
+    MIN_NAME_LENGTH: 2,
+    MIN_ADDRESS_LENGTH: 5,
+    MIN_DETAILS_LENGTH: 10,
+    PHONE_REGEX: /^[\+]?[1-9]?[\d\s\-\(\)]{10,}$/
+};
+
+const ANALYTICS_EVENTS = {
+    PHONE_CALL: 'phone_call',
+    EMAIL_CLICK: 'email',
+    FORM_SUBMIT: 'form_submit',
+    NAVIGATION: 'navigation'
+};
+
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all components
     initMobileMenu();
@@ -48,7 +75,7 @@ function initMobileMenu() {
     
     // Close menu when clicking outside or on backdrop
     document.addEventListener('click', function(e) {
-        if (window.innerWidth < 768 && 
+        if (window.innerWidth < BREAKPOINTS.MOBILE && 
             !menuToggle.contains(e.target) && 
             !mobileMenu.contains(e.target) &&
             mobileMenu.classList.contains('active')) {
@@ -58,7 +85,7 @@ function initMobileMenu() {
     
     // Close menu when touching outside on mobile
     document.addEventListener('touchstart', function(e) {
-        if (window.innerWidth < 768 && 
+        if (window.innerWidth < BREAKPOINTS.MOBILE && 
             !menuToggle.contains(e.target) && 
             !mobileMenu.contains(e.target) &&
             mobileMenu.classList.contains('active')) {
@@ -105,7 +132,7 @@ function initMobileMenu() {
         mobileMenu.classList.toggle('active');
         
         // Prevent body scroll when menu is open on mobile
-        if (window.innerWidth < 768) {
+        if (window.innerWidth < BREAKPOINTS.MOBILE) {
             document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
         }
     }
@@ -118,7 +145,7 @@ function initMobileMenu() {
     
     // Reset menu state on resize
     window.addEventListener('resize', function() {
-        if (window.innerWidth >= 768) {
+        if (window.innerWidth >= BREAKPOINTS.MOBILE) {
             closeMenu();
             document.body.style.overflow = '';
         }
@@ -154,13 +181,15 @@ function initSmoothScrolling() {
                 });
                 
                 // Close mobile menu if open
-                const mobileMenu = document.querySelector('.mobile-menu');
-                if (mobileMenu && mobileMenu.classList.contains('active')) {
-                    const menuToggle = document.getElementById('menuToggle');
-                    if (menuToggle) {
-                        menuToggle.classList.remove('active');
-                        mobileMenu.classList.remove('active');
-                        document.body.style.overflow = '';
+                if (window.innerWidth < BREAKPOINTS.MOBILE) {
+                    const mobileMenu = document.querySelector('.mobile-menu');
+                    if (mobileMenu && mobileMenu.classList.contains('active')) {
+                        const menuToggle = document.getElementById('menuToggle');
+                        if (menuToggle) {
+                            menuToggle.classList.remove('active');
+                            mobileMenu.classList.remove('active');
+                            document.body.style.overflow = '';
+                        }
                     }
                 }
             }
@@ -221,7 +250,7 @@ function initBackToTop() {
     
     // Show/hide button based on scroll position
     function toggleBackToTop() {
-        if (window.scrollY > 500) {
+        if (window.scrollY > ANIMATION_DELAYS.SCROLL_THRESHOLD) {
             backToTop.classList.add('visible');
         } else {
             backToTop.classList.remove('visible');
@@ -258,7 +287,7 @@ function initContactForm() {
     
     if (!contactForm) return;
     
-    contactForm.addEventListener('submit', function(e) {
+    contactForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         // Get form data
@@ -280,40 +309,77 @@ function initContactForm() {
         
         // Show loading state
         const submitButton = contactForm.querySelector('button[type="submit"]');
+        const statusDiv = document.getElementById('submit-status');
         const originalText = submitButton.textContent;
+        
         submitButton.textContent = 'Sending...';
         submitButton.disabled = true;
+        statusDiv.textContent = 'Submitting your request...';
+        statusDiv.className = 'form-status';
         
-        // Simulate form submission (replace with actual endpoint)
-        setTimeout(() => {
-            // Reset form
-            contactForm.reset();
+        try {
+            // Try to submit to Formspree (replace YOUR_FORM_ID with actual ID)
+            const formAction = contactForm.getAttribute('action');
             
-            // Show success message
-            showFormMessage('Thank you! We\'ll contact you within 30 minutes for your free quote.', 'success');
+            if (formAction && formAction.includes('formspree.io')) {
+                const response = await fetch(formAction, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    // Success with Formspree
+                    contactForm.reset();
+                    statusDiv.textContent = 'Thank you! We\'ll contact you within 30 minutes for your free quote.';
+                    statusDiv.className = 'form-status success';
+                    
+                    // Track successful submission
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', ANALYTICS_EVENTS.FORM_SUBMIT, {
+                            'event_category': 'engagement',
+                            'event_label': 'contact_form_success',
+                            'service_type': data.service,
+                            'urgency': data.urgency
+                        });
+                    }
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            } else {
+                // Fallback for development/testing
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                contactForm.reset();
+                statusDiv.textContent = 'Thank you! We\'ll contact you within 30 minutes for your free quote.';
+                statusDiv.className = 'form-status success';
+                
+                console.log('Form submitted (fallback mode):', data);
+            }
+        } catch (error) {
+            console.error('Form submission error:', error);
+            statusDiv.textContent = 'There was an error submitting your request. Please call us at (305) 986-0692.';
+            statusDiv.className = 'form-status error';
             
+            // Track error
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'exception', {
+                    'description': 'Form submission failed',
+                    'fatal': false
+                });
+            }
+        } finally {
             // Reset button
             submitButton.textContent = originalText;
             submitButton.disabled = false;
-            
-            // Track form submission
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'form_submit', {
-                    'event_category': 'engagement',
-                    'event_label': 'contact_form',
-                    'service_type': data.service,
-                    'urgency': data.urgency
-                });
-            }
-            
-            console.log('Form submitted:', data);
-        }, 2000);
+        }
     });
     
     function validateForm(data) {
         const errors = [];
         
-        if (!data.name || data.name.trim().length < 2) {
+        if (!data.name || data.name.trim().length < FORM_VALIDATION.MIN_NAME_LENGTH) {
             errors.push('Please enter your full name');
         }
         
@@ -321,7 +387,7 @@ function initContactForm() {
             errors.push('Please enter a valid phone number');
         }
         
-        if (!data.address || data.address.trim().length < 5) {
+        if (!data.address || data.address.trim().length < FORM_VALIDATION.MIN_ADDRESS_LENGTH) {
             errors.push('Please enter a valid service address');
         }
         
@@ -333,12 +399,12 @@ function initContactForm() {
             errors.push('Please select when you need service');
         }
         
-        if (!data.details || data.details.trim().length < 10) {
+        if (!data.details || data.details.trim().length < FORM_VALIDATION.MIN_DETAILS_LENGTH) {
             errors.push('Please provide more details about items to be removed');
         }
         
         if (errors.length > 0) {
-            showFormMessage(errors.join('<br>'), 'error');
+            showFormErrors(errors);
             return false;
         }
         
@@ -346,8 +412,14 @@ function initContactForm() {
     }
     
     function isValidPhone(phone) {
-        const phoneRegex = /^[\+]?[1-9]?[\d\s\-\(\)]{10,}$/;
-        return phoneRegex.test(phone.replace(/\s/g, ''));
+        return FORM_VALIDATION.PHONE_REGEX.test(phone.replace(/\s/g, ''));
+    }
+    
+    function showFormErrors(errors) {
+        const statusDiv = document.getElementById('submit-status');
+        statusDiv.innerHTML = errors.join('<br>');
+        statusDiv.className = 'form-status error';
+        statusDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
     
     function showFormMessage(message, type) {
@@ -405,7 +477,7 @@ function initCallTracking() {
             
             // Track with Google Analytics if available
             if (typeof gtag !== 'undefined') {
-                gtag('event', 'phone_call', {
+                gtag('event', ANALYTICS_EVENTS.PHONE_CALL, {
                     'event_category': 'engagement',
                     'event_label': 'phone_click',
                     'phone_number': this.href.replace('tel:', '')
@@ -426,7 +498,7 @@ function initCallTracking() {
             console.log('Email initiated:', this.href);
             
             if (typeof gtag !== 'undefined') {
-                gtag('event', 'email', {
+                gtag('event', ANALYTICS_EVENTS.EMAIL_CLICK, {
                     'event_category': 'engagement',
                     'event_label': 'email_click'
                 });
@@ -489,12 +561,12 @@ function initAnimations() {
         element.style.opacity = '0';
         element.style.transform = 'translateY(30px)';
         element.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-        element.style.transitionDelay = `${index * 200}ms`;
+        element.style.transitionDelay = `${index * ANIMATION_DELAYS.HERO_STAGGER}ms`;
         
         setTimeout(() => {
             element.style.opacity = '1';
             element.style.transform = 'translateY(0)';
-        }, 500 + (index * 200));
+        }, ANIMATION_DELAYS.INITIAL_DELAY + (index * ANIMATION_DELAYS.HERO_STAGGER));
     });
 }
 
@@ -663,13 +735,21 @@ if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
 // SERVICE WORKER REGISTRATION
 // ===================================
 
-// Register service worker for better performance (optional)
+// Register service worker for PWA features and offline support
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
-        // Only register if you have a service worker file
-        // navigator.serviceWorker.register('/sw.js')
-        //     .then(registration => console.log('SW registered'))
-        //     .catch(error => console.log('SW registration failed'));
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('Service Worker registered successfully:', registration.scope);
+                
+                // Check for updates
+                registration.addEventListener('updatefound', () => {
+                    console.log('New service worker version available');
+                });
+            })
+            .catch(error => {
+                console.log('Service Worker registration failed:', error);
+            });
     });
 }
 
@@ -677,101 +757,7 @@ if ('serviceWorker' in navigator) {
 // INITIALIZATION COMPLETE
 // ===================================
 
-// Add CSS for form messages
-const style = document.createElement('style');
-style.textContent = `
-.form-message {
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 1.5rem;
-    font-weight: 500;
-}
-
-.form-message-success {
-    background: rgba(0, 255, 136, 0.1);
-    color: var(--primary);
-    border: 1px solid var(--primary);
-}
-
-.form-message-error {
-    background: rgba(239, 68, 68, 0.1);
-    color: #ef4444;
-    border: 1px solid #ef4444;
-}
-
-.mobile-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.9);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: var(--space-6);
-    transform: translateY(-100%);
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 9999;
-    padding: var(--space-8);
-}
-
-.mobile-menu.active {
-    transform: translateY(0);
-    opacity: 1;
-    visibility: visible;
-}
-
-.mobile-nav-list {
-    display: flex;
-    flex-direction: column;
-    list-style: none;
-    gap: var(--space-4);
-    margin: 0 0 var(--space-8) 0;
-    padding: 0;
-    text-align: center;
-}
-
-.mobile-nav-list .nav-link {
-    color: var(--text-primary);
-    text-decoration: none;
-    font-weight: 600;
-    padding: var(--space-4) var(--space-6);
-    border-radius: var(--border-radius-lg);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    font-size: var(--font-size-xl);
-    background: var(--surface-elevated);
-    border: 1px solid var(--border);
-    min-width: 200px;
-    text-align: center;
-}
-
-.mobile-nav-list .nav-link:hover,
-.mobile-nav-list .nav-link.active {
-    color: var(--primary);
-    background: var(--accent);
-    transform: translateX(4px);
-}
-
-@media (min-width: 768px) {
-    .mobile-menu {
-        display: none;
-    }
-    
-    .nav-link.active {
-        color: var(--primary);
-        background: var(--surface-elevated);
-    }
-}
-`;
-document.head.appendChild(style);
+// CSS has been moved to style.css for better caching and maintainability
 
 console.log(`
 The Waste Masters Professional Website
