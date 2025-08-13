@@ -3,19 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Waste Masters - Miami's #1 Junk Removal Service | Same Day Pickup</title>
-    <meta name="description" content="Miami's trusted junk removal company since 1993. Same-day service, no hidden fees, eco-friendly disposal. Call (305) 986-0692 for instant quote!">
+    <title>The Waste Masters - Professional Waste Removal & Disposal Services Miami</title>
+    <meta name="description" content="Miami's leading waste disposal company since 1993. Junk removal, dumpster rental, construction cleanup. Licensed & insured. Call (305) 986-0692 for free quote!">
     
     <!-- Preload critical assets -->
     <link rel="preload" href="newlogo.jpg" as="image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="newlogo.jpg" type="image/jpeg">
 </head>
 <body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <div class="top-bar-info">
+                    <span>Professional Waste Disposal Since 1993</span>
+                    <span class="divider">|</span>
+                    <span>Licensed & Insured</span>
+                </div>
+                <div class="top-bar-contact">
+                    <a href="tel:+13059860692" class="top-bar-phone">Call Now: (305) 986-0692</a>
+                    <a href="mailto:info@thewastemasters.com" class="top-bar-email">info@thewastemasters.com</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Header -->
     <header class="header">
         <div class="container">
@@ -23,15 +40,23 @@
                 <div class="logo">
                     <img src="newlogo.jpg" alt="The Waste Masters" class="logo-img">
                     <div class="logo-text">
-                        <h1 class="logo-title">The<br>Waste Masters</h1>
-                        <p class="logo-tagline">Miami's Junk Removal Pros</p>
+                        <h1 class="logo-title">The Waste Masters</h1>
+                        <p class="logo-tagline">Professional Waste Solutions</p>
                     </div>
                 </div>
                 
+                <nav class="nav" id="nav">
+                    <ul class="nav-list">
+                        <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
+                        <li class="nav-item"><a href="#services" class="nav-link">Services</a></li>
+                        <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+                        <li class="nav-item"><a href="#pricing" class="nav-link">Pricing</a></li>
+                        <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                    </ul>
+                </nav>
+                
                 <div class="header-actions">
-                    <a href="tel:+13059860692" class="btn btn-primary">
-                        Call Now
-                    </a>
+                    <a href="tel:+13059860692" class="btn btn-primary">Get Free Quote</a>
                     <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
                         <span></span>
                         <span></span>
@@ -39,43 +64,76 @@
                     </button>
                 </div>
             </div>
-            
-            <!-- Mobile Menu -->
-            <nav class="mobile-menu" id="mobileMenu">
-                <a href="#services" class="menu-link">Our Services</a>
-                <a href="#about" class="menu-link">About Us</a>
-                <a href="#pricing" class="menu-link">Pricing</a>
-                <a href="#contact" class="menu-link">Get Quote</a>
-                <a href="tel:+13059860692" class="menu-link menu-link-phone">(305) 986-0692</a>
-            </nav>
         </div>
     </header>
 
     <!-- Hero Section -->
     <main>
-        <section class="hero">
+        <section class="hero" id="home">
+            <div class="hero-bg"></div>
             <div class="container">
                 <div class="hero-content">
-                    <h2 class="hero-title">Got Junk?<br><span class="highlight">We'll Haul It All!</span></h2>
-                    <p class="hero-subtitle">Same-day service • No hidden fees • 30+ years trusted in Miami</p>
-                    
-                    <div class="hero-features">
-                        <div class="feature">
-                            <span>Same Day Service</span>
+                    <div class="hero-text">
+                        <h2 class="hero-title">
+                            Professional <span class="text-primary">Waste Removal</span><br>
+                            Services in Miami-Dade
+                        </h2>
+                        <p class="hero-subtitle">
+                            Family-owned since 1993, we provide reliable junk removal, dumpster rental, 
+                            and construction cleanup services. Same-day service available with upfront pricing.
+                        </p>
+                        
+                        <div class="hero-features">
+                            <div class="hero-feature">
+                                <div class="feature-icon">
+                                    <div class="icon-circle">24</div>
+                                </div>
+                                <div class="feature-text">
+                                    <h4>Same Day Service</h4>
+                                    <p>Call morning, gone afternoon</p>
+                                </div>
+                            </div>
+                            
+                            <div class="hero-feature">
+                                <div class="feature-icon">
+                                    <div class="icon-circle">30+</div>
+                                </div>
+                                <div class="feature-text">
+                                    <h4>Years Experience</h4>
+                                    <p>Trusted since 1993</p>
+                                </div>
+                            </div>
+                            
+                            <div class="hero-feature">
+                                <div class="feature-icon">
+                                    <div class="icon-circle">65%</div>
+                                </div>
+                                <div class="feature-text">
+                                    <h4>Items Recycled</h4>
+                                    <p>Eco-friendly disposal</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="feature">
-                            <span>Eco-Friendly</span>
-                        </div>
-                        <div class="feature">
-                            <span>Licensed & Insured</span>
+                        
+                        <div class="hero-actions">
+                            <a href="tel:+13059860692" class="btn btn-primary btn-large">
+                                Call For Free Quote
+                            </a>
+                            <a href="#services" class="btn btn-secondary btn-large">
+                                View Services
+                            </a>
                         </div>
                     </div>
                     
-                    <div class="hero-actions">
-                        <a href="tel:+13059860692" class="btn btn-primary btn-large">
-                            Get Free Quote Now
-                        </a>
-                        <p class="hero-note">Call in the morning, junk gone by afternoon</p>
+                    <div class="hero-image">
+                        <div class="hero-truck">
+                            <div class="truck-graphic">
+                                <div class="truck-body"></div>
+                                <div class="truck-cab"></div>
+                                <div class="truck-wheel truck-wheel-1"></div>
+                                <div class="truck-wheel truck-wheel-2"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,60 +142,90 @@
         <!-- Services Section -->
         <section class="services" id="services">
             <div class="container">
-                <h2 class="section-title">What Can We Remove?</h2>
-                <p class="section-subtitle">We haul away almost anything. Just point and it's gone!</p>
+                <div class="section-header">
+                    <h2 class="section-title">Our Waste Disposal Services</h2>
+                    <p class="section-subtitle">Professional waste management solutions for residential and commercial needs</p>
+                </div>
                 
                 <div class="services-grid">
                     <div class="service-card">
-                        <div class="service-icon">■</div>
-                        <h3 class="service-title">Household Junk</h3>
-                        <p class="service-description">Furniture, appliances, mattresses, electronics, clutter</p>
+                        <div class="service-icon">
+                            <div class="service-icon-bg"></div>
+                        </div>
+                        <div class="service-content">
+                            <h3 class="service-title">Residential Junk Removal</h3>
+                            <p class="service-description">
+                                Complete household cleanouts including furniture, appliances, 
+                                electronics, and general clutter removal.
+                            </p>
+                            <ul class="service-list">
+                                <li>Furniture & Appliances</li>
+                                <li>Electronics & E-waste</li>
+                                <li>Mattresses & Box Springs</li>
+                                <li>Household Clutter</li>
+                            </ul>
+                            <a href="tel:+13059860692" class="service-link">Get Quote</a>
+                        </div>
                     </div>
                     
                     <div class="service-card">
-                        <div class="service-icon">▲</div>
-                        <h3 class="service-title">Construction Debris</h3>
-                        <p class="service-description">Renovation waste, drywall, flooring, building materials</p>
+                        <div class="service-icon">
+                            <div class="service-icon-bg"></div>
+                        </div>
+                        <div class="service-content">
+                            <h3 class="service-title">Construction Debris</h3>
+                            <p class="service-description">
+                                Safe removal of construction and renovation waste with 
+                                proper disposal and recycling methods.
+                            </p>
+                            <ul class="service-list">
+                                <li>Drywall & Lumber</li>
+                                <li>Flooring Materials</li>
+                                <li>Renovation Debris</li>
+                                <li>Building Materials</li>
+                            </ul>
+                            <a href="tel:+13059860692" class="service-link">Get Quote</a>
+                        </div>
                     </div>
                     
                     <div class="service-card">
-                        <div class="service-icon">●</div>
-                        <h3 class="service-title">Commercial Cleanouts</h3>
-                        <p class="service-description">Office furniture, retail fixtures, warehouse clearance</p>
+                        <div class="service-icon">
+                            <div class="service-icon-bg"></div>
+                        </div>
+                        <div class="service-content">
+                            <h3 class="service-title">Commercial Cleanouts</h3>
+                            <p class="service-description">
+                                Professional commercial waste removal for offices, 
+                                retail spaces, and warehouses.
+                            </p>
+                            <ul class="service-list">
+                                <li>Office Furniture</li>
+                                <li>Retail Fixtures</li>
+                                <li>Warehouse Cleanup</li>
+                                <li>Equipment Removal</li>
+                            </ul>
+                            <a href="tel:+13059860692" class="service-link">Get Quote</a>
+                        </div>
                     </div>
                     
                     <div class="service-card">
-                        <div class="service-icon">⬢</div>
-                        <h3 class="service-title">Dumpster Rental</h3>
-                        <p class="service-description">10, 20, 30 & 40 yard containers for big projects</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- How It Works -->
-        <section class="process">
-            <div class="container">
-                <h2 class="section-title">How It Works</h2>
-                <p class="section-subtitle">Simple 3-step process</p>
-                
-                <div class="process-steps">
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <h3 class="step-title">Call or Text</h3>
-                        <p class="step-description">Tell us what you need removed</p>
-                    </div>
-                    
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <h3 class="step-title">We Quote</h3>
-                        <p class="step-description">Upfront pricing, no surprises</p>
-                    </div>
-                    
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <h3 class="step-title">We Haul</h3>
-                        <p class="step-description">Same day pickup & cleanup</p>  
+                        <div class="service-icon">
+                            <div class="service-icon-bg"></div>
+                        </div>
+                        <div class="service-content">
+                            <h3 class="service-title">Dumpster Rental</h3>
+                            <p class="service-description">
+                                Flexible dumpster rental options for projects of all sizes 
+                                with convenient pickup and delivery.
+                            </p>
+                            <ul class="service-list">
+                                <li>10, 20, 30 & 40 Yard Sizes</li>
+                                <li>Flexible Rental Periods</li>
+                                <li>Same-Day Delivery</li>
+                                <li>Professional Placement</li>
+                            </ul>
+                            <a href="tel:+13059860692" class="service-link">Get Quote</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -147,39 +235,208 @@
         <section class="about" id="about">
             <div class="container">
                 <div class="about-content">
-                    <h2 class="section-title">Why Choose The Waste Masters?</h2>
-                    
-                    <div class="about-stats">
-                        <div class="stat">
-                            <div class="stat-number">30+</div>
-                            <div class="stat-label">Years Experience</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">65%</div>
-                            <div class="stat-label">Items Recycled</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">1993</div>
-                            <div class="stat-label">Family Founded</div>
-                        </div>
-                    </div>
-                    
                     <div class="about-text">
-                        <p>Family-owned and operated since 1993, we're Miami-Dade's most trusted junk removal service. We don't just haul your junk away – we recycle 65% of what we collect and donate items in good condition to local charities.</p>
+                        <div class="section-header">
+                            <h2 class="section-title">About The Waste Masters</h2>
+                            <p class="section-subtitle">Miami-Dade's most trusted waste disposal company</p>
+                        </div>
+                        
+                        <div class="about-description">
+                            <p>
+                                Since 1993, The Waste Masters has been serving Miami-Dade County with professional, 
+                                reliable waste disposal services. As a family-owned business, we understand the 
+                                importance of trust, transparency, and exceptional service.
+                            </p>
+                            <p>
+                                We're committed to eco-friendly practices, recycling 65% of collected materials 
+                                and donating usable items to local charities. Our licensed and insured team 
+                                provides same-day service with upfront, honest pricing.
+                            </p>
+                        </div>
+                        
+                        <div class="about-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">30+</div>
+                                <div class="stat-label">Years in Business</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">5000+</div>
+                                <div class="stat-label">Happy Customers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">65%</div>
+                                <div class="stat-label">Recycling Rate</div>
+                            </div>
+                        </div>
                         
                         <div class="about-features">
                             <div class="about-feature">
-                                <span><strong>Same-day service</strong> – Call morning, gone afternoon</span>
+                                <h4>Licensed & Insured</h4>
+                                <p>Fully licensed (#15207) and insured for your protection</p>
                             </div>
                             <div class="about-feature">
-                                <span><strong>No hidden fees</strong> – What we quote is what you pay</span>
+                                <h4>Eco-Friendly Disposal</h4>
+                                <p>We recycle and donate whenever possible</p>
                             </div>
                             <div class="about-feature">
-                                <span><strong>Eco-friendly</strong> – We recycle and donate when possible</span>
+                                <h4>Transparent Pricing</h4>
+                                <p>No hidden fees - what we quote is what you pay</p>
                             </div>
-                            <div class="about-feature">
-                                <span><strong>Licensed & insured</strong> – Your property is protected</span>
+                        </div>
+                    </div>
+                    
+                    <div class="about-image">
+                        <div class="about-img-container">
+                            <img src="toter-professional-placement.jpg" alt="Professional waste disposal service" class="about-img">
+                            <div class="about-badge">
+                                <div class="badge-content">
+                                    <div class="badge-number">30+</div>
+                                    <div class="badge-text">Years<br>Experience</div>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="pricing" id="pricing">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Transparent Pricing</h2>
+                    <p class="section-subtitle">No hidden fees - honest, upfront pricing based on volume</p>
+                </div>
+                
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3 class="pricing-title">Small Load</h3>
+                            <div class="pricing-price">
+                                <span class="price-currency">$</span>
+                                <span class="price-amount">150</span>
+                                <span class="price-period">- $250</span>
+                            </div>
+                        </div>
+                        <div class="pricing-content">
+                            <p class="pricing-description">Perfect for small cleanouts and single-item removal</p>
+                            <ul class="pricing-features">
+                                <li>Up to 1/4 truck load</li>
+                                <li>Single room cleanout</li>
+                                <li>Few large items</li>
+                                <li>Same day service</li>
+                                <li>Eco-friendly disposal</li>
+                            </ul>
+                            <a href="tel:+13059860692" class="btn btn-outline">Get Quote</a>
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-card pricing-featured">
+                        <div class="pricing-badge">Most Popular</div>
+                        <div class="pricing-header">
+                            <h3 class="pricing-title">Medium Load</h3>
+                            <div class="pricing-price">
+                                <span class="price-currency">$</span>
+                                <span class="price-amount">250</span>
+                                <span class="price-period">- $450</span>
+                            </div>
+                        </div>
+                        <div class="pricing-content">
+                            <p class="pricing-description">Ideal for whole room or garage cleanouts</p>
+                            <ul class="pricing-features">
+                                <li>Up to 1/2 truck load</li>
+                                <li>Multiple room cleanout</li>
+                                <li>Garage or basement</li>
+                                <li>Furniture sets</li>
+                                <li>Priority scheduling</li>
+                            </ul>
+                            <a href="tel:+13059860692" class="btn btn-primary">Get Quote</a>
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3 class="pricing-title">Large Load</h3>
+                            <div class="pricing-price">
+                                <span class="price-currency">$</span>
+                                <span class="price-amount">450</span>
+                                <span class="price-period">- $650</span>
+                            </div>
+                        </div>
+                        <div class="pricing-content">
+                            <p class="pricing-description">Best for whole house cleanouts and major projects</p>
+                            <ul class="pricing-features">
+                                <li>Up to full truck load</li>
+                                <li>Whole house cleanout</li>
+                                <li>Construction debris</li>
+                                <li>Commercial cleanouts</li>
+                                <li>Volume discounts</li>
+                            </ul>
+                            <a href="tel:+13059860692" class="btn btn-outline">Get Quote</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pricing-note">
+                    <p>
+                        <strong>Note:</strong> Final pricing determined on-site based on actual volume and materials. 
+                        We provide free estimates with no obligation. Additional fees may apply for hazardous materials 
+                        or difficult access locations.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Section -->
+        <section class="process">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">How It Works</h2>
+                    <p class="section-subtitle">Simple 4-step process to get your junk removed</p>
+                </div>
+                
+                <div class="process-steps">
+                    <div class="process-step">
+                        <div class="step-number">01</div>
+                        <div class="step-content">
+                            <h3 class="step-title">Contact Us</h3>
+                            <p class="step-description">
+                                Call, text, or email us with details about your junk removal needs. 
+                                We're available 7 days a week for consultations.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">02</div>
+                        <div class="step-content">
+                            <h3 class="step-title">Free Estimate</h3>
+                            <p class="step-description">
+                                We'll provide an upfront, honest estimate based on volume and materials. 
+                                No hidden fees or surprise charges.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">03</div>
+                        <div class="step-content">
+                            <h3 class="step-title">Schedule Service</h3>
+                            <p class="step-description">
+                                Choose a convenient time for pickup. We offer same-day service 
+                                and flexible scheduling to fit your needs.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">04</div>
+                        <div class="step-content">
+                            <h3 class="step-title">We Haul It Away</h3>
+                            <p class="step-description">
+                                Our professional team removes your junk, cleans up the area, 
+                                and disposes of items responsibly through recycling and donation.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -190,35 +447,125 @@
         <section class="contact" id="contact">
             <div class="container">
                 <div class="contact-content">
-                    <h2 class="section-title">Ready to Get Rid of Your Junk?</h2>
-                    <p class="section-subtitle">Get your free quote in under 2 minutes</p>
-                    
-                    <div class="contact-options">
-                        <div class="contact-option">
-                            <div class="contact-icon">●</div>
-                            <h3>Call Now for Instant Quote</h3>
-                            <a href="tel:+13059860692" class="contact-link">(305) 986-0692</a>
-                            <p>Available Mon-Fri 7AM-6PM, Sat 8AM-4PM</p>
+                    <div class="contact-info">
+                        <div class="section-header">
+                            <h2 class="section-title">Get Your Free Quote Today</h2>
+                            <p class="section-subtitle">Ready to get rid of your junk? Contact us for fast, reliable service</p>
                         </div>
                         
-                        <div class="contact-option">
-                            <div class="contact-icon">▲</div>
-                            <h3>Text Us Photos</h3>
-                            <a href="sms:+13059860692" class="contact-link">(305) 986-0692</a>
-                            <p>Send pics of your junk for faster quotes</p>
+                        <div class="contact-methods">
+                            <div class="contact-method">
+                                <div class="contact-icon phone-icon"></div>
+                                <div class="contact-details">
+                                    <h4>Call Now</h4>
+                                    <a href="tel:+13059860692" class="contact-link">(305) 986-0692</a>
+                                    <p>Available Mon-Fri 7AM-6PM, Sat 8AM-4PM</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-method">
+                                <div class="contact-icon email-icon"></div>
+                                <div class="contact-details">
+                                    <h4>Email Us</h4>
+                                    <a href="mailto:info@thewastemasters.com" class="contact-link">info@thewastemasters.com</a>
+                                    <p>Get a detailed written estimate</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-method">
+                                <div class="contact-icon location-icon"></div>
+                                <div class="contact-details">
+                                    <h4>Service Area</h4>
+                                    <span class="contact-link">Miami-Dade County</span>
+                                    <p>Miami, Coral Gables, Homestead, Kendall, Hialeah & more</p>
+                                </div>
+                            </div>
                         </div>
                         
-                        <div class="contact-option">
-                            <div class="contact-icon">■</div>
-                            <h3>Email Us</h3>
-                            <a href="mailto:info@thewastemasters.com" class="contact-link">info@thewastemasters.com</a>
-                            <p>Get a detailed estimate</p>
+                        <div class="contact-hours">
+                            <h4>Business Hours</h4>
+                            <div class="hours-grid">
+                                <div class="hours-item">
+                                    <span class="day">Monday - Friday</span>
+                                    <span class="time">7:00 AM - 6:00 PM</span>
+                                </div>
+                                <div class="hours-item">
+                                    <span class="day">Saturday</span>
+                                    <span class="time">8:00 AM - 4:00 PM</span>
+                                </div>
+                                <div class="hours-item">
+                                    <span class="day">Sunday</span>
+                                    <span class="time">Emergency Only</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="service-area">
-                        <h3>We Serve All of Miami-Dade County</h3>
-                        <p>Miami, Coral Gables, Homestead, Kendall, Hialeah, Aventura, and surrounding areas</p>
+                    <div class="contact-form-container">
+                        <form class="contact-form" id="contactForm">
+                            <h3 class="form-title">Request Free Quote</h3>
+                            <p class="form-subtitle">Fill out the form and we'll contact you within 30 minutes</p>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="name" class="form-label">Full Name *</label>
+                                    <input type="text" id="name" name="name" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone" class="form-label">Phone Number *</label>
+                                    <input type="tel" id="phone" name="phone" class="form-input" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" id="email" name="email" class="form-input">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="address" class="form-label">Service Address *</label>
+                                <input type="text" id="address" name="address" class="form-input" placeholder="Street address in Miami-Dade County" required>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="service" class="form-label">Service Type *</label>
+                                    <select id="service" name="service" class="form-input" required>
+                                        <option value="">Select service type</option>
+                                        <option value="residential">Residential Junk Removal</option>
+                                        <option value="commercial">Commercial Cleanout</option>
+                                        <option value="construction">Construction Debris</option>
+                                        <option value="dumpster">Dumpster Rental</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="urgency" class="form-label">When Needed *</label>
+                                    <select id="urgency" name="urgency" class="form-input" required>
+                                        <option value="">Select timeframe</option>
+                                        <option value="today">Today</option>
+                                        <option value="tomorrow">Tomorrow</option>
+                                        <option value="this-week">This Week</option>
+                                        <option value="next-week">Next Week</option>
+                                        <option value="flexible">Flexible</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="details" class="form-label">Description of Items *</label>
+                                <textarea id="details" name="details" class="form-input form-textarea" rows="4" placeholder="Please describe what needs to be removed (furniture, appliances, construction debris, etc.)" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-full">
+                                Get My Free Quote
+                            </button>
+                            
+                            <p class="form-note">
+                                By submitting this form, you agree to receive communications from The Waste Masters. 
+                                We respect your privacy and will never share your information.
+                            </p>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -229,30 +576,63 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-info">
-                    <img src="newlogo.jpg" alt="The Waste Masters" class="footer-logo">
-                    <p class="footer-text">Miami-Dade's trusted junk removal service since 1993. Licensed, insured, and committed to eco-friendly disposal.</p>
-                    <p class="footer-license">License #15207 | Fully Insured</p>
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <img src="newlogo.jpg" alt="The Waste Masters" class="footer-logo-img">
+                        <div class="footer-logo-text">
+                            <h3>The Waste Masters</h3>
+                            <p>Professional Waste Solutions</p>
+                        </div>
+                    </div>
+                    <p class="footer-description">
+                        Family-owned waste disposal company serving Miami-Dade County since 1993. 
+                        Licensed, insured, and committed to eco-friendly practices.
+                    </p>
+                    <div class="footer-license">
+                        <strong>License #15207 | Fully Insured</strong>
+                    </div>
+                </div>
+                
+                <div class="footer-services">
+                    <h4 class="footer-heading">Our Services</h4>
+                    <ul class="footer-list">
+                        <li><a href="#services">Residential Junk Removal</a></li>
+                        <li><a href="#services">Commercial Cleanouts</a></li>
+                        <li><a href="#services">Construction Debris</a></li>
+                        <li><a href="#services">Dumpster Rental</a></li>
+                        <li><a href="#services">Eco-Friendly Disposal</a></li>
+                    </ul>
                 </div>
                 
                 <div class="footer-contact">
-                    <h4>Contact Info</h4>
-                    <p><a href="tel:+13059860692">(305) 986-0692</a></p>
-                    <p><a href="mailto:info@thewastemasters.com">info@thewastemasters.com</a></p>
-                    <p>Miami-Dade County, FL</p>
+                    <h4 class="footer-heading">Contact Info</h4>
+                    <div class="footer-contact-info">
+                        <p><strong>Phone:</strong> <a href="tel:+13059860692">(305) 986-0692</a></p>
+                        <p><strong>Email:</strong> <a href="mailto:info@thewastemasters.com">info@thewastemasters.com</a></p>
+                        <p><strong>Service Area:</strong> Miami-Dade County, FL</p>
+                        <p><strong>Hours:</strong> Mon-Fri 7AM-6PM, Sat 8AM-4PM</p>
+                    </div>
+                </div>
+                
+                <div class="footer-cta">
+                    <h4 class="footer-heading">Need Junk Removed?</h4>
+                    <p>Get your free quote today! Same-day service available.</p>
+                    <a href="tel:+13059860692" class="btn btn-primary">Call Now</a>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 The Waste Masters. All rights reserved.</p>
-                <p>Serving Miami-Dade County with pride for over 30 years.</p>
+                <div class="footer-bottom-content">
+                    <p>&copy; 2025 The Waste Masters. All rights reserved.</p>
+                    <p>Proudly serving Miami-Dade County for over 30 years.</p>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- Back to Top Button -->
+    <!-- Back to Top -->
     <button class="back-to-top" id="backToTop" aria-label="Back to top">
-        ↑
+        <span class="back-to-top-icon"></span>
     </button>
 
     <script src="script.js"></script>
