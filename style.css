@@ -18,9 +18,16 @@
     --primary-subtle: #30d15820;
     --secondary: #000000;
     --surface: #1c1c1e;
+    --surface-dark: #000000;
     --surface-elevated: #2c2c2e;
     --surface-secondary: #3a3a3c;
     --danger: #ff453a;
+    
+    /* Background Variables */
+    --background: #1c1c1e;
+    --accent: #2c2c2e;
+    --accent-dark: #1a1a1c;
+    --accent-light: #3a3a3c;
     
     /* Apple-like Text Colors */
     --text-primary: #ffffff;
@@ -34,6 +41,7 @@
     --separator: #38383a;
     --separator-opaque: #38383a;
     --border-subtle: #48484a;
+    --border: #48484a;
     
     /* Apple Typography System */
     --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
@@ -77,6 +85,8 @@
     --shadow-elevated: 0 1px 3px rgba(0, 0, 0, 0.1);
     --shadow-elevated-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
     --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    --shadow-3d: 0 4px 12px rgba(0, 0, 0, 0.15);
+    --shadow-3d-hover: 0 8px 24px rgba(0, 0, 0, 0.2);
     
     /* Layout */
     --container-max: 1200px;
@@ -268,10 +278,10 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 40px;
-    height: 40px;
-    background: none;
-    border: none;
+    width: 48px;
+    height: 48px;
+    background: var(--surface-elevated);
+    border: 1px solid var(--border);
     cursor: pointer;
     padding: var(--space-2);
     border-radius: var(--border-radius);
@@ -316,7 +326,7 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 11px 20px;  /* Apple's button padding */
+    padding: 14px 24px;  /* Larger touch targets for mobile */
     border-radius: var(--border-radius);
     font-weight: 590;  /* Apple's medium weight */
     font-size: var(--font-size-base);
@@ -326,10 +336,11 @@ body {
     transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
     white-space: nowrap;
-    min-height: 44px;  /* Apple's minimum touch target */
+    min-height: 48px;  /* Larger minimum touch target for mobile */
     letter-spacing: -0.01em;
     user-select: none;
     -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .btn-primary {
@@ -377,10 +388,10 @@ body {
 }
 
 .btn-large {
-    padding: 16px 32px;  /* Larger Apple-style padding */
+    padding: 18px 36px;  /* Even larger for mobile touch */
     font-size: var(--font-size-lg);
     border-radius: var(--border-radius-lg);
-    min-height: 56px;
+    min-height: 60px;
     font-weight: 590;
 }
 
@@ -596,7 +607,7 @@ body {
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: var(--space-4);
     max-width: 800px;
     margin: 0 auto;
@@ -1280,14 +1291,17 @@ body {
 
 .form-input {
     width: 100%;
-    padding: var(--space-3);
-    border: 1px solid var(--text-primary);
+    padding: 16px;
+    border: 1px solid var(--border);
     border-radius: var(--border-radius);
     background: var(--secondary);
     color: var(--text-primary);
     font-family: inherit;
-    font-size: var(--font-size-base);
+    font-size: 16px; /* Prevents zoom on iOS */
     transition: all 0.3s ease;
+    min-height: 48px;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .form-input:focus {
@@ -1484,37 +1498,166 @@ body {
    RESPONSIVE DESIGN
    =================================== */
 
+/* Mobile First Styles (default - up to 768px) */
+.hero-features {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+}
+
+.hero-feature {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-3);
+}
+
+.hero-actions {
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.pricing-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+}
+
+.process-steps {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+}
+
+.contact-content {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+}
+
+.footer-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: var(--space-8);
+}
+
+.form-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+}
+
+.about-stats {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+}
+
 /* Small Mobile (up to 480px) */
 @media (max-width: 480px) {
     :root {
-        --container-padding: 0.75rem;
-        --font-size-4xl: 1.875rem;
+        --container-padding: 1rem;
+        --font-size-4xl: 1.75rem;
         --font-size-3xl: 1.5rem;
         --font-size-2xl: 1.25rem;
+        --space-16: 3rem;
+        --space-20: 4rem;
     }
     
-    .hero-features {
-        grid-template-columns: 1fr;
-        gap: var(--space-3);
+    html {
+        -webkit-text-size-adjust: 100%;
+        touch-action: manipulation;
     }
     
-    .hero-feature {
+    body {
+        overflow-x: hidden;
+    }
+    
+    .header-content {
+        padding: 8px 0;
+        min-height: 60px;
+    }
+    
+    .logo-img {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .logo-title {
+        font-size: 18px;
+    }
+    
+    .logo-tagline {
+        font-size: 10px;
+    }
+    
+    .hero {
+        padding: var(--space-12) 0 var(--space-16);
+    }
+    
+    .hero-logo-img {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .service-card {
+        min-height: auto;
+    }
+    
+    .service-image {
+        height: 200px;
+    }
+    
+    .pricing-card {
+        transform: none !important;
+    }
+    
+    .pricing-featured {
+        transform: none !important;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+        line-height: 1.5;
+        margin-bottom: var(--space-6);
+    }
+    
+    .section-title {
+        font-size: 1.75rem;
+        line-height: 1.3;
+        margin-bottom: var(--space-3);
+    }
+    
+    .section-subtitle {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+    
+    .contact-method {
         flex-direction: column;
         text-align: center;
         gap: var(--space-3);
+        padding: var(--space-5);
     }
     
-    .about-stats {
-        grid-template-columns: 1fr;
-        gap: var(--space-4);
+    .contact-details h4 {
+        margin-bottom: var(--space-2);
     }
     
-    .stat-item {
+    .contact-link {
+        font-size: 1.2rem;
+        margin-bottom: var(--space-2);
+    }
+    
+    .hero-feature {
         padding: var(--space-4);
     }
     
-    .form-row {
-        grid-template-columns: 1fr;
+    .feature-text h4 {
+        font-size: 1.1rem;
+        margin-bottom: var(--space-2);
+    }
+    
+    .feature-text p {
+        font-size: 0.95rem;
     }
 }
 
@@ -1708,6 +1851,35 @@ body {
     .pricing-card,
     .contact-method {
         border: 2px solid var(--gray-300);
+    }
+}
+
+/* Mobile-specific hover and interaction fixes */
+@media (max-width: 768px) {
+    .service-card:hover,
+    .pricing-card:hover,
+    .contact-method:hover {
+        transform: none;
+        box-shadow: var(--shadow);
+    }
+    
+    .process-step:hover .step-number {
+        transform: none;
+    }
+    
+    .btn:hover {
+        transform: none;
+        background: var(--primary);
+    }
+    
+    .btn-secondary:hover {
+        transform: none;
+        background: var(--surface-elevated);
+    }
+    
+    .hero-logo-img {
+        width: 250px;
+        height: 250px;
     }
 }
 
