@@ -121,9 +121,8 @@ function initMobileMenu() {
         phoneLink.textContent = 'Call Now: (305) 986-0692';
         mobileMenu.appendChild(phoneLink);
         
-        // Insert after header
-        const header = document.querySelector('.header');
-        header.appendChild(mobileMenu);
+        // Insert into body instead of header to avoid stacking/overflow issues
+        document.body.appendChild(mobileMenu);
         
         return mobileMenu;
     }
@@ -134,21 +133,20 @@ function initMobileMenu() {
         
         // Prevent body scroll when menu is open on mobile
         if (window.innerWidth < BREAKPOINTS.MOBILE) {
-            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+            document.body.classList.toggle('body-lock', mobileMenu.classList.contains('active'));
         }
     }
     
     function closeMenu() {
         menuToggle.classList.remove('active');
         mobileMenu.classList.remove('active');
-        document.body.style.overflow = '';
+        document.body.classList.remove('body-lock');
     }
     
     // Reset menu state on resize
     window.addEventListener('resize', function() {
         if (window.innerWidth >= BREAKPOINTS.MOBILE) {
             closeMenu();
-            document.body.style.overflow = '';
         }
     });
 }

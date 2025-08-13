@@ -2127,10 +2127,10 @@ body {
     .hero-logo {
         margin-top: var(--space-8);
         align-items: center;
-        justify-self: end;
+        justify-self: center;
         margin-right: 0;
-        padding-left: var(--space-16);
-        transform: translateX(var(--space-12));
+        padding-left: 0;
+        transform: translateX(-var(--space-8));
     }
     
     .hero-logo-img {
@@ -2340,4 +2340,84 @@ body {
         box-shadow: none;
         border: 1px solid var(--gray-300);
     }
+}
+
+/* ===================================
+   MOBILE FIXES & IOS SAFE-AREA
+   =================================== */
+
+/* iOS safe-area for sticky header */
+.header {
+    padding-top: env(safe-area-inset-top);
+}
+
+/* Let header content shrink properly */
+.header-content { 
+    min-width: 0; 
+}
+
+/* Compact actions on narrow phones */
+@media (max-width: 390px) {
+    .header-actions { 
+        gap: 6px; 
+    }
+    .header-actions .btn {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+    .menu-toggle { 
+        width: 40px; 
+        height: 40px; 
+    }
+}
+
+/* Ultra-narrow fallback: stack the CTA under the logo */
+@media (max-width: 340px) {
+    .header-content { 
+        flex-wrap: wrap; 
+        row-gap: 8px; 
+    }
+    .header-actions { 
+        width: 100%; 
+        justify-content: flex-start; 
+    }
+    .header-actions .btn { 
+        width: auto; 
+    }
+}
+
+/* Mobile menu smoothness + full viewport coverage on iOS */
+.mobile-menu {
+    height: 100dvh;              /* visible viewport on iOS */
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    transform: translate3d(0,-100%,0); /* promote to GPU */
+}
+
+/* Lock body scroll reliably when menu is open (iOS) */
+.body-lock {
+    overflow: hidden;
+    position: relative;
+    height: 100dvh;
+}
+
+/* Nicer hero wrapping on small phones */
+.hero-title {
+    line-height: 1.15;
+    text-wrap: balance;          /* Safari/iOS supports this */
+    font-size: clamp(1.6rem, 5vw, var(--font-size-5xl));
+}
+
+.hero-subtitle { 
+    font-size: clamp(0.95rem, 3.6vw, 1.125rem); 
+}
+
+/* Prevent accidental horizontal scroll */
+img, .service-card, .pricing-card { 
+    max-width: 100%; 
+}
+
+.container { 
+    padding-inline: max(16px, env(safe-area-inset-left)); 
+    padding-inline-end: max(16px, env(safe-area-inset-right)); 
 }
