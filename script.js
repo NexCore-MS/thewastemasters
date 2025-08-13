@@ -39,7 +39,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initCallTracking();
     initAnimations();
     initActiveNavigation();
-    initThemeToggle();
     initStickyContactBar();
 });
 
@@ -758,45 +757,6 @@ if ('serviceWorker' in navigator) {
 // ===================================
 // INITIALIZATION COMPLETE
 // ===================================
-
-// ===================================
-// THEME TOGGLE
-// ===================================
-function initThemeToggle() {
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = themeToggle?.querySelector('.theme-icon');
-    
-    if (!themeToggle || !themeIcon) return;
-    
-    // Check for saved theme preference or default to dark mode
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    applyTheme(savedTheme);
-    
-    // Toggle theme on button click
-    themeToggle.addEventListener('click', function() {
-        const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
-        applyTheme(newTheme);
-        localStorage.setItem('theme', newTheme);
-        
-        // Track theme change
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'theme_change', {
-                'event_category': 'engagement',
-                'event_label': newTheme
-            });
-        }
-    });
-    
-    function applyTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
-        themeToggle.setAttribute('aria-label', 
-            theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
-        );
-    }
-}
 
 // ===================================
 // STICKY CONTACT BAR
