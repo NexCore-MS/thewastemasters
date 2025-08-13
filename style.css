@@ -11,7 +11,7 @@
 }
 
 :root {
-    /* Apple-inspired Green & Black Theme */
+    /* Apple-inspired Green & Black Theme (Dark Mode) */
     --primary: #30d158;
     --primary-dark: #28b946;
     --primary-light: #52d470;
@@ -29,13 +29,13 @@
     --accent-dark: #1a1a1c;
     --accent-light: #3a3a3c;
     
-    /* Apple-like Text Colors */
+    /* Apple-like Text Colors (Dark Mode) - Improved Contrast */
     --text-primary: #ffffff;
-    --text-secondary: #ebebf599;
-    --text-tertiary: #ebebf54d;
+    --text-secondary: #ebebf5cc; /* Increased opacity for better contrast */
+    --text-tertiary: #ebebf580;  /* Increased opacity for better contrast */
     --label: #ffffff;
-    --label-secondary: #ebebf599;
-    --label-tertiary: #ebebf54d;
+    --label-secondary: #ebebf5cc;
+    --label-tertiary: #ebebf580;
     
     /* Apple Borders & Separators */
     --separator: #38383a;
@@ -93,6 +93,47 @@
     --container-padding: 1rem;
 }
 
+/* Light Theme Variables */
+[data-theme="light"] {
+    /* Light mode colors */
+    --secondary: #ffffff;
+    --surface: #f2f2f7;
+    --surface-dark: #e5e5ea;
+    --surface-elevated: #ffffff;
+    --surface-secondary: #f2f2f7;
+    
+    /* Light mode backgrounds */
+    --background: #ffffff;
+    --accent: #f2f2f7;
+    --accent-dark: #e5e5ea;
+    --accent-light: #ffffff;
+    
+    /* Light mode text colors - Improved Contrast */
+    --text-primary: #000000;
+    --text-secondary: #3c3c43cc; /* Increased opacity for better contrast */
+    --text-tertiary: #3c3c4380;  /* Increased opacity for better contrast */
+    --label: #000000;
+    --label-secondary: #3c3c43cc;
+    --label-tertiary: #3c3c4380;
+    
+    /* Light mode borders */
+    --separator: #c6c6c8;
+    --separator-opaque: #c6c6c8;
+    --border-subtle: #d1d1d6;
+    --border: #d1d1d6;
+    
+    /* Adjusted shadows for light mode */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+    --shadow-xl: 0 12px 40px rgba(0, 0, 0, 0.15);
+    --shadow-elevated: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow-elevated-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
+    --shadow-3d: 0 4px 12px rgba(0, 0, 0, 0.12);
+    --shadow-3d-hover: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
 /* Base Typography */
 html {
     scroll-behavior: smooth;
@@ -136,6 +177,13 @@ body {
     -webkit-backdrop-filter: blur(20px);
 }
 
+/* Show top bar on larger screens */
+@media (min-width: 768px) {
+    .top-bar {
+        display: block;
+    }
+}
+
 .top-bar-content {
     display: flex;
     align-items: center;
@@ -171,6 +219,110 @@ body {
 .top-bar-phone:hover,
 .top-bar-email:hover {
     color: var(--primary-light);
+}
+
+/* Theme Toggle */
+.theme-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    padding: var(--space-2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin-left: var(--space-3);
+}
+
+.theme-toggle:hover {
+    background: var(--accent);
+    transform: scale(1.05);
+}
+
+.theme-icon {
+    font-size: 16px;
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover .theme-icon {
+    transform: rotate(20deg);
+}
+
+/* ===================================
+   STICKY CONTACT BAR
+   =================================== */
+
+.sticky-contact-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--primary);
+    color: var(--text-primary);
+    z-index: 999;
+    transform: translateY(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.sticky-contact-bar.visible {
+    transform: translateY(0);
+}
+
+.sticky-contact-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) 0;
+    gap: var(--space-4);
+}
+
+.sticky-contact-info {
+    flex: 1;
+}
+
+.sticky-contact-text {
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+}
+
+.sticky-contact-actions {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+}
+
+.sticky-contact-actions .btn {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--font-size-sm);
+    min-height: 36px;
+}
+
+.sticky-contact-actions .btn-secondary {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--text-primary);
+}
+
+.sticky-contact-actions .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--text-primary);
+}
+
+/* Hide on very small screens */
+@media (max-width: 480px) {
+    .sticky-contact-text {
+        display: none;
+    }
+    
+    .sticky-contact-content {
+        justify-content: center;
+    }
 }
 
 /* ===================================
@@ -347,12 +499,43 @@ body {
     background: var(--primary);
     color: var(--text-primary);
     box-shadow: var(--shadow-elevated);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.8s ease;
+}
+
+.btn-primary:hover::before {
+    left: 100%;
 }
 
 .btn-primary:hover {
     background: var(--primary-light);
     box-shadow: var(--shadow-elevated-hover);
     transform: translateY(-1px);
+}
+
+/* Subtle pulse animation for important CTAs */
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: var(--shadow-elevated), 0 0 0 0 rgba(48, 209, 88, 0.4);
+    }
+    50% {
+        box-shadow: var(--shadow-elevated), 0 0 0 8px rgba(48, 209, 88, 0);
+    }
+}
+
+.btn-primary.pulse {
+    animation: pulse 2s infinite;
 }
 
 .btn-secondary {
@@ -881,6 +1064,123 @@ body {
     font-size: var(--font-size-xs);
     font-weight: 500;
     line-height: 1.2;
+}
+
+/* ===================================
+   TESTIMONIALS SECTION
+   =================================== */
+
+.testimonials {
+    background: var(--accent);
+    padding: var(--space-16) 0;
+    border-top: 1px solid var(--separator);
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    margin-bottom: var(--space-12);
+}
+
+.testimonial-card {
+    background: var(--surface-elevated);
+    padding: var(--space-6);
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--separator);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.testimonial-card::before {
+    content: '"';
+    position: absolute;
+    top: var(--space-4);
+    left: var(--space-4);
+    font-size: 3rem;
+    color: var(--primary);
+    font-family: serif;
+    opacity: 0.3;
+    line-height: 1;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary);
+}
+
+.testimonial-content {
+    position: relative;
+    z-index: 1;
+}
+
+.testimonial-stars {
+    color: #ffd700;
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--space-3);
+    letter-spacing: 2px;
+}
+
+.testimonial-text {
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    margin-bottom: var(--space-4);
+    font-style: italic;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--separator);
+}
+
+.testimonial-name {
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    margin-bottom: var(--space-1);
+}
+
+.testimonial-location {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    font-weight: 400;
+}
+
+.testimonials-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+    background: var(--surface-elevated);
+    padding: var(--space-8);
+    border-radius: var(--border-radius-xl);
+    border: 1px solid var(--separator);
+    box-shadow: var(--shadow);
+}
+
+.testimonials-stat {
+    text-align: center;
+    padding: var(--space-4);
+}
+
+.testimonials-stat .stat-number {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: var(--space-1);
+    line-height: 1;
+}
+
+.testimonials-stat .stat-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    font-weight: 500;
 }
 
 /* ===================================

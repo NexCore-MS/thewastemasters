@@ -39,6 +39,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initCallTracking();
     initAnimations();
     initActiveNavigation();
+    initThemeToggle();
+    initStickyContactBar();
 });
 
 // ===================================
@@ -333,7 +335,7 @@ function initContactForm() {
                 if (response.ok) {
                     // Success with Formspree
                     contactForm.reset();
-                    statusDiv.textContent = 'Thank you! We\'ll contact you within 30 minutes for your free quote.';
+                    statusDiv.textContent = 'Thank you! We\'ll contact you within 30 minutes for your free estimate.';
                     statusDiv.className = 'form-status success';
                     
                     // Track successful submission
@@ -352,7 +354,7 @@ function initContactForm() {
                 // Fallback for development/testing
                 await new Promise(resolve => setTimeout(resolve, 1500));
                 contactForm.reset();
-                statusDiv.textContent = 'Thank you! We\'ll contact you within 30 minutes for your free quote.';
+                statusDiv.textContent = 'Thank you! We\'ll contact you within 30 minutes for your free estimate.';
                 statusDiv.className = 'form-status success';
                 
                 console.log('Form submitted (fallback mode):', data);
@@ -756,6 +758,94 @@ if ('serviceWorker' in navigator) {
 // ===================================
 // INITIALIZATION COMPLETE
 // ===================================
+
+// ===================================
+// THEME TOGGLE
+// ===================================
+function initThemeToggle() {
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = themeToggle?.querySelector('.theme-icon');
+    
+    if (!themeToggle || !themeIcon) return;
+    
+    // Check for saved theme preference or default to dark mode
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    applyTheme(savedTheme);
+    
+    // Toggle theme on button click
+    themeToggle.addEventListener('click', function() {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        applyTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+        
+        // Track theme change
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'theme_change', {
+                'event_category': 'engagement',
+                'event_label': newTheme
+            });
+        }
+    });
+    
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+        themeToggle.setAttribute('aria-label', 
+            theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
+        );
+    }
+}
+
+// ===================================
+// STICKY CONTACT BAR
+// ===================================
+function initStickyContactBar() {
+    const stickyBar = document.getElementById('stickyContactBar');
+    if (!stickyBar) return;
+    
+    let lastScrollY = window.scrollY;
+    let isVisible = false;
+    
+    function toggleStickyBar() {
+        const currentScrollY = window.scrollY;
+        const heroHeight = window.innerHeight * 0.8; // Show after 80% of viewport height
+        
+        // Show bar when scrolling down past hero section
+        if (currentScrollY > heroHeight && currentScrollY > lastScrollY && !isVisible) {
+            stickyBar.classList.add('visible');
+            isVisible = true;
+            
+            // Track sticky bar appearance
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'sticky_bar_show', {
+                    'event_category': 'engagement',
+                    'event_label': 'contact_bar'
+                });
+            }
+        }
+        // Hide bar when scrolling up or near top
+        else if ((currentScrollY < lastScrollY || currentScrollY < heroHeight * 0.5) && isVisible) {
+            stickyBar.classList.remove('visible');
+            isVisible = false;
+        }
+        
+        lastScrollY = currentScrollY;
+    }
+    
+    // Throttled scroll event
+    let ticking = false;
+    window.addEventListener('scroll', function() {
+        if (!ticking) {
+            requestAnimationFrame(function() {
+                toggleStickyBar();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }, { passive: true });
+}
 
 // CSS has been moved to style.css for better caching and maintainability
 
