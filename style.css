@@ -17,17 +17,17 @@
     --primary-light: #52d470;
     --primary-subtle: #30d15820;
     --secondary: #000000;
-    --surface: #1c1c1e;
+    --surface: #111111;
     --surface-dark: #000000;
-    --surface-elevated: #2c2c2e;
-    --surface-secondary: #3a3a3c;
+    --surface-elevated: #1a1a1a;
+    --surface-secondary: #1a1a1a;
     --danger: #ff453a;
     
     /* Background Variables */
-    --background: #1c1c1e;
-    --accent: #2c2c2e;
-    --accent-dark: #1a1a1c;
-    --accent-light: #3a3a3c;
+    --background: #000000;
+    --accent: #1a1a1a;
+    --accent-dark: #0f0f0f;
+    --accent-light: #2a2a2a;
     
     /* Apple-like Text Colors (Dark Mode) - Improved Contrast */
     --text-primary: #ffffff;
@@ -37,11 +37,11 @@
     --label-secondary: #ebebf5cc;
     --label-tertiary: #ebebf580;
     
-    /* Apple Borders & Separators */
-    --separator: #38383a;
-    --separator-opaque: #38383a;
-    --border-subtle: #48484a;
-    --border: #48484a;
+    /* Clean Borders & Separators */
+    --separator: #2a2a2a;
+    --separator-opaque: #2a2a2a;
+    --border-subtle: #333333;
+    --border: #333333;
     
     /* Apple Typography System */
     --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
@@ -731,27 +731,44 @@ body {
 
 
 /* ===================================
+   SECTION SPACING & HIERARCHY
+   =================================== */
+
+/* Better section definitions */
+section {
+    position: relative;
+}
+
+section:not(.hero) {
+    border-top: 1px solid var(--separator);
+}
+
+/* ===================================
    SECTION HEADERS
    =================================== */
 
 .section-header {
     text-align: center;
-    margin-bottom: var(--space-12);
+    margin-bottom: var(--space-16);
+    padding-top: var(--space-8);
 }
 
 .section-title {
-    font-size: var(--font-size-3xl);
+    font-size: var(--font-size-4xl);
     font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: var(--space-4);
-    line-height: 1.2;
+    margin-bottom: var(--space-6);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
 }
 
 .section-subtitle {
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-xl);
     color: var(--text-secondary);
-    max-width: 600px;
+    max-width: 700px;
     margin: 0 auto;
+    line-height: 1.4;
+    font-weight: 400;
 }
 
 /* ===================================
@@ -759,8 +776,8 @@ body {
    =================================== */
 
 .services {
-    background: var(--secondary);
-    padding: var(--space-16) 0;
+    background: var(--background);
+    padding: var(--space-20) 0;
 }
 
 /* Apple-style Services List */
@@ -770,7 +787,7 @@ body {
 }
 
 .service-item {
-    padding: var(--space-8) 0;
+    padding: var(--space-10) 0;
     border-bottom: 1px solid var(--separator);
     transition: all 0.3s ease;
 }
@@ -781,10 +798,10 @@ body {
 
 .service-item:hover {
     background: var(--accent);
-    margin: 0 calc(-1 * var(--space-6));
-    padding-left: var(--space-6);
-    padding-right: var(--space-6);
-    border-radius: var(--border-radius);
+    margin: 0 calc(-1 * var(--space-8));
+    padding-left: var(--space-8);
+    padding-right: var(--space-8);
+    border-radius: var(--border-radius-lg);
 }
 
 .service-header {
@@ -795,34 +812,37 @@ body {
 }
 
 .service-name {
-    font-size: var(--font-size-xl);
-    font-weight: 600;
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
     color: var(--text-primary);
     margin: 0;
-    letter-spacing: -0.022em;
+    letter-spacing: -0.025em;
 }
 
 .service-cta {
     color: var(--primary);
     text-decoration: none;
-    font-weight: 500;
-    font-size: var(--font-size-base);
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--border-radius);
+    font-weight: 600;
+    font-size: var(--font-size-lg);
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--border-radius-lg);
     transition: all 0.2s ease;
+    border: 2px solid transparent;
 }
 
 .service-cta:hover {
     background: var(--primary);
-    color: var(--text-primary);
+    color: var(--background);
+    border-color: var(--primary);
 }
 
 .service-details {
     color: var(--text-secondary);
-    font-size: var(--font-size-base);
-    line-height: 1.5;
+    font-size: var(--font-size-lg);
+    line-height: 1.6;
     margin: 0;
-    max-width: 600px;
+    max-width: 650px;
+    margin-top: var(--space-2);
 }
 
 .service-image {
