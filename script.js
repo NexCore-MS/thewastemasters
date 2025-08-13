@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initCallTracking();
     initAnimations();
     initActiveNavigation();
+    initPricingCards();
 });
 
 // ===================================
