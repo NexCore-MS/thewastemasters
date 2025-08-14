@@ -2203,12 +2203,25 @@ section:not(.hero) {
     
     .feature-text h4 {
         font-size: 1.2rem;
-        margin-bottom: var(--space-2);
+        margin-bottom: var(--space-3);
         white-space: normal;
+        line-height: 1.4;
     }
     
     .feature-text p {
         font-size: 1rem;
+        line-height: 1.5;
+    }
+    
+    /* Better spacing and layout for hero feature boxes on mobile */
+    .hero-feature {
+        padding: var(--space-6) var(--space-4) !important;
+        min-height: auto !important;
+        gap: var(--space-4) !important;
+    }
+    
+    .feature-icon {
+        margin-bottom: var(--space-2);
     }
 }
 
@@ -2430,6 +2443,16 @@ section:not(.hero) {
     .btn-secondary:hover {
         transform: none;
         background: var(--surface-elevated);
+    }
+    
+    /* Fix service-item hover causing text shrinking/layout shifts on mobile */
+    .service-item:hover {
+        background: none !important;
+        margin: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        border-radius: none !important;
+        transform: none !important;
     }
     
     .hero-logo-img {
